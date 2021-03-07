@@ -1,0 +1,16 @@
+module.exports = {
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    gradientColorStops: theme => ({
+      ...theme('colors'),
+      'bg-sidebar-1' : '#52B2FE',
+      'bg-sidebar-2' : '#3A8BFE'
+     }),
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+}
