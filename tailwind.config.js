@@ -7,7 +7,11 @@ module.exports = {
       'bg-sidebar-1' : '#52B2FE',
       'bg-sidebar-2' : '#3A8BFE'
      }),
-    extend: {},
+    extend: {
+      width: {
+        'side-left' : '250px'
+      }
+    },
   },
   variants: {
     extend: {},

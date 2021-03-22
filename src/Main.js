@@ -5,6 +5,7 @@ import AuthContext from "./Context/Auth/AuthContext/";
 
 import LayoutAdminComponent from "./Components/Layouts/";
 import DashboardPage from "./Pages/Dashboard/";
+import SquadPage from './Pages/Squad/';
 import LoginPage from "./Pages/Auth/Login/";
 
 const Main = () => {
@@ -34,6 +35,11 @@ const Main = () => {
           <PrivateRoute
             path="/dashboard"
             component={DashboardPage}
+            layout={LayoutAdminComponent}
+          />
+          <PrivateRoute
+            path="/squad"
+            component={SquadPage}
             layout={LayoutAdminComponent}
           />
           <Route exact path="/" component={LoginPage} />

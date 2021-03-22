@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import DashboardComponent from '../../Components/Dashboard/';
 
-const DashboardPage = () => {
+const DashboardPage = (props) => {
     return(
-        <>
-            Ini Dashboard
-        </>
+        <DashboardComponent/>
     )
 }
 
