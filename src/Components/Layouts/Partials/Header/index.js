@@ -12,7 +12,7 @@ const HeaderComponent = (props) => {
       <div className="flex justify-between items-center">
         <div className="flex w-2/5 items-center">
           <div
-            className={(props.toggle === false ? 'w-80': 'w-20')+" text-center rounded-tr-3xl bg-gray-700 top-0 h-20 flex items-center justify-center"}
+            className={(props.toggle === false ? 'w-60': 'w-20')+" text-center rounded-tr-xl bg-gray-700 top-0 h-16 flex items-center justify-center"}
             style={{ padding: "0 1.5rem" }}
           >
             <Link to="" className="leading-10 self-center">
@@ -30,10 +30,10 @@ const HeaderComponent = (props) => {
           </div>
           <button 
           onClick={() => props.toggleChange(!props.toggle)}
-          className="inline-block px-3 shadow-none border-0 h-20 focus:outline-none">
+          className="inline-block px-3 shadow-none border-0 h-10 focus:outline-none">
             <BiMenu
               className=""
-              style={{ fontSize: 30, fontColor: "#e9e9e9" }}
+              style={{ fontSize: 20, fontColor: "#e9e9e9" }}
             />
           </button>
         </div>
@@ -41,12 +41,12 @@ const HeaderComponent = (props) => {
           <div className="inline-block">
             <button
               id="options-menu"
-              className="inline-flex mx-7 px-4 gap-5 items-center shadow-none border-0 h-20 self-center focus:outline-none "
+              className="inline-flex mx-7 px-4 gap-5 items-center shadow-none border-0 h-10 self-center focus:outline-none "
               onClick={() => setDropDown(!dropdown)}
             >
               <img
                 src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                className="w-10 rounded-full h-10"
+                className="w-8 rounded-full h-8"
               />
               <span className="inline-block">Felix</span>
               <BiChevronDown />

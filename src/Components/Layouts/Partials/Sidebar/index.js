@@ -5,21 +5,22 @@ import { Link } from "react-router-dom";
 
 const SidebarComponent = (props) => {
   return (
+    
     <>
       <div
         className={
-          (props.toggle === false ? "w-80" : "w-20") +
-          " z-50 top-20 bottom-0 mt-0 fixed shadow "
+          (props.toggle === false ? "w-60" : "w-20") +
+          " z-50 top-16 bottom-0 mt-0 fixed shadow "
         }
       >
-        <div className="h-full bg-gray-700 rounded-br-3xl">
+        <div className="h-full bg-gray-700 rounded-br-xl">
           <div className="pt-2.5 pb-7">
             <ul>
               <li className="py-3 px-5 text-gray-400 block">Menu</li>
               <li className="block">
                 <Link
-                  to="/dashboard"
-                  className="py-3 px-7 text-gray-400 text-xl font-regular font-poppins flex items-center gap-4"
+                  to="/"
+                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
                 >
                   <div className="">
                     <span>
@@ -38,7 +39,7 @@ const SidebarComponent = (props) => {
               <li className="block">
                 <Link
                   to="/squad"
-                  className="py-3 px-7 text-gray-400 text-xl font-regular font-poppins flex items-center gap-4"
+                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
                 >
                   <div className="">
                     <span>
@@ -60,7 +61,5 @@ const SidebarComponent = (props) => {
     </>
   );
 };
-
-const style = {};
 
 export default SidebarComponent;
