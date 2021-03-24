@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import logoPlugin from "../../../../Assets/Images/logo-plugin.png";
-import { BiTachometer, BiGroup, BiEdit } from "react-icons/bi";
+import React from "react";
+import { BiTachometer, BiGroup } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
 const SidebarComponent = (props) => {

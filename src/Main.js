@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  HashRouter,
   BrowserRouter,
   Switch,
-  Router,
   Route,
   Redirect,
 } from "react-router-dom";
@@ -43,11 +41,8 @@ const Main = () => {
         {...rest}
         render={(props) =>
           currentUser !== null ? (
-            // console.log("Props in Main ",props);
-            // <Layout {...props}>
             <Component {...props} />
           ) : (
-            // </Layout>
             <Redirect
               to={{ pathname: "/login", state: { from: props.location } }}
             />
@@ -78,37 +73,9 @@ const Main = () => {
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute exact path="/squad" component={SquadPage} />
           </div>
-          {/* <PrivateRoute
-        exact
-          path="/"
-          component={DashboardPage}
-          layout={LayoutAdminComponent}
-        />
-        <PrivateRoute
-          path="/squad"
-          component={SquadPage}
-          layout={LayoutAdminComponent}
-        /> */}
         </Switch>
       </div>
     </BrowserRouter>
-    // <AuthState>
-    //   <HashRouter>
-    //     <Switch>
-    //       <PrivateRoute
-    //         path="/dashboard"
-    //         component={DashboardPage}
-    //         layout={LayoutAdminComponent}
-    //       />
-    //       <PrivateRoute
-    //         path="/squad"
-    //         component={SquadPage}
-    //         layout={LayoutAdminComponent}
-    //       />
-    //       <Route exact path="/" component={LoginPage} />
-    //     </Switch>
-    //   </HashRouter>
-    // </AuthState>
   );
 };
 

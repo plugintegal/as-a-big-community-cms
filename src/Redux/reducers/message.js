@@ -2,6 +2,7 @@ import { SET_MESSAGE, CLEAR_MESSAGE } from "../actions/types";
 
 const initialState = {};
 
+// eslint-disable-next-line
 export default (state = initialState, actions) => {
   const { type, payload } = actions;
 

@@ -19,9 +19,9 @@ const HeaderComponent = (props) => {
               <span>
                 {
                   props.toggle === false ? (
-                    <img src={bigPluginLogo} style={{ width: "150px" }} />
+                    <img src={bigPluginLogo} style={{ width: "150px" }} alt="long logo"/>
                   ) : (
-                    <img src={pluginLogo} style={{ width: "150px" }} />
+                    <img src={pluginLogo} style={{ width: "150px" }} alt="short logo"/>
                   )
                   
                 }
@@ -47,6 +47,7 @@ const HeaderComponent = (props) => {
               <img
                 src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8OHx8bWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                 className="w-8 rounded-full h-8"
+                alt="user"
               />
               <span className="inline-block">Felix</span>
               <BiChevronDown />
@@ -58,7 +59,7 @@ const HeaderComponent = (props) => {
               aria-labelledby="options-menu"
             >
               <div class="py-1" role="none">
-                <a
+                {/* <a
                   href="#"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                   role="menuitem"
@@ -78,7 +79,7 @@ const HeaderComponent = (props) => {
                   role="menuitem"
                 >
                   License
-                </a>
+                </a> */}
                 <form method="POST" action="#" role="none">
                   <button
                     type="submit"

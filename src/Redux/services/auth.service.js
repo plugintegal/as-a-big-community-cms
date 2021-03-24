@@ -11,7 +11,7 @@ const signIn = (username, password) => {
     })
     .then((data) => {
       if (data.status === 200) {
-        localStorage.setItem("user", JSON.stringify(data.data));
+        localStorage.setItem("user", JSON.stringify(data.data.data));
         return data.data;
       }
     });
@@ -27,4 +27,5 @@ const signOut = () => {
   );
 };
 
+// eslint-disable-next-line
 export default { signIn, signOut };
