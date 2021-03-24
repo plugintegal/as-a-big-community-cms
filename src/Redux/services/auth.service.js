@@ -24,7 +24,13 @@ const signOut = () => {
     {
       headers: authHeader(),
     }
-  );
+  )
+  .then((data) => {
+    if(data.status === 200) {
+      localStorage.removeItem("user");
+      return data.data
+    }
+  });
 };
 
 // eslint-disable-next-line

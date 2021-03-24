@@ -13,9 +13,7 @@ export const signIn = (username, password) => (dispatch) => {
     },
     (error) => {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.error) ||
+        (error.response && error.response.data && error.response.data.error) ||
         error.error ||
         error.toString();
 
@@ -33,7 +31,22 @@ export const signIn = (username, password) => (dispatch) => {
 };
 
 export const signOut = () => (dispatch) => {
-  authServices.signOut();
+  return authServices.signOut().then((data) => {
+    dispatch({
+      type: LOGOUT
+    })
+    return Promise.resolve();
+  },
+  (error) => {
+    const message =
+        (error.response && error.response.data && error.response.data.error) ||
+        error.error ||
+        error.toString();
 
-  dispatch({ type: LOGOUT });
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+      return Promise.reject();
+  });
 };

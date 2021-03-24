@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter,
+  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -19,7 +19,8 @@ import SquadPage from "./Pages/Squad/";
 import LoginPage from "./Pages/Auth/Login/";
 
 
-const Main = () => {
+const Main = (props) => {
+  console.log("Main Props ", props);
   const [toggleState, setToggleState] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -29,12 +30,7 @@ const Main = () => {
       dispatch(clearMessage());
     });
   }, [dispatch]);
-
-  // const signOut = () => {
-  //   dispatch(signOut());
-  // };
-
-  console.log("USER ", currentUser);
+  
   const PrivateRoute = ({ component: Component, layout: Layout, ...rest }) => {
     return (
       <Route
@@ -53,7 +49,7 @@ const Main = () => {
   };
 
   return (
-    <BrowserRouter history={history}>
+    <Router history={history}>
       <div className="bg-gray-200">
         {currentUser && (
           <HeaderComponent
@@ -75,7 +71,7 @@ const Main = () => {
           </div>
         </Switch>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 };
 
