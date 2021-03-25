@@ -15,6 +15,7 @@ import SidebarComponent from "./Components/Layouts/Partials/Sidebar/";
 
 import DashboardPage from "./Pages/Dashboard/";
 import SquadPage from "./Pages/Squad/";
+import TheoryPage  from './Pages/Theory/';
 
 import LoginPage from "./Pages/Auth/Login/";
 
@@ -68,6 +69,7 @@ const Main = (props) => {
           >
             <PrivateRoute exact path="/" component={DashboardPage} />
             <PrivateRoute exact path="/squad" component={SquadPage} />
+            <PrivateRoute exact path="/theory" component={TheoryPage} />
           </div>
         </Switch>
       </div>

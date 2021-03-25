@@ -1,6 +1,9 @@
 import React from "react";
+import {useSelector} from 'react-redux';
 
 const DashboardComponent = () => {
+  const stateStore = useSelector((state) => state);
+  console.log("State Store ",stateStore);
   return (
     <>
       <div className="bg-transparent pt-6 pb-16 px-3">
