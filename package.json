@@ -26,6 +26,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
+    "sweetalert": "^2.1.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "validator": "^13.5.2",
     "web-vitals": "^1.0.1"

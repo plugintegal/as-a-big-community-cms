@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { BiChevronDown } from "react-icons/bi";
+import swal from "sweetalert";
 
 import SquadServices from "../../Redux/services/squad.service";
 
 import FormInput from "./ChildSquad/FormInput";
-import ModalDelete from './ChildSquad/ModalDelete';
+import ModalDelete from "./ChildSquad/ModalDelete";
 
 const SquadComponent = () => {
   const [show, setShow] = useState(false);
@@ -38,7 +39,10 @@ const SquadComponent = () => {
           console.log("UPDATE BERHASIL");
           setShow(false);
           setRefreshKey((oldKey) => oldKey + 1);
-          setSquadData({id:'',squads_name:'',description:''})
+          setSquadData({ id: "", squads_name: "", description: "" });
+          if (data.status === 200) {
+            swal("Success!", "Update Data is Successful!", "success");
+          }
         }
       );
     } else {
@@ -47,7 +51,10 @@ const SquadComponent = () => {
           console.log("UPDATE BERHASIL");
           setShow(false);
           setRefreshKey((oldKey) => oldKey + 1);
-          setSquadData({id:'',squads_name:'',description:''})
+          setSquadData({ id: "", squads_name: "", description: "" });
+          if (data.status === 200) {
+            swal("Success!", "Create new Data is Successful!", "success");
+          }
         })
         .catch((error) => {
           console.log("Error ", error.response);
@@ -56,10 +63,14 @@ const SquadComponent = () => {
   };
 
   const handleDelete = (state) => {
-    SquadServices.deleteSquad(state);
-    setRefreshKey((oldKey) => oldKey + 1);
-    setSquadData({id:'',squads_name:'',description:''})
-    setShow(!show)
+    SquadServices.deleteSquad(state).then((data) => {
+      if (data.status === 200) {
+        swal("Success!", "Delete Data is Successful!", "success");
+      }
+      setRefreshKey((oldKey) => oldKey + 1);
+      setSquadData({ id: "", squads_name: "", description: "" });
+      setShow(!show);
+    });
   };
 
   const columns = [
@@ -95,8 +106,8 @@ const SquadComponent = () => {
           </button>
           <button
             onClick={() => {
-              setSquadData({id:state.id})
-              setShow(!show)
+              setSquadData({ id: state.id });
+              setShow(!show);
             }}
             className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
           >
@@ -145,7 +156,10 @@ const SquadComponent = () => {
         </div>
       </div>
       {show ? (
-        <ModalDelete handleDelete={() =>handleDelete(squadData.id)} setShow={() => setShow(!show) }/>
+        <ModalDelete
+          handleDelete={() => handleDelete(squadData.id)}
+          setShow={() => setShow(!show)}
+        />
       ) : null}
     </>
   );
