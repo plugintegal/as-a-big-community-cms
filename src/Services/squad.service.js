@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { API_URL } from "../../Utils/API";
+import { API_URL } from "../Utils/API";
 import authHeader from "./auth-header";
 
 const getSquad = () => {

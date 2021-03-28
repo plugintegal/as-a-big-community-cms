@@ -4,7 +4,6 @@ import Input from "react-validation/build/input";
 import TextArea from "react-validation/build/textarea";
 
 const FormInput = ({ onSubmit, onChange, squads }) => {
-  console.log("SQUAD ", squads);
   return (
     <>
       <Form onSubmit={onSubmit}>

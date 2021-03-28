@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { BiChevronDown } from "react-icons/bi";
 import swal from "sweetalert";
 
-import SquadServices from "../../Redux/services/squad.service";
+import SquadServices from "../../Services/squad.service";
 
 import FormInput from "./ChildSquad/FormInput";
 import ModalDelete from "./ChildSquad/ModalDelete";
@@ -78,18 +78,18 @@ const SquadComponent = () => {
       name: "Squad Name",
       selector: "squads_name",
       sortable: true,
-      maxWidth: "200px",
+      maxWidth: "150px",
     },
     {
       name: "Description",
       selector: "description",
       sortable: true,
-      maxWidth: "700px",
+      maxWidth: "400px",
     },
     {
       name: "Action",
       selector: "id",
-      maxWidth: "300px",
+      maxWidth: "200px",
       cell: (state) => (
         <div>
           <button

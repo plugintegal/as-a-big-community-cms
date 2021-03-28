@@ -5,30 +5,17 @@ import { Redirect, withRouter } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import { BiLoader } from "react-icons/bi";
 
 import { signIn } from "../../../Redux/actions/auth";
 
 const required = (value) => {
   if (!value) {
     return (
-      <div
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-        role="alert"
-      >
-        <strong class="font-bold">Error</strong>
-        <span class="block sm:inline">This field must be filled.</span>
-        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-          <svg
-            class="fill-current h-6 w-6 text-red-500"
-            role="button"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <title>Close</title>
-            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-          </svg>
-        </span>
-      </div>
+      <>
+        <span className="text-red-700 font-bold">Error</span>
+        <span className="text-red-700"> This field must be filled!</span>
+      </>
     );
   }
 };
@@ -85,6 +72,26 @@ const LoginComponent = (props) => {
   return (
     <Form onSubmit={handleSignIn} ref={form}>
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
+      {message && (
+        <div
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong class="font-bold">Error! </strong>
+          <span class="block sm:inline">{message}</span>
+          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg
+              class="fill-current h-6 w-6 text-red-500"
+              role="button"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <title>Close</title>
+              <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+          </span>
+        </div>
+      )}
       <div class="relative mb-4">
         <label for="username" class="leading-7 text-sm text-gray-600">
           Username
@@ -98,7 +105,6 @@ const LoginComponent = (props) => {
           onChange={onChangeUsername}
           validations={[required]}
         />
-
       </div>
       <div className="relative mb-4">
         <label for="password" class="leading-7 text-sm text-gray-600">
@@ -117,7 +123,9 @@ const LoginComponent = (props) => {
 
       <div className="relative mb-4 flex space-x-3 items-center">
         <input
-          onClick={() => {setShowPassword(!showPassword)}}
+          onClick={() => {
+            setShowPassword(!showPassword);
+          }}
           type="checkbox"
           id="show_password"
           class="checked:bg-blue-600 checked:border-transparent"
@@ -127,39 +135,14 @@ const LoginComponent = (props) => {
         </label>
       </div>
 
-      <button
-        class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-      >
-        {loading && (
-          <>
-            <svg
-              class="animate-spin h-5 w-5 mr-3"
-              viewBox="0 0 24 24"
-            ></svg>
-          </>
+      <button class="text-white flex-inline bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+        {loading ? (
+          <BiLoader className="text-white animate-spin text-xl" />
+        ) : (
+          "Sign In"
         )}
-        <span>Sign In</span>
       </button>
-      {message && (
-        <div
-          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-          role="alert"
-        >
-          <strong class="font-bold">Error!</strong>
-          <span class="block sm:inline">{message}</span>
-          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-            <svg
-              class="fill-current h-6 w-6 text-red-500"
-              role="button"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <title>Close</title>
-              <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-            </svg>
-          </span>
-        </div>
-      )}
+
       <CheckButton style={{ display: "none" }} ref={checkBtn} />
       <p class="text-xs text-gray-500 mt-3">
         Literally you probably haven't heard of them jean shorts.

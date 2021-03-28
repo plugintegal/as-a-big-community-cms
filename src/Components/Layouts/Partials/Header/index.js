@@ -27,9 +27,9 @@ const HeaderComponent = (props) => {
           <div
             className={
               (props.toggle === false ? "w-60" : "w-20") +
-              " text-center rounded-tr-xl bg-gray-700 top-0 h-16 flex items-center justify-center"
+              " text-center rounded-tr-xl top-0 h-16 flex items-center justify-center"
             }
-            style={{ padding: "0 1.5rem" }}
+            style={{ padding: "0 1.5rem" , background : '#27333a'}}
           >
             <Link to="" className="leading-10 self-center">
               <span>

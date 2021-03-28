@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, SET_MESSAGE } from "./types";
 
-import authServices from "../services/auth.service";
+import authServices from "../../Services/auth.service";
 
 export const signIn = (username, password) => (dispatch) => {
   return authServices.signIn(username, password).then(
