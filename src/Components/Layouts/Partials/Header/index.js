@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { BiMenu, BiChevronDown } from "react-icons/bi";
 import {withRouter} from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -9,6 +9,8 @@ import bigPluginLogo from "../../../../Assets/Images/logo-plugin-panjang.png";
 import { signOut } from "../../../../Redux/actions/auth";
 
 const HeaderComponent = (props) => {
+  const {user: currentUser} = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   const [dropdown, setDropDown] = useState(false);
@@ -71,7 +73,7 @@ const HeaderComponent = (props) => {
                 className="w-8 rounded-full h-8"
                 alt="user"
               />
-              <span className="inline-block">Felix</span>
+              <span className="inline-block">{currentUser.name}</span>
               <BiChevronDown />
             </button>
             <div

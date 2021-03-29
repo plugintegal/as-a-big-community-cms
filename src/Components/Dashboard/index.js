@@ -20,7 +20,7 @@ const DashboardComponent = () => {
       </div>
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-4/12 h-40">
-          <h5 class="text-gray-700 font-medium text-lg">
+          <h5 className="text-gray-700 font-medium text-lg">
             TOTAL
           </h5>
           <span className="text-gray-500 font-thin text-md">Squad</span>

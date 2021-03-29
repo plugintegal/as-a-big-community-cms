@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,12 +15,16 @@ import SidebarComponent from "./Components/Layouts/Partials/Sidebar/";
 
 import DashboardPage from "./Pages/Dashboard/";
 import SquadPage from "./Pages/Squad/";
+import DetailSquadPage from "./Pages/Squad/DetailSquad";
 
-import TheoryPage  from './Pages/Theory/';
-import CreateNewDataTheory from './Components/Theory/CreateNewData';
+import TheoryPage from "./Pages/Theory/";
+import CreateNewDataTheory from "./Components/Theory/CreateNewData";
+
+import UserPage from "./Pages/Users/";
+import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
 
 import LoginPage from "./Pages/Auth/Login/";
-
+import ForbiddenPages from './Pages/Forbidden/'
 
 const Main = (props) => {
   console.log("Main Props ", props);
@@ -33,8 +37,29 @@ const Main = (props) => {
       dispatch(clearMessage());
     });
   }, [dispatch]);
-  
-  const PrivateRoute = ({ component: Component, layout: Layout, ...rest }) => {
+
+  const AdminRoute = ({ component: Component, layout: Layout, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          currentUser !== null && currentUser.roles === 'Admin'? (
+            <Component {...props} />
+          ) : currentUser !== null && currentUser.roles !== 'Admin'? (
+            <Redirect
+              to={{ pathname: "/forbidden"}}
+            />
+          ) : (
+            <Redirect
+              to={{ pathname: "/login", state: { from: props.location } }}
+            />
+          )
+        }
+      />
+    );
+  };
+
+  const PrivateRoute = ({component: Component, layout: Layout, ...rest}) => {
     return (
       <Route
         {...rest}
@@ -49,7 +74,7 @@ const Main = (props) => {
         }
       />
     );
-  };
+  }
 
   return (
     <Router history={history}>
@@ -62,18 +87,35 @@ const Main = (props) => {
         )}
         {currentUser && <SidebarComponent toggle={toggleState} />}
         <Switch>
-          <Route exact path={"/login"} component={LoginPage} />
-          <div
-            className={
-              (toggleState === false ? "ml-60" : "ml-20") +
-              " overflow-hidden pt-16 pb-14 h-auto"
-            }
-          >
-            <PrivateRoute exact path="/" component={DashboardPage} />
-            <PrivateRoute exact path="/squad" component={SquadPage} />
-            <PrivateRoute exact path="/theory" component={TheoryPage} />
-            <PrivateRoute exact path="/theory-create" component={CreateNewDataTheory} />
-          </div>
+          <Fragment>
+            <Route exact path={"/login"} component={LoginPage} />
+            <div
+              className={
+                (toggleState === false ? "ml-60" : "ml-20") +
+                " overflow-hidden pt-16 pb-14 h-auto"
+              }
+            >
+              <PrivateRoute exact path="/" component={DashboardPage} />
+              <AdminRoute exact path="/squad" component={SquadPage} />
+              <AdminRoute
+                exact
+                path="/squad/:name"
+                component={DetailSquadPage}
+              />
+              <PrivateRoute exact path="/theory" component={TheoryPage} />
+              <PrivateRoute
+                exact
+                path="/theory-create"
+                component={CreateNewDataTheory}
+              />
+              <AdminRoute path="/user" component={UserPage} />
+              <AdminRoute
+                path="/user-create"
+                component={CreateNewDataUserPage}
+              />
+              <Route path="/forbidden" component={ForbiddenPages}/>
+            </div>
+          </Fragment>
         </Switch>
       </div>
     </Router>

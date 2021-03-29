@@ -17,6 +17,10 @@ const signIn = (username, password) => {
     });
 };
 
+const signUp = ( data ) => {
+  return axios.post(API_URL + "auth/sign-up", data);
+}
+
 const signOut = () => {
   return axios.post(
     API_URL + "auth/sign-out",
@@ -34,4 +38,4 @@ const signOut = () => {
 };
 
 // eslint-disable-next-line
-export default { signIn, signOut };
+export default { signIn, signUp, signOut };

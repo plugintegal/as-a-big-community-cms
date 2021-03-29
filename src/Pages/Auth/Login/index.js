@@ -1,7 +1,15 @@
-import React from "react";
+import React , {useEffect} from "react";
 import LoginComponent from '../../../Components/Auth/Login/';
+import {useSelector} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 const Login = () => {
+  const {user: currentUser} = useSelector((state) => state.auth);
+  console.log(" Login Page ", currentUser);
+
+  if(currentUser !== null){
+    return (<Redirect to="/" />)
+  }
 
   return (
     <section class="bg-blue-600 text-gray-600 body-font flex items-center">

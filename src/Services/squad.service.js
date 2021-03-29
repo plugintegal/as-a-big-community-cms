@@ -9,6 +9,12 @@ const getSquad = () => {
   });
 };
 
+const getSquadById = (squadId) => {
+  return axios.get(API_URL + "squad/" + squadId, {
+    headers: authHeader(),
+  });
+};
+
 const postSquad = (squads_name, description) => {
   return axios.post(
     API_URL + "squad",
@@ -34,4 +40,4 @@ const deleteSquad = (id) => {
   });
 };
 // eslint-disable-next-line
-export default { getSquad, postSquad, updateSquad, deleteSquad };
+export default { getSquad, getSquadById, postSquad, updateSquad, deleteSquad };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import swal from "sweetalert";
 
@@ -92,6 +93,12 @@ const SquadComponent = () => {
       maxWidth: "200px",
       cell: (state) => (
         <div>
+          <Link
+            to={{ pathname: '/squad/'+state.squads_name.toLowerCase(), query: state.id}}
+            className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
+          >
+            Detail
+          </Link>
           <button
             onClick={(e) => {
               setSquadData({

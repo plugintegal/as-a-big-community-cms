@@ -82,7 +82,7 @@ const TheoryComponent = () => {
               >
                 {squads.map((data) => {
                   return (
-                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center" key={data.id}>
                       <a
                         className={
                           "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +

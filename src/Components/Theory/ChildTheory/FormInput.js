@@ -27,16 +27,13 @@ const FormInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { gathering, description, date, squad_id } = theoryData;
-    console.log("FILE ", filePath[0]);
+    
     const formData = new FormData();
     formData.append('gathering',theoryData.gathering);
     formData.append('description',theoryData.description);
     formData.append('content',filePath[0]);
     formData.append('date',theoryData.date);
     formData.append('squad_id', theoryData.squad_id);
-
-    console.log("Form Data ",formData);
 
     theoryServices
       .postTheory(formData, currentUser.token)
