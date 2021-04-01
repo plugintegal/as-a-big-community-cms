@@ -19,6 +19,7 @@ import DetailSquadPage from "./Pages/Squad/DetailSquad";
 
 import TheoryPage from "./Pages/Theory/";
 import CreateNewDataTheory from "./Components/Theory/CreateNewData";
+import DetailTheoryPages from './Pages/Theory/DetailTheory';
 
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
@@ -108,6 +109,8 @@ const Main = (props) => {
                 path="/theory-create"
                 component={CreateNewDataTheory}
               />
+              <PrivateRoute path="/theory-detail/:name" component={DetailTheoryPages} />
+
               <AdminRoute path="/user" component={UserPage} />
               <AdminRoute
                 path="/user-create"

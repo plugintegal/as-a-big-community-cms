@@ -11,21 +11,22 @@ const TheoryComponent = () => {
   const color = "pink";
 
   const [theories, setTheory] = useState([]);
+  console.log(theories);
   const [squads, setSquad] = useState([]);
   const [openTab, setOpenTab] = useState(1);
-  
+
   const getDataTheories = (squadId) => {
     theoryService.getTheories(squadId).then((data) => {
       setTheory(data.data.data);
     });
-  }
+  };
 
   useEffect(() => {
     squadService.getSquad().then((data) => {
       setSquad(data.data.data);
       setOpenTab(data.data.data[0].id);
     });
-}, [refreshKey]);
+  }, [refreshKey]);
 
   const columns = [
     {
@@ -50,6 +51,21 @@ const TheoryComponent = () => {
       name: "Tanggal",
       selector: "date",
       sortable: true,
+    },
+    {
+      name: "Opsi",
+      selector: "id",
+      cell: (state) => (
+        <Link
+          to={{
+            pathname: "/theory-detail/" + state.gathering.toLowerCase(),
+            query: state.id,
+          }}
+          className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
+        >
+          Detail
+        </Link>
+      ),
     },
   ];
 
@@ -82,7 +98,10 @@ const TheoryComponent = () => {
               >
                 {squads.map((data) => {
                   return (
-                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center" key={data.id}>
+                    <li
+                      className="-mb-px mr-2 last:mr-0 flex-auto text-center"
+                      key={data.id}
+                    >
                       <a
                         className={
                           "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
@@ -93,7 +112,7 @@ const TheoryComponent = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setOpenTab(data.id);
-                          getDataTheories(data.id)
+                          getDataTheories(data.id);
                         }}
                         data-toggle="tab"
                         href={"#" + data.squads_name.toLowerCase()}

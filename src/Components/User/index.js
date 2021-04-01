@@ -74,6 +74,7 @@ const UserComponent = (props) => {
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
           <DataTable
+            title="User Data"
             columns={columns}
             data={users}
             defaultSortField="squads_name"

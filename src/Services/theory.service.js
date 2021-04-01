@@ -9,6 +9,12 @@ const getTheories = (id) => {
   });
 };
 
+const getTheoryById = (id) => {
+  return axios.get(API_URL + "theory/" + id, {
+    headers: authHeader(),
+  });
+};
+
 const postTheory = (data, token) => {
   return axios.post(API_URL + "theory", data, {
     headers: {
@@ -18,4 +24,4 @@ const postTheory = (data, token) => {
   });
 };
 
-export default { getTheories, postTheory };
+export default { getTheories, getTheoryById, postTheory };

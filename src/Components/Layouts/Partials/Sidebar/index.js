@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const SidebarComponent = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
-  console.log(currentUser);
 
   return (
     <>
@@ -37,26 +36,26 @@ const SidebarComponent = (props) => {
                   </span>
                 </Link>
               </li>
-
-              <li className="block">
-                <Link
-                  to="/squad"
-                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
-                >
-                  <div className="">
-                    <span>
-                      <BiGroup style={{ fontSize: 24 }} />
-                    </span>
-                  </div>
-                  <span
-                    style={{ display: props.toggle === false ? "" : "none" }}
-                    className="inline-block relative"
+              {currentUser !== null && currentUser.roles === "Admin" && (
+                <li className="block">
+                  <Link
+                    to="/squad"
+                    className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
                   >
-                    Squad
-                  </span>
-                </Link>
-              </li>
-
+                    <div className="">
+                      <span>
+                        <BiGroup style={{ fontSize: 24 }} />
+                      </span>
+                    </div>
+                    <span
+                      style={{ display: props.toggle === false ? "" : "none" }}
+                      className="inline-block relative"
+                    >
+                      Squad
+                    </span>
+                  </Link>
+                </li>
+              )}
               <li className="block">
                 <Link
                   to="/theory"

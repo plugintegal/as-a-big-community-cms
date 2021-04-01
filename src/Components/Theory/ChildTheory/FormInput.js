@@ -11,12 +11,13 @@ import theoryServices from "../../../Services/theory.service";
 const FormInput = () => {
   const [squads, setSquad] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
+  console.log(currentUser);
 
   const [theoryData, setTheoryData] = useState({
     gathering: "",
     description: "",
     date: "",
-    squad_id: 0,
+    squad_id: currentUser.squad_id,
   });
 
   const [filePath, setFilePath] = useState([]);
@@ -27,13 +28,13 @@ const FormInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData();
-    formData.append('gathering',theoryData.gathering);
-    formData.append('description',theoryData.description);
-    formData.append('content',filePath[0]);
-    formData.append('date',theoryData.date);
-    formData.append('squad_id', theoryData.squad_id);
+    formData.append("gathering", theoryData.gathering);
+    formData.append("description", theoryData.description);
+    formData.append("content", filePath[0]);
+    formData.append("date", theoryData.date);
+    formData.append("squad_id", theoryData.squad_id);
 
     theoryServices
       .postTheory(formData, currentUser.token)
@@ -55,7 +56,7 @@ const FormInput = () => {
       .catch((err) => {
         console.log(err);
       });
-  },[]);
+  }, []);
 
   return (
     <Form onSubmit={handleSubmit} type="multipart/form-data">
@@ -112,6 +113,7 @@ const FormInput = () => {
           placeholder="Enter description"
           name="squad_id"
           onChange={handleChange}
+          value={currentUser.squad_id}
         >
           <option value="">Pilih Squad</option>
           {squads.map((data) => {
