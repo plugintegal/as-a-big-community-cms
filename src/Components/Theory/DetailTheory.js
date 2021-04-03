@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import theoryServices from "../../Services/theory.service";
-import Markdown from "./ChildTheory/Markdown";
+import FormInputTask from './ChildTheory/FormInputTask';
 
 const DetailTheoryComponent = (props) => {
   const theoryId = props.location.query;
 
   const [theoryDetail, setTheoryDetail] = useState({});
-  console.log("Theory Detail ", theoryDetail);
+
+  const [content, setContent] = useState("");
+
+  const handleSubmit = () => {
+    console.log(content);
+  };
 
   useEffect(() => {
     theoryServices
@@ -20,7 +25,6 @@ const DetailTheoryComponent = (props) => {
       });
   }, {});
 
-  
   return (
     <>
       <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
@@ -49,10 +53,9 @@ const DetailTheoryComponent = (props) => {
           </div>
         </div>
 
-        <div className="container border bg-white rounded-md p-5 w-full h-auto">
-          <Markdown/>
+        <div>
+          <FormInputTask theory_id={theoryDetail.id} />
         </div>
-        
       </div>
     </>
   );

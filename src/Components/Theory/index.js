@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import theoryService from "../../Services/theory.service";
 import squadService from "../../Services/squad.service";
 import { BiChevronDown } from "react-icons/bi";
 
 const TheoryComponent = () => {
+  const { user: currentUser } = useSelector((state) => state.auth);
   const [refreshKey, setRefreshKey] = useState(0);
-  const color = "pink";
+  const color = "blue";
 
   const [theories, setTheory] = useState([]);
-  console.log(theories);
   const [squads, setSquad] = useState([]);
-  const [openTab, setOpenTab] = useState(1);
+  const [openTab, setOpenTab] = useState(0);
 
   const getDataTheories = (squadId) => {
     theoryService.getTheories(squadId).then((data) => {
@@ -25,27 +26,15 @@ const TheoryComponent = () => {
     squadService.getSquad().then((data) => {
       setSquad(data.data.data);
       setOpenTab(data.data.data[0].id);
+      getDataTheories(data.data.data[0].id);
     });
-  }, [refreshKey]);
+  }, [refreshKey, setOpenTab]);
 
   const columns = [
     {
       name: "Pertemuan",
       selector: "gathering",
       sortable: true,
-      maxWidth: "150px",
-    },
-    {
-      name: "Description",
-      selector: "description",
-      sortable: true,
-      maxWidth: "400px",
-    },
-    {
-      name: "Kontent",
-      selector: "content",
-      sortable: true,
-      maxWidth: "400px",
     },
     {
       name: "Tanggal",
@@ -56,15 +45,26 @@ const TheoryComponent = () => {
       name: "Opsi",
       selector: "id",
       cell: (state) => (
-        <Link
-          to={{
-            pathname: "/theory-detail/" + state.gathering.toLowerCase(),
-            query: state.id,
-          }}
-          className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
-        >
-          Detail
-        </Link>
+        <>
+          <Link
+            to={{
+              pathname: "/theory-detail/" + state.gathering.toLowerCase(),
+              query: state.id,
+            }}
+            className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
+          >
+            Detail
+          </Link>
+          <Link
+            to={{
+              pathname: "/edit/" + state.gathering.toLowerCase(),
+              query: state.id,
+            }}
+            className="font-medium bg-yellow-400 px-3 py-2 rounded-lg mx-2"
+          >
+            Edit
+          </Link>
+        </>
       ),
     },
   ];
@@ -131,6 +131,7 @@ const TheoryComponent = () => {
                     {squads.map((data) => {
                       return (
                         <div
+                          key={data.id}
                           className={openTab === data.id ? "block" : "hidden"}
                           id={"#" + data.squads_name.toLowerCase()}
                         >
