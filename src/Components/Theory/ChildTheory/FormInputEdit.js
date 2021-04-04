@@ -16,10 +16,34 @@ const FormInputEdit = ({ theory_id }) => {
     description: "",
     date: "",
     squad_id: "",
-    content : ''
+    content: "",
   });
-  console.log(theoryData);
   const [filePath, setFilePath] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('gathering', theoryData.gathering);
+    formData.append('description', theoryData.description);
+    if(filePath.length !== 0){
+      formData.append('content', filePath[0]);
+    }
+    formData.append('date', theoryData.date);
+    formData.append('squad_id', theoryData.squad_id);
+    
+    theoryService.updateTheory(formData, theory_id, currentUser.token)
+    .then((data) => {
+      console.log("BERHASIL");
+    })
+    .catch((error) => {
+      console.log("ERROR ", error);
+    })
+  }
+
+  const handleChange = (e) => {
+    setTheoryData({...theoryData, [e.target.name] : e.target.value})
+  }
 
   useEffect(() => {
     squadServices
@@ -31,7 +55,6 @@ const FormInputEdit = ({ theory_id }) => {
         console.log(err);
       });
     theoryService.getTheoryById(theory_id).then((data) => {
-        console.log("Theory Data By Id ", data);
       setTheoryData({
         gathering: data.data.data[0].gathering,
         description: data.data.data[0].description,
@@ -43,7 +66,7 @@ const FormInputEdit = ({ theory_id }) => {
   }, []);
   return (
     <>
-      <Form type="multipart/form-data">
+      <Form type="multipart/form-data" onSubmit={handleSubmit}>
         <div className="relative mb-4">
           <label htmlFor="username">Gathering</label>
           <Input
@@ -52,6 +75,7 @@ const FormInputEdit = ({ theory_id }) => {
             placeholder="Enter gathering"
             name="gathering"
             value={theoryData.gathering}
+            onChange={handleChange}
           />
         </div>
         <div className="relative mb-4">
@@ -62,14 +86,17 @@ const FormInputEdit = ({ theory_id }) => {
               placeholder="Enter description"
               name="description"
               value={theoryData.description}
+              onChange={handleChange}
             />
           </div>
         </div>
         <div className="relative mb-2">
           <label htmlFor="content">Konten</label>
           <div className="flex bg-grey-lighter gap-4">
-            <label className="w-80 flex flex-col justify-center items-center px-4 py-6 bg-white text-blue-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue-500 cursor-pointer hover:bg-blue hover:text-white"
-            style={{height : 200}}>
+            <label
+              className="w-80 flex flex-col justify-center items-center px-4 py-6 bg-white text-blue-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue-500 cursor-pointer hover:bg-blue hover:text-white"
+              style={{ height: 200 }}
+            >
               <svg
                 className="w-8 h-8"
                 fill="currentColor"
@@ -89,12 +116,12 @@ const FormInputEdit = ({ theory_id }) => {
               />
             </label>
             <div className="w-80 rounded-lg shadow-lg tracking-wide border border-blue-500">
-            <iframe
-              src={`https://view.officeapps.live.com/op/embed.aspx?src=${theoryData.content}`}
-              width="100%"
-              height="200px"
-              frameBorder="0"
-            ></iframe>
+              <iframe
+                src={`https://view.officeapps.live.com/op/embed.aspx?src=${theoryData.content}`}
+                width="100%"
+                height="200px"
+                frameBorder="0"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -105,6 +132,7 @@ const FormInputEdit = ({ theory_id }) => {
             placeholder="Enter description"
             name="squad_id"
             value={theoryData.squad_id}
+            onChange={handleChange}
           >
             <option value="">Pilih Squad</option>
             {squads.map((data) => {
@@ -123,7 +151,8 @@ const FormInputEdit = ({ theory_id }) => {
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Enter gathering"
             name="date"
-            value={theoryData.date.slice(0,10)}
+            value={theoryData.date.slice(0, 10)}
+            onChange={handleChange}
           />
         </div>
         <div className="relative mb-2">

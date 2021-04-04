@@ -24,4 +24,19 @@ const postTheory = (data, token) => {
   });
 };
 
-export default { getTheories, getTheoryById, postTheory };
+const updateTheory = (data, id, token) => {
+  return axios.put(API_URL + "theory/" +id, data, {
+    headers: {
+      "content-type": "multipart/form-data",
+      "x-access-token": "Bearer " + token,
+    },
+  });
+};
+
+const deleteTheory = (id) => {
+  return axios.delete(API_URL + 'theory/' + id, {
+    headers : authHeader()
+  })
+}
+
+export default { getTheories, getTheoryById, postTheory, updateTheory, deleteTheory };

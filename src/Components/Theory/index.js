@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 
 import theoryService from "../../Services/theory.service";
 import squadService from "../../Services/squad.service";
 import { BiChevronDown } from "react-icons/bi";
 
+import ModalDeleteTheory from './ChildTheory/ModalDeleteTheory';
+
 const TheoryComponent = () => {
-  const { user: currentUser } = useSelector((state) => state.auth);
   const [refreshKey, setRefreshKey] = useState(0);
   const color = "blue";
 
@@ -16,10 +18,29 @@ const TheoryComponent = () => {
   const [squads, setSquad] = useState([]);
   const [openTab, setOpenTab] = useState(0);
 
+  const [theoryId, setTheoryId] = useState(0);
+  const [show, setShow] = useState(false);
+
   const getDataTheories = (squadId) => {
     theoryService.getTheories(squadId).then((data) => {
       setTheory(data.data.data);
     });
+  };
+
+  const handleDelete = (e) => {
+    theoryService
+      .deleteTheory(e.target.id)
+      .then((data) => {
+        if (data.status === 200) {
+          swal("Success!", "Delete Data is Successful!", "success");
+        }
+        setRefreshKey((oldKey) => oldKey + 1);
+        setShow(!show);
+
+      })
+      .catch((error) => {
+        console.log("ERROR ", error);
+      });
   };
 
   useEffect(() => {
@@ -64,6 +85,15 @@ const TheoryComponent = () => {
           >
             Edit
           </Link>
+          <button
+            onClick={() => {
+              setTheoryId(state.id)
+              setShow(!show);
+            }}
+            className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
+          >
+            Hapus
+          </button>
         </>
       ),
     },
@@ -152,6 +182,13 @@ const TheoryComponent = () => {
           </div>
         </div>
       </div>
+      {show ? (
+        <ModalDeleteTheory
+          handleDelete={handleDelete}
+          id={theoryId}
+          setShow={() => setShow(!show)}
+        />
+      ) : null}
     </>
   );
 };
