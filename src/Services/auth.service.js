@@ -1,9 +1,9 @@
 import axios from "axios";
 
 import { API_URL } from "../Utils/API";
-import authHeader from "./auth-header";
+import { authHeader } from "./auth-header";
 
-const signIn = (username, password) => {
+export const signInServices = (username, password) => {
   return axios
     .post(API_URL + "auth/sign-in", {
       username,
@@ -17,25 +17,23 @@ const signIn = (username, password) => {
     });
 };
 
-const signUp = ( data ) => {
+export const signUpServices = (data) => {
   return axios.post(API_URL + "auth/sign-up", data);
-}
-
-const signOut = () => {
-  return axios.post(
-    API_URL + "auth/sign-out",
-    {},
-    {
-      headers: authHeader(),
-    }
-  )
-  .then((data) => {
-    if(data.status === 200) {
-      localStorage.removeItem("user");
-      return data.data
-    }
-  });
 };
 
-// eslint-disable-next-line
-export default { signIn, signUp, signOut };
+export const signOutServices = () => {
+  return axios
+    .post(
+      API_URL + "auth/sign-out",
+      {},
+      {
+        headers: authHeader(),
+      }
+    )
+    .then((data) => {
+      if (data.status === 200) {
+        localStorage.removeItem("user");
+        return data.data;
+      }
+    });
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import userServices from "../../Services/user.service";
+import { getAllUser } from "../../Services/";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BiChevronDown } from "react-icons/bi";
@@ -10,8 +10,7 @@ const UserComponent = (props) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    userServices
-      .getAllUser(currentUser.token)
+    getAllUser(currentUser.token)
       .then((data) => {
         setUsers(data.data.data);
       })

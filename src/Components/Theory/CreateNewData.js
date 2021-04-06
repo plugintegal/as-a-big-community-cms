@@ -2,7 +2,7 @@ import React from "react";
 
 import FormInput from './ChildTheory/FormInput';
 
-const CreateNewData = () => {
+const CreateNewData = (props) => {
   return (
     <>
       <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
@@ -19,7 +19,7 @@ const CreateNewData = () => {
       </div>
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
-            <FormInput />
+            <FormInput props={props} />
         </div>
       </div>
     </>

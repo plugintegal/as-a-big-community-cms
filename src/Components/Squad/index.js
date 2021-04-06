@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import swal from "sweetalert";
 
-import SquadServices from "../../Services/squad.service";
+import { getSquad, postSquad, updateSquad, deleteSquad } from "../../Services/";
 
 import FormInput from "./ChildSquad/FormInput";
 import ModalDelete from "./ChildSquad/ModalDelete";
@@ -21,7 +21,7 @@ const SquadComponent = () => {
   });
 
   useEffect(() => {
-    SquadServices.getSquad().then((data) => {
+    getSquad().then((data) => {
       setSquads(data.data.data);
     });
   }, [refreshKey]);
@@ -35,7 +35,7 @@ const SquadComponent = () => {
 
     const { id, squads_name, description } = squadData;
     if (id !== "") {
-      SquadServices.updateSquad(id, { squads_name, description }).then(
+      updateSquad(id, { squads_name, description }).then(
         (data) => {
           console.log("UPDATE BERHASIL");
           setShow(false);
@@ -47,7 +47,7 @@ const SquadComponent = () => {
         }
       );
     } else {
-      SquadServices.postSquad(squads_name, description)
+      postSquad(squads_name, description)
         .then((data) => {
           console.log("UPDATE BERHASIL");
           setShow(false);
@@ -64,7 +64,7 @@ const SquadComponent = () => {
   };
 
   const handleDelete = (state) => {
-    SquadServices.deleteSquad(state).then((data) => {
+    deleteSquad(state).then((data) => {
       if (data.status === 200) {
         swal("Success!", "Delete Data is Successful!", "success");
       }

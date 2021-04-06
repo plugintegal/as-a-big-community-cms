@@ -1,5 +1,12 @@
 import React from "react";
-import { BiTachometer, BiGroup, BiBookOpen, BiUser } from "react-icons/bi";
+import {
+  BiTachometer,
+  BiGroup,
+  BiBookOpen,
+  BiUser,
+  BiClipboard,
+  BiGitBranch
+} from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -74,25 +81,67 @@ const SidebarComponent = (props) => {
                   </span>
                 </Link>
               </li>
-              {currentUser !== null && currentUser.roles === "Admin" && (
-                <li className="block">
-                  <Link
-                    to="/user"
-                    className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
-                  >
-                    <div className="">
-                      <span>
-                        <BiUser style={{ fontSize: 24 }} />
-                      </span>
-                    </div>
-                    <span
-                      style={{ display: props.toggle === false ? "" : "none" }}
-                      className="inline-block relative"
-                    >
-                      User
+              <li className="block">
+                <Link
+                  to="/task"
+                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                >
+                  <div className="">
+                    <span>
+                      <BiClipboard style={{ fontSize: 24 }} />
                     </span>
-                  </Link>
-                </li>
+                  </div>
+                  <span
+                    style={{ display: props.toggle === false ? "" : "none" }}
+                    className="inline-block relative"
+                  >
+                    Task
+                  </span>
+                </Link>
+              </li>
+              {currentUser !== null && currentUser.roles === "Admin" && (
+                <>
+                  <li className="block">
+                    <Link
+                      to="/batch"
+                      className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                    >
+                      <div className="">
+                        <span>
+                          <BiGitBranch style={{ fontSize: 24 }} />
+                        </span>
+                      </div>
+                      <span
+                        style={{
+                          display: props.toggle === false ? "" : "none",
+                        }}
+                        className="inline-block relative"
+                      >
+                        Batch
+                      </span>
+                    </Link>
+                  </li>
+                  <li className="block">
+                    <Link
+                      to="/user"
+                      className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                    >
+                      <div className="">
+                        <span>
+                          <BiUser style={{ fontSize: 24 }} />
+                        </span>
+                      </div>
+                      <span
+                        style={{
+                          display: props.toggle === false ? "" : "none",
+                        }}
+                        className="inline-block relative"
+                      >
+                        User
+                      </span>
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
           </div>

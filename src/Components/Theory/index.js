@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import swal from "sweetalert";
 
-import theoryService from "../../Services/theory.service";
-import squadService from "../../Services/squad.service";
+import { getSquad, getTheories, deleteTheory } from '../../Services/';
 import { BiChevronDown } from "react-icons/bi";
 
 import ModalDeleteTheory from './ChildTheory/ModalDeleteTheory';
 
-const TheoryComponent = () => {
+const TheoryComponent = (props) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const color = "blue";
 
@@ -22,14 +20,13 @@ const TheoryComponent = () => {
   const [show, setShow] = useState(false);
 
   const getDataTheories = (squadId) => {
-    theoryService.getTheories(squadId).then((data) => {
+    getTheories(squadId).then((data) => {
       setTheory(data.data.data);
     });
   };
 
   const handleDelete = (e) => {
-    theoryService
-      .deleteTheory(e.target.id)
+    deleteTheory(e.target.id)
       .then((data) => {
         if (data.status === 200) {
           swal("Success!", "Delete Data is Successful!", "success");
@@ -44,7 +41,7 @@ const TheoryComponent = () => {
   };
 
   useEffect(() => {
-    squadService.getSquad().then((data) => {
+    getSquad().then((data) => {
       setSquad(data.data.data);
       setOpenTab(data.data.data[0].id);
       getDataTheories(data.data.data[0].id);
@@ -56,6 +53,9 @@ const TheoryComponent = () => {
       name: "Pertemuan",
       selector: "gathering",
       sortable: true,
+      cell: (state) => (
+        "Pertemuan Ke-" + state.gathering
+      )
     },
     {
       name: "Tanggal",
@@ -69,7 +69,7 @@ const TheoryComponent = () => {
         <>
           <Link
             to={{
-              pathname: "/theory-detail/" + state.gathering.toLowerCase(),
+              pathname: "/theory-detail/" + state.gathering,
               query: state.id,
             }}
             className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
@@ -78,7 +78,7 @@ const TheoryComponent = () => {
           </Link>
           <Link
             to={{
-              pathname: "/edit/" + state.gathering.toLowerCase(),
+              pathname: "/edit/" + state.gathering,
               query: state.id,
             }}
             className="font-medium bg-yellow-400 px-3 py-2 rounded-lg mx-2"

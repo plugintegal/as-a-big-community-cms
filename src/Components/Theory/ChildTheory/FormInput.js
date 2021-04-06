@@ -5,18 +5,19 @@ import Input from "react-validation/build/input";
 import TextArea from "react-validation/build/textarea";
 import SelectInput from "react-validation/build/select";
 
-import squadServices from "../../../Services/squad.service";
-import theoryServices from "../../../Services/theory.service";
+import { getSquad, postTheory, getAllBatch } from "../../../Services/";
 
-const FormInput = () => {
+const FormInput = ({ props }) => {
   const [squads, setSquad] = useState([]);
+  const [batches, setBatch] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const [theoryData, setTheoryData] = useState({
-    gathering: "",
+    gathering: 0,
     description: "",
     date: "",
-    squad_id: '',
+    squad_id: "",
+    batch_id: "",
   });
 
   const [filePath, setFilePath] = useState([]);
@@ -27,6 +28,8 @@ const FormInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(theoryData);
+    console.log(filePath);
 
     const formData = new FormData();
     formData.append("gathering", theoryData.gathering);
@@ -34,11 +37,13 @@ const FormInput = () => {
     formData.append("content", filePath[0]);
     formData.append("date", theoryData.date);
     formData.append("squad_id", theoryData.squad_id);
+    formData.append("batch_id", theoryData.batch_id); 
 
-    theoryServices
-      .postTheory(formData, currentUser.token)
+    postTheory(formData, currentUser.token)
       .then((data) => {
-        console.log("BERHASIL");
+        if(data.data.status === 200){
+          props.history.push('/theory');
+        }
       })
       .catch((err) => {
         console.log(err.response);
@@ -47,10 +52,16 @@ const FormInput = () => {
   };
 
   useEffect(() => {
-    squadServices
-      .getSquad()
+    getSquad()
       .then((data) => {
         setSquad(data.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    getAllBatch()
+      .then((data) => {
+        setBatch(data.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,14 +72,25 @@ const FormInput = () => {
     <Form onSubmit={handleSubmit} type="multipart/form-data">
       <div className="relative mb-4">
         <label htmlFor="username">Gathering</label>
-        <Input
-          type="text"
-          className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 px-3 leading-8 transition-colors duration-200 ease-in-out"
-          placeholder="Enter gathering"
+        <SelectInput
+          className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           name="gathering"
           onChange={handleChange}
-          value={theoryData.gathering}
-        />
+        >
+          <option>Choose Gathering</option>
+          <option value="1">Week 1</option>
+          <option value="2">Week 2</option>
+          <option value="3">Week 3</option>
+          <option value="4">Week 4</option>
+          <option value="5">Week 5</option>
+          <option value="6">Week 6</option>
+          <option value="7">Week 7</option>
+          <option value="8">Week 8</option>
+          <option value="9">Week 9</option>
+          <option value="10">Week 10</option>
+          <option value="11">Week 11</option>
+          <option value="12">Week 12</option>
+        </SelectInput>
       </div>
       <div className="relative mb-4">
         <div className="relative mb-2">
@@ -109,13 +131,34 @@ const FormInput = () => {
         <label htmlFor="squad_id">Squad</label>
         <SelectInput
           className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-          placeholder="Enter description"
           name="squad_id"
           onChange={handleChange}
         >
-          <option value="">Pilih Squad</option>
+          <option value="">Choose Squad</option>
           {squads.map((data) => {
-            return <option key={data.id} value={data.id}>{data.squads_name}</option>;
+            return (
+              <option key={data.id} value={data.id}>
+                {data.squads_name}
+              </option>
+            );
+          })}
+        </SelectInput>
+      </div>
+      <div className="relative mb-2">
+        <label htmlFor="squad_id">Batch</label>
+        <SelectInput
+          className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          placeholder="Enter description"
+          name="batch_id"
+          onChange={handleChange}
+        >
+          <option value="">Choose Batch</option>
+          {batches.map((data) => {
+            return (
+              <option key={data.id} value={data.id}>
+                {data.batch_name}
+              </option>
+            );
           })}
         </SelectInput>
       </div>

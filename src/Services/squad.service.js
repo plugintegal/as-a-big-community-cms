@@ -1,21 +1,21 @@
 import axios from "axios";
 
 import { API_URL } from "../Utils/API";
-import authHeader from "./auth-header";
+import { authHeader } from "./auth-header";
 
-const getSquad = () => {
+export const getSquad = () => {
   return axios.get(API_URL + "squad", {
     headers: authHeader(),
   });
 };
 
-const getSquadById = (squadId) => {
+export const getSquadById = (squadId) => {
   return axios.get(API_URL + "squad/" + squadId, {
     headers: authHeader(),
   });
 };
 
-const postSquad = (squads_name, description) => {
+export const postSquad = (squads_name, description) => {
   return axios.post(
     API_URL + "squad",
     {
@@ -28,16 +28,14 @@ const postSquad = (squads_name, description) => {
   );
 };
 
-const updateSquad = (id, body) => {
+export const updateSquad = (id, body) => {
   return axios.put(API_URL + "squad/" + id, body, {
     headers: authHeader(),
   });
 };
 
-const deleteSquad = (id) => {
+export const deleteSquad = (id) => {
   return axios.delete(API_URL + "squad/" + id, {
     headers: authHeader(),
   });
 };
-// eslint-disable-next-line
-export default { getSquad, getSquadById, postSquad, updateSquad, deleteSquad };

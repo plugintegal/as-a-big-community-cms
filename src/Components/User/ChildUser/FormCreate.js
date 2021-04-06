@@ -4,8 +4,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 
-import squadServices from "../../../Services/squad.service";
-import authServices from '../../../Services/auth.service';
+import { signUpServices, getSquad } from '../../../Services/';
 
 const FormCreate = () => {
   const [squads, setSquads] = useState([]);
@@ -25,7 +24,7 @@ const FormCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    authServices.signUp(userData)
+    signUp(userData)
     .then((data) => {
       console.log("BERHASIL");
     })
@@ -35,8 +34,7 @@ const FormCreate = () => {
   };
 
   useEffect(() => {
-    squadServices
-      .getSquad()
+    getSquad()
       .then((data) => {
         setSquads(data.data.data);
       })

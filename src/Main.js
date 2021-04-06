@@ -22,6 +22,8 @@ import CreateNewDataTheory from "./Components/Theory/CreateNewData";
 import DetailTheoryPages from './Pages/Theory/DetailTheory';
 import UpdateDataTheoryPage from './Pages/Theory/UpdateDataTheoryPage';
 
+import BatchPage from './Pages/Batch';
+
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
 
@@ -110,8 +112,10 @@ const Main = (props) => {
                 path="/theory-create"
                 component={CreateNewDataTheory}
               />
-              <PrivateRoute path="/theory-detail/:name" component={DetailTheoryPages} />
               <PrivateRoute path="/edit/:name" component={UpdateDataTheoryPage} />
+              <PrivateRoute path="/theory-detail/:name" component={DetailTheoryPages} />
+
+              <PrivateRoute path="/batch" component={BatchPage} />
 
               <AdminRoute path="/user" component={UserPage} />
               <AdminRoute

@@ -5,8 +5,7 @@ import Input from "react-validation/build/input";
 import TextArea from "react-validation/build/textarea";
 import SelectInput from "react-validation/build/select";
 
-import squadServices from "../../../Services/squad.service";
-import theoryService from "../../../Services/theory.service";
+import { getSquad, updateTheory, getTheoryById } from "../../../Services/";
 
 const FormInputEdit = ({ theory_id }) => {
   const [squads, setSquad] = useState([]);
@@ -32,7 +31,7 @@ const FormInputEdit = ({ theory_id }) => {
     formData.append('date', theoryData.date);
     formData.append('squad_id', theoryData.squad_id);
     
-    theoryService.updateTheory(formData, theory_id, currentUser.token)
+    updateTheory(formData, theory_id, currentUser.token)
     .then((data) => {
       console.log("BERHASIL");
     })
@@ -46,15 +45,14 @@ const FormInputEdit = ({ theory_id }) => {
   }
 
   useEffect(() => {
-    squadServices
-      .getSquad()
+    getSquad()
       .then((data) => {
         setSquad(data.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
-    theoryService.getTheoryById(theory_id).then((data) => {
+    getTheoryById(theory_id).then((data) => {
       setTheoryData({
         gathering: data.data.data[0].gathering,
         description: data.data.data[0].description,
