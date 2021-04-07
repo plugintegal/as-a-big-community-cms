@@ -5,13 +5,15 @@ import {
   BiBookOpen,
   BiUser,
   BiClipboard,
-  BiGitBranch
+  BiGitBranch,
 } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const SidebarComponent = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const location = useLocation();
+  console.log(location);
 
   return (
     <>
@@ -28,7 +30,12 @@ const SidebarComponent = (props) => {
               <li className="block">
                 <Link
                   to="/"
-                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                  className={
+                    (location.pathname === "/"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
                 >
                   <div className="">
                     <span>
@@ -47,7 +54,12 @@ const SidebarComponent = (props) => {
                 <li className="block">
                   <Link
                     to="/squad"
-                    className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                    className={
+                      (location.pathname === "/squad"
+                        ? "text-white"
+                        : "text-gray-400") +
+                      " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                    }
                   >
                     <div className="">
                       <span>
@@ -66,7 +78,12 @@ const SidebarComponent = (props) => {
               <li className="block">
                 <Link
                   to="/theory"
-                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                  className={
+                    (location.pathname === "/theory"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
                 >
                   <div className="">
                     <span>
@@ -84,7 +101,12 @@ const SidebarComponent = (props) => {
               <li className="block">
                 <Link
                   to="/task"
-                  className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                  className={
+                    (location.pathname === "/task"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
                 >
                   <div className="">
                     <span>
@@ -104,7 +126,12 @@ const SidebarComponent = (props) => {
                   <li className="block">
                     <Link
                       to="/batch"
-                      className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                      className={
+                        (location.pathname === "/batch"
+                          ? "text-white"
+                          : "text-gray-400") +
+                        " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                      }
                     >
                       <div className="">
                         <span>
@@ -124,7 +151,12 @@ const SidebarComponent = (props) => {
                   <li className="block">
                     <Link
                       to="/user"
-                      className="py-3 px-7 text-gray-400 text-lg font-regular font-poppins flex items-center gap-4"
+                      className={
+                        (location.pathname === "/user"
+                          ? "text-white"
+                          : "text-gray-400") +
+                        " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                      }
                     >
                       <div className="">
                         <span>

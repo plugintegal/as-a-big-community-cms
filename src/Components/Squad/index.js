@@ -1,7 +1,8 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
+import { FaCircleNotch } from "react-icons/fa";
 import swal from "sweetalert";
 
 import { getSquad, postSquad, updateSquad, deleteSquad } from "../../Services/";
@@ -12,7 +13,7 @@ import ModalDelete from "./ChildSquad/ModalDelete";
 const SquadComponent = () => {
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  
+
   const [squads, setSquads] = useState([]);
   const [squadData, setSquadData] = useState({
     id: "",
@@ -35,17 +36,15 @@ const SquadComponent = () => {
 
     const { id, squads_name, description } = squadData;
     if (id !== "") {
-      updateSquad(id, { squads_name, description }).then(
-        (data) => {
-          console.log("UPDATE BERHASIL");
-          setShow(false);
-          setRefreshKey((oldKey) => oldKey + 1);
-          setSquadData({ id: "", squads_name: "", description: "" });
-          if (data.status === 200) {
-            swal("Success!", "Update Data is Successful!", "success");
-          }
+      updateSquad(id, { squads_name, description }).then((data) => {
+        console.log("UPDATE BERHASIL");
+        setShow(false);
+        setRefreshKey((oldKey) => oldKey + 1);
+        setSquadData({ id: "", squads_name: "", description: "" });
+        if (data.status === 200) {
+          swal("Success!", "Update Data is Successful!", "success");
         }
-      );
+      });
     } else {
       postSquad(squads_name, description)
         .then((data) => {
@@ -62,7 +61,7 @@ const SquadComponent = () => {
         });
     }
   };
-  
+
   const handleDelete = (state) => {
     deleteSquad(state).then((data) => {
       if (data.status === 200) {
@@ -94,7 +93,10 @@ const SquadComponent = () => {
       cell: (state) => (
         <div>
           <Link
-            to={{ pathname: '/squad/'+state.squads_name.toLowerCase(), query: state.id}}
+            to={{
+              pathname: "/squad/" + state.squads_name.toLowerCase(),
+              query: state.id,
+            }}
             className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
           >
             Detail
@@ -127,47 +129,63 @@ const SquadComponent = () => {
 
   return (
     <>
-      <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
-        <div className="container mx-auto">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="text-xl font-medium font-poppins mb-1">
-                PLUG-IN
+      {squads.length === 0 ? (
+        <>
+          <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
+            <span clasName="">
+              <FaCircleNotch
+                className="animate-spin -mt-16 text-5xl"
+                style={{ color: "#27333a" }}
+              />
+            </span>
+            Please Wait ...
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
+            <div className="container mx-auto">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="text-xl font-medium font-poppins mb-1">
+                    PLUG-IN
+                  </div>
+                  <div className="text-sm">Squad Page</div>
+                </div>
               </div>
-              <div className="text-sm">Squad Page</div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="-mt-10 px-5">
-        <div className="flex gap-5">
-          <div className="border bg-white rounded-md p-5 w-4/12 h-80">
-            <FormInput
-              onSubmit={handleSubmit}
-              onChange={handleChange}
-              squads={squadData}
-            />
+          <div className="-mt-10 px-5">
+            <div className="flex gap-5">
+              <div className="border bg-white rounded-md p-5 w-4/12 h-80">
+                <FormInput
+                  onSubmit={handleSubmit}
+                  onChange={handleChange}
+                  squads={squadData}
+                />
+              </div>
+              <div className="border bg-white rounded-md p-5 w-8/12">
+                <h4 className="font-bold text-lg text-gray-600 uppercase">
+                  Squad Data
+                </h4>
+                <DataTable
+                  columns={columns}
+                  data={squads}
+                  defaultSortField="squads_name"
+                  sortIcon={<BiChevronDown />}
+                  pagination
+                />
+              </div>
+            </div>
           </div>
-          <div className="border bg-white rounded-md p-5 w-8/12">
-            <h4 className="font-bold text-lg text-gray-600 uppercase">
-              Squad Data
-            </h4>
-            <DataTable
-              columns={columns}
-              data={squads}
-              defaultSortField="squads_name"
-              sortIcon={<BiChevronDown />}
-              pagination
+          {show ? (
+            <ModalDelete
+              handleDelete={() => handleDelete(squadData.id)}
+              setShow={() => setShow(!show)}
             />
-          </div>
-        </div>
-      </div>
-      {show ? (
-        <ModalDelete
-          handleDelete={() => handleDelete(squadData.id)}
-          setShow={() => setShow(!show)}
-        />
-      ) : null}
+          ) : null}
+        </>
+      )}
     </>
   );
 };
