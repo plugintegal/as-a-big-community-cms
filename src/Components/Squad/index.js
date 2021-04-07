@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
@@ -12,7 +12,7 @@ import ModalDelete from "./ChildSquad/ModalDelete";
 const SquadComponent = () => {
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-
+  
   const [squads, setSquads] = useState([]);
   const [squadData, setSquadData] = useState({
     id: "",
@@ -62,7 +62,7 @@ const SquadComponent = () => {
         });
     }
   };
-
+  
   const handleDelete = (state) => {
     deleteSquad(state).then((data) => {
       if (data.status === 200) {

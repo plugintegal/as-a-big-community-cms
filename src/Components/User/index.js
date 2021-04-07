@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { getAllUser } from "../../Services/";
+import { getAllUser, getAllMember } from "../../Services/";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BiChevronDown } from "react-icons/bi";
@@ -8,11 +8,20 @@ import { BiChevronDown } from "react-icons/bi";
 const UserComponent = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [users, setUsers] = useState([]);
+  const [members, setMember] = useState([]);
 
   useEffect(() => {
-    getAllUser(currentUser.token)
+    getAllUser()
       .then((data) => {
         setUsers(data.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    getAllMember()
+      .then((data) => {
+        setMember(data.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -51,6 +60,19 @@ const UserComponent = (props) => {
       sortable: true,
     },
   ];
+
+  const columnMembers = [
+    {
+      name: "Member Code",
+      selector: "member_code",
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+    },
+  ];
   return (
     <>
       <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
@@ -76,6 +98,16 @@ const UserComponent = (props) => {
             title="User Data"
             columns={columns}
             data={users}
+            defaultSortField="squads_name"
+            sortIcon={<BiChevronDown />}
+            pagination
+          />
+        </div>
+        <div className="border bg-white rounded-md p-5 w-full h-auto mt-2">
+          <DataTable
+            title="Member Data"
+            columns={columnMembers}
+            data={members}
             defaultSortField="squads_name"
             sortIcon={<BiChevronDown />}
             pagination

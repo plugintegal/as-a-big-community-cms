@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Select from "react-validation/build/select";
 
-import { signUpServices, getSquad } from '../../../Services/';
+import {  getSquad } from '../../../Services/';
 
 const FormCreate = () => {
   const [squads, setSquads] = useState([]);
@@ -24,13 +23,13 @@ const FormCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUp(userData)
-    .then((data) => {
-      console.log("BERHASIL");
-    })
-    .catch((error) => {
-      console.log("ERROR ", error);
-    })
+    // signUpServices(userData)
+    // .then((data) => {
+    //   console.log("BERHASIL");
+    // })
+    // .catch((error) => {
+    //   console.log("ERROR ", error);
+    // })
   };
 
   useEffect(() => {

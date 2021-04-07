@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import { Link, useHistory, withRouter } from "react-router-dom";
 import swal from "sweetalert";
 
-import { getSquad, getTheories, deleteTheory } from '../../Services/';
+import { getSquad, getTheories, deleteTheory } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
 
-import ModalDeleteTheory from './ChildTheory/ModalDeleteTheory';
+import ModalDeleteTheory from "./ChildTheory/ModalDeleteTheory";
 
 const TheoryComponent = (props) => {
+  const history = useHistory();
   const [refreshKey, setRefreshKey] = useState(0);
   const color = "blue";
 
@@ -33,12 +34,31 @@ const TheoryComponent = (props) => {
         }
         setRefreshKey((oldKey) => oldKey + 1);
         setShow(!show);
-
       })
       .catch((error) => {
         console.log("ERROR ", error);
       });
   };
+
+  const handleDetail = (e) => {
+    history.push({
+      pathname: "/theory/pertemuan-ke-"+e.target.name ,
+      state: { 
+        Name: e.target.name,
+        idTheory: e.target.id
+       },
+    });
+  };
+
+  const handleEdit = (e) => {
+    history.push({
+      pathname: "/theory/edit/pertemuan-ke-"+e.target.name ,
+      state: { 
+        Name: e.target.name,
+        idTheory: e.target.id
+       },
+    });
+  }
 
   useEffect(() => {
     getSquad().then((data) => {
@@ -53,9 +73,7 @@ const TheoryComponent = (props) => {
       name: "Pertemuan",
       selector: "gathering",
       sortable: true,
-      cell: (state) => (
-        "Pertemuan Ke-" + state.gathering
-      )
+      cell: (state) => "Pertemuan Ke-" + state.gathering,
     },
     {
       name: "Tanggal",
@@ -67,27 +85,26 @@ const TheoryComponent = (props) => {
       selector: "id",
       cell: (state) => (
         <>
-          <Link
-            to={{
-              pathname: "/theory-detail/" + state.gathering,
-              query: state.id,
-            }}
+          <button
+            onClick={handleDetail}
+            id={state.id}
+            name={state.gathering}
             className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
           >
             Detail
-          </Link>
-          <Link
-            to={{
-              pathname: "/edit/" + state.gathering,
-              query: state.id,
-            }}
+          </button>
+          
+          <button
+            onClick={handleEdit}
+            id={state.id}
+            name={state.gathering}
             className="font-medium bg-yellow-400 px-3 py-2 rounded-lg mx-2"
           >
             Edit
-          </Link>
+          </button>
           <button
             onClick={() => {
-              setTheoryId(state.id)
+              setTheoryId(state.id);
               setShow(!show);
             }}
             className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
@@ -193,4 +210,4 @@ const TheoryComponent = (props) => {
   );
 };
 
-export default TheoryComponent;
+export default withRouter (TheoryComponent);

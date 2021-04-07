@@ -4,10 +4,12 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import TextArea from "react-validation/build/textarea";
 import SelectInput from "react-validation/build/select";
+import { useLocation } from "react-router-dom";
+
 
 import { getSquad, updateTheory, getTheoryById } from "../../../Services/";
 
-const FormInputEdit = ({ theory_id }) => {
+const FormInputEdit = () => {
   const [squads, setSquad] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [theoryData, setTheoryData] = useState({
@@ -18,6 +20,8 @@ const FormInputEdit = ({ theory_id }) => {
     content: "",
   });
   const [filePath, setFilePath] = useState([]);
+  const location = useLocation()
+  const theoryId = location.state.idTheory;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +35,7 @@ const FormInputEdit = ({ theory_id }) => {
     formData.append('date', theoryData.date);
     formData.append('squad_id', theoryData.squad_id);
     
-    updateTheory(formData, theory_id, currentUser.token)
+    updateTheory(formData, theoryId, currentUser.token)
     .then((data) => {
       console.log("BERHASIL");
     })
@@ -52,7 +56,7 @@ const FormInputEdit = ({ theory_id }) => {
       .catch((err) => {
         console.log(err);
       });
-    getTheoryById(theory_id).then((data) => {
+    getTheoryById(theoryId).then((data) => {
       setTheoryData({
         gathering: data.data.data[0].gathering,
         description: data.data.data[0].description,
@@ -61,7 +65,7 @@ const FormInputEdit = ({ theory_id }) => {
         content: data.data.data[0].content,
       });
     });
-  }, []);
+  }, [theoryId]);
   return (
     <>
       <Form type="multipart/form-data" onSubmit={handleSubmit}>
@@ -115,6 +119,7 @@ const FormInputEdit = ({ theory_id }) => {
             </label>
             <div className="w-80 rounded-lg shadow-lg tracking-wide border border-blue-500">
               <iframe
+                title="Content"
                 src={`https://view.officeapps.live.com/op/embed.aspx?src=${theoryData.content}`}
                 width="100%"
                 height="200px"

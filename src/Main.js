@@ -22,6 +22,8 @@ import CreateNewDataTheory from "./Components/Theory/CreateNewData";
 import DetailTheoryPages from './Pages/Theory/DetailTheory';
 import UpdateDataTheoryPage from './Pages/Theory/UpdateDataTheoryPage';
 
+import CreateNewTaskPage from './Pages/Task/CreateNewTask';
+
 import BatchPage from './Pages/Batch';
 
 import UserPage from "./Pages/Users/";
@@ -42,7 +44,7 @@ const Main = (props) => {
     });
   }, [dispatch]);
 
-  const AdminRoute = ({ component: Component, layout: Layout, ...rest }) => {
+  const AdminRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}
@@ -63,7 +65,7 @@ const Main = (props) => {
     );
   };
 
-  const PrivateRoute = ({component: Component, layout: Layout, ...rest}) => {
+  const PrivateRoute = ({component: Component, ...rest}) => {
     return (
       <Route
         {...rest}
@@ -112,8 +114,9 @@ const Main = (props) => {
                 path="/theory-create"
                 component={CreateNewDataTheory}
               />
-              <PrivateRoute path="/edit/:name" component={UpdateDataTheoryPage} />
-              <PrivateRoute path="/theory-detail/:name" component={DetailTheoryPages} />
+              <PrivateRoute path="/theory/edit/pertemuan-ke-:name" component={UpdateDataTheoryPage} />
+              <PrivateRoute path="/theory/pertemuan-ke-:name" component={DetailTheoryPages} />
+              <PrivateRoute path="/task-create" component={CreateNewTaskPage} />
 
               <PrivateRoute path="/batch" component={BatchPage} />
 

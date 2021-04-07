@@ -8,3 +8,9 @@ export const postTask = (data, token) => {
     headers: authHeader(),
   });
 };
+
+export const getTaskById = (taskId) => {
+  return axios.get(API_URL + "task/" + taskId, {
+    headers: authHeader(),
+  });
+}
