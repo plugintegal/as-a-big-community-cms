@@ -23,6 +23,7 @@ import DetailTheoryPages from './Pages/Theory/DetailTheory';
 import UpdateDataTheoryPage from './Pages/Theory/UpdateDataTheoryPage';
 
 import CreateNewTaskPage from './Pages/Task/CreateNewTask';
+import InputGradePage from './Pages/Grade/InputGrade'
 
 import BatchPage from './Pages/Batch';
 
@@ -117,6 +118,7 @@ const Main = (props) => {
               <PrivateRoute path="/theory/edit/pertemuan-ke-:name" component={UpdateDataTheoryPage} />
               <PrivateRoute path="/theory/pertemuan-ke-:name" component={DetailTheoryPages} />
               <PrivateRoute path="/task-create" component={CreateNewTaskPage} />
+              <PrivateRoute path="/input-grade" component ={InputGradePage} />
 
               <PrivateRoute path="/batch" component={BatchPage} />
 

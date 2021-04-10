@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { getAllUser, getAllMember } from "../../Services/";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { BiChevronDown } from "react-icons/bi";
 import { FaCircleNotch } from "react-icons/fa";
 
 const UserComponent = (props) => {
-  const { user: currentUser } = useSelector((state) => state.auth);
   const [users, setUsers] = useState([]);
   const [members, setMember] = useState([]);
 

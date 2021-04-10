@@ -119,7 +119,7 @@ const TheoryComponent = (props) => {
 
   return (
     <>
-      {theories.length === 0 ? (
+      {theories.length === 0 && openTab === 0 ? (
         <>
           <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
             <span clasName="">

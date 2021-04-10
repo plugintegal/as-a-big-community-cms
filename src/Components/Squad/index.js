@@ -84,12 +84,11 @@ const SquadComponent = () => {
       name: "Description",
       selector: "description",
       sortable: true,
-      maxWidth: "400px",
+      maxWidth: "300px",
     },
     {
       name: "Action",
       selector: "id",
-      maxWidth: "200px",
       cell: (state) => (
         <div>
           <Link

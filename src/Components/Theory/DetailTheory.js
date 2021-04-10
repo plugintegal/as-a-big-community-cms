@@ -84,7 +84,7 @@ const DetailTheoryComponent = () => {
                             {submit_task.member.name}
                           </div>
                           <div className="text-sm">
-                            <a href={submit_task.answer} target="_blank" className="text-blue-700 hover:text-red-700">{submit_task.answer}</a>
+                            <a href={submit_task.answer} rel="noreferrer" target="_blank" className="text-blue-700 hover:text-red-700">{submit_task.answer}</a>
                           </div>
                         </div>
                       );
