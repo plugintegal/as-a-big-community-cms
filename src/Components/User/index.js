@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { getAllUser, getAllMember } from "../../Services/";
-import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import { FaCircleNotch } from "react-icons/fa";
 
 import TitlePage from '../Parts/TitlePage';
 
-const UserComponent = (props) => {
+const UserComponent = () => {
   const [users, setUsers] = useState([]);
   const [members, setMember] = useState([]);
 
@@ -75,24 +74,25 @@ const UserComponent = (props) => {
     },
   ];
   return (
-    <>
-      {users.length === 0 && members.length === 0 ? (
-        <>
-          <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
-            <span clasName="">
-              <FaCircleNotch
-                className="animate-spin -mt-16 text-5xl"
-                style={{ color: "#27333a" }}
-              />
-            </span>
-            Please Wait ...
-          </div>
-        </>
-      ) : (
+    // <>
+    //   {users.length === 0 || members.length === 0 ? (
+    //     <>
+    //       <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
+    //         <span clasName="">
+    //           <FaCircleNotch
+    //             className="animate-spin -mt-16 text-5xl"
+    //             style={{ color: "#27333a" }}
+    //           />
+    //         </span>
+    //         Please Wait ...
+    //       </div>
+    //     </>
+    //   ) : (
         <>
           <TitlePage title="User" description="User Page"/>
           <div className="-mt-10 px-5">
             <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
+              <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700">Create New User</button>
               <DataTable
                 title="User Data"
                 columns={columns}
@@ -116,8 +116,8 @@ const UserComponent = (props) => {
             </div>
           </div>
         </>
-      )}
-    </>
+    //   )}
+    // </>
   );
 };
 

@@ -61,11 +61,7 @@ const SquadComponent = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [squads, setSquads] = useState([]);
-  const [squadData, setSquadData] = useState({
-    id: "",
-    squads_name: "",
-    description: "",
-  });
+  const [squadId, setSquadId] = useState('')
 
   useEffect(() => {
     getSquad().then((data) => {
@@ -79,7 +75,6 @@ const SquadComponent = () => {
         swal("Success!", "Delete Data is Successful!", "success");
       }
       setRefreshKey((oldKey) => oldKey + 1);
-      setSquadData({ id: "", squads_name: "", description: "" });
       setShow(!show);
     });
   };
@@ -124,7 +119,7 @@ const SquadComponent = () => {
           </button>
           <button
             onClick={() => {
-              setSquadData({ id: state.id });
+              setSquadId(state.id);
               setShow(!show);
             }}
             className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
@@ -174,7 +169,7 @@ const SquadComponent = () => {
           </div>
           {show ? (
             <ModalDelete
-              handleDelete={() => handleDelete(squadData.id)}
+              handleDelete={() => handleDelete(squadId)}
               setShow={() => setShow(!show)}
             />
           ) : null}

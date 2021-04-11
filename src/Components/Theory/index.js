@@ -10,7 +10,7 @@ import { FaCircleNotch } from "react-icons/fa";
 import TitlePage from '../Parts/TitlePage';
 import ModalDeleteTheory from "./ChildTheory/ModalDeleteTheory";
 
-const TheoryComponent = (props) => {
+const TheoryComponent = () => {
   const history = useHistory();
   const [refreshKey, setRefreshKey] = useState(0);
   const color = "blue";
@@ -28,6 +28,30 @@ const TheoryComponent = (props) => {
     });
   };
 
+  const handleCreateNewData = () => {
+    history.push('/theory/create');
+  }
+  
+  const handleDetail = (e) => {
+    history.push({
+      pathname: "/theory/pertemuan-ke-" + e.target.name,
+      state: {
+        Name: e.target.name,
+        idTheory: e.target.id,
+      },
+    });
+  };
+  
+  const handleEdit = (e) => {
+    history.push({
+      pathname: "/theory/edit/pertemuan-ke-" + e.target.name,
+      state: {
+        Name: e.target.name,
+        idTheory: e.target.id,
+      },
+    });
+  };
+  
   const handleDelete = (e) => {
     deleteTheory(e.target.id)
       .then((data) => {
@@ -41,27 +65,6 @@ const TheoryComponent = (props) => {
         console.log("ERROR ", error);
       });
   };
-
-  const handleDetail = (e) => {
-    history.push({
-      pathname: "/theory/pertemuan-ke-" + e.target.name,
-      state: {
-        Name: e.target.name,
-        idTheory: e.target.id,
-      },
-    });
-  };
-
-  const handleEdit = (e) => {
-    history.push({
-      pathname: "/theory/edit/pertemuan-ke-" + e.target.name,
-      state: {
-        Name: e.target.name,
-        idTheory: e.target.id,
-      },
-    });
-  };
-
   useEffect(() => {
     getSquad().then((data) => {
       setSquad(data.data.data);
@@ -123,7 +126,7 @@ const TheoryComponent = (props) => {
       {theories.length === 0 && openTab === 0 ? (
         <>
           <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
-            <span clasName="">
+            <span>
               <FaCircleNotch
                 className="animate-spin -mt-16 text-5xl"
                 style={{ color: "#27333a" }}
@@ -137,6 +140,7 @@ const TheoryComponent = (props) => {
           <TitlePage title="theory" description="Theory Page"/>
           <div className="-mt-10 px-5">
             <div className="border bg-white rounded-md p-5 w-full h-auto">
+              <button onClick={handleCreateNewData} className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700">Create New Theory</button>
               <div className="flex flex-wrap">
                 <div className="w-full">
                   <ul

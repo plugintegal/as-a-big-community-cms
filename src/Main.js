@@ -112,7 +112,7 @@ const Main = (props) => {
               <PrivateRoute exact path="/theory" component={TheoryPage} />
               <PrivateRoute
                 exact
-                path="/theory-create"
+                path="/theory/create"
                 component={CreateNewDataTheory}
               />
               <PrivateRoute path="/theory/edit/pertemuan-ke-:name" component={UpdateDataTheoryPage} />

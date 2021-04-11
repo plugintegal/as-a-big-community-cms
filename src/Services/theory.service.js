@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { API_URL } from "../Utils/API";
-import { authHeader } from "./auth-header";
+import { authHeader, FormData } from "./auth-header";
 
 export const getTheories = (id) => {
   return axios.get(API_URL + "theory/squad/" + id, {
@@ -15,12 +15,9 @@ export const getTheoryById = (id) => {
   });
 };
 
-export const postTheory = (data, token) => {
+export const postTheory = (data) => {
   return axios.post(API_URL + "theory", data, {
-    headers: {
-      "content-type": "multipart/form-data",
-      "x-access-token": "Bearer " + token,
-    },
+    headers: FormData(),
   });
 };
 

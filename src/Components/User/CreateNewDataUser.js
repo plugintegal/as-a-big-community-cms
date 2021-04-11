@@ -1,7 +1,7 @@
 import React from "react";
 import FormCreate from './ChildUser/FormCreate';
 
-const CreateNewDataUserComponent = (props) => {
+const CreateNewDataUserComponent = () => {
   return (
     <>
       <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
