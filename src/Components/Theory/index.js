@@ -7,6 +7,7 @@ import { getSquad, getTheories, deleteTheory } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
 import { FaCircleNotch } from "react-icons/fa";
 
+import TitlePage from '../Parts/TitlePage';
 import ModalDeleteTheory from "./ChildTheory/ModalDeleteTheory";
 
 const TheoryComponent = (props) => {
@@ -133,23 +134,7 @@ const TheoryComponent = (props) => {
         </>
       ) : (
         <>
-          <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
-            <div className="container mx-auto">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="text-xl font-medium font-poppins mb-1">
-                    PLUG-IN
-                  </div>
-                  <div className="text-sm">Theory Page</div>
-                </div>
-                <div className="float right">
-                  <Link to="/theory-create">
-                    <button className="">Create New Data</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TitlePage title="theory" description="Theory Page"/>
           <div className="-mt-10 px-5">
             <div className="border bg-white rounded-md p-5 w-full h-auto">
               <div className="flex flex-wrap">

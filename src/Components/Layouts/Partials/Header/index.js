@@ -23,7 +23,7 @@ const HeaderComponent = (props) => {
     });
   };
   return (
-    <header className="fixed inset-x-0 top-0 bg-white w-full z-50 shadow">
+    <header className="fixed inset-x-0 top-0 w-full z-50" style={{ background : '#F7F8FC' }}>
       <div className="flex justify-between items-center">
         <div className="flex w-2/5 items-center">
           <div

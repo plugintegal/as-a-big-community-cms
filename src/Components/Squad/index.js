@@ -4,13 +4,59 @@ import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import { FaCircleNotch } from "react-icons/fa";
 import swal from "sweetalert";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import { getSquad, postSquad, updateSquad, deleteSquad } from "../../Services/";
 
+import TitlePage from "../Parts/TitlePage";
 import FormInput from "./ChildSquad/FormInput";
 import ModalDelete from "./ChildSquad/ModalDelete";
 
 const SquadComponent = () => {
+  const initialValues = {
+    id: "",
+    squads_name: "",
+    description: "",
+  };
+
+  const onSubmit = (values, { resetForm }) => {
+    if (!values.id) {
+      postSquad(values.squads_name, values.description)
+        .then((data) => {
+          if (data.status === 200) {
+            setRefreshKey((oldKey) => oldKey + 1);
+            swal("Success!", "Create New Data is Successful!", "success");
+            resetForm();
+          }
+        })
+        .catch((error) => {
+          console.log("Error ", error);
+        });
+    } else {
+      const { squads_name, description } = values;
+
+      updateSquad(values.id, { squads_name, description }).then((data) => {
+        if (data.status === 200) {
+          setRefreshKey((oldKey) => oldKey + 1);
+          swal("Success!", "Update Data is Successful!", "success");
+          resetForm();
+        }
+      });
+    }
+  };
+
+  const validationSchema = Yup.object({
+    squads_name: Yup.string().required("Required!"),
+    description: Yup.string().required("Required!"),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validationSchema,
+  });
+
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -26,41 +72,6 @@ const SquadComponent = () => {
       setSquads(data.data.data);
     });
   }, [refreshKey]);
-
-  const handleChange = (e) => {
-    setSquadData({ ...squadData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const { id, squads_name, description } = squadData;
-    if (id !== "") {
-      updateSquad(id, { squads_name, description }).then((data) => {
-        console.log("UPDATE BERHASIL");
-        setShow(false);
-        setRefreshKey((oldKey) => oldKey + 1);
-        setSquadData({ id: "", squads_name: "", description: "" });
-        if (data.status === 200) {
-          swal("Success!", "Update Data is Successful!", "success");
-        }
-      });
-    } else {
-      postSquad(squads_name, description)
-        .then((data) => {
-          console.log("UPDATE BERHASIL");
-          setShow(false);
-          setRefreshKey((oldKey) => oldKey + 1);
-          setSquadData({ id: "", squads_name: "", description: "" });
-          if (data.status === 200) {
-            swal("Success!", "Create new Data is Successful!", "success");
-          }
-        })
-        .catch((error) => {
-          console.log("Error ", error.response);
-        });
-    }
-  };
 
   const handleDelete = (state) => {
     deleteSquad(state).then((data) => {
@@ -91,7 +102,7 @@ const SquadComponent = () => {
       selector: "id",
       cell: (state) => (
         <div>
-          <Link
+          {/* <Link
             to={{
               pathname: "/squad/" + state.squads_name.toLowerCase(),
               query: state.id,
@@ -99,14 +110,13 @@ const SquadComponent = () => {
             className="font-medium bg-blue-400 px-3 py-2 rounded-lg mx-2"
           >
             Detail
-          </Link>
+          </Link> */}
           <button
             onClick={(e) => {
-              setSquadData({
-                id: state.id,
-                squads_name: state.squads_name,
-                description: state.description,
-              });
+              formik.resetForm();
+              formik.values.id = state.id;
+              formik.values.squads_name = state.squads_name;
+              formik.values.description = state.description;
             }}
             className="font-medium bg-yellow-300 px-3 py-2 rounded-lg mx-2"
           >
@@ -131,7 +141,7 @@ const SquadComponent = () => {
       {squads.length === 0 ? (
         <>
           <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
-            <span clasName="">
+            <span className="">
               <FaCircleNotch
                 className="animate-spin -mt-16 text-5xl"
                 style={{ color: "#27333a" }}
@@ -142,32 +152,17 @@ const SquadComponent = () => {
         </>
       ) : (
         <>
-          <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
-            <div className="container mx-auto">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="text-xl font-medium font-poppins mb-1">
-                    PLUG-IN
-                  </div>
-                  <div className="text-sm">Squad Page</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TitlePage title="Squad" description="Squad Page" />
           <div className="-mt-10 px-5">
             <div className="flex gap-5">
               <div className="border bg-white rounded-md p-5 w-4/12 h-80">
-                <FormInput
-                  onSubmit={handleSubmit}
-                  onChange={handleChange}
-                  squads={squadData}
-                />
+                <FormInput formik={formik} />
               </div>
               <div className="border bg-white rounded-md p-5 w-8/12">
-                <h4 className="font-bold text-lg text-gray-600 uppercase">
-                  Squad Data
-                </h4>
                 <DataTable
+                  title="Squad Data"
+                  striped={true}
+                  noDataComponent="No available Data"
                   columns={columns}
                   data={squads}
                   defaultSortField="squads_name"

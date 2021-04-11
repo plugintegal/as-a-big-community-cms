@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, Link, useLocation } from "react-router-dom";
+import { withRouter, Link, useLocation, useHistory } from "react-router-dom";
 import { getTheoryById, getTaskById } from "../../Services/";
 import MarkdownPreview from "@uiw/react-markdown-preview";
+import { BiEditAlt } from "react-icons/bi";
+
+import TitlePage from '../Parts/TitlePage';
 
 const DetailTheoryComponent = () => {
   const location = useLocation();
+  const history = useHistory();
   const theoryId = location.state.idTheory;
 
   const [theoryDetail, setTheoryDetail] = useState({});
   const [taskId, setTaskId] = useState("");
   const [contentTask, setContentTask] = useState("");
   const [task, setTask] = useState(null);
+
+  const handleDetailSubmitTask = (e) => {
+    // console.log("member_code", e);
+    history.push({
+      pathname : "/input-grade",
+      state : {
+        member_code : e.target.id
+      }
+    })
+  };
 
   useEffect(() => {
     getTheoryById(theoryId)
@@ -38,18 +52,7 @@ const DetailTheoryComponent = () => {
 
   return (
     <>
-      <div className="bg-gray-300 pt-6 pb-16 px-5 w-full">
-        <div className="container mx-auto">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="text-xl font-medium font-poppins mb-1">
-                PLUG-IN
-              </div>
-              <div className="text-sm">Detail Theory</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TitlePage title="Theory" description="Detail Theory"/>
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
           <div className="font-medium text-lg">
@@ -80,11 +83,27 @@ const DetailTheoryComponent = () => {
                     task.submit_tasks.map((submit_task) => {
                       return (
                         <div className="bg-gray-100 rounded shadow h-20 p-3">
-                          <div className="font-bold text-lg">
-                            {submit_task.member.name}
-                          </div>
-                          <div className="text-sm">
-                            <a href={submit_task.answer} rel="noreferrer" target="_blank" className="text-blue-700 hover:text-red-700">{submit_task.answer}</a>
+                          <div className="flex justify-around items-center">
+                            <div>
+                              <div className="font-bold text-lg">
+                                {submit_task.member.name}
+                              </div>
+                              <div className="text-sm">
+                                <a
+                                  href={submit_task.answer}
+                                  rel="noreferrer"
+                                  target="_blank"
+                                  className="text-blue-700 hover:text-red-700"
+                                >
+                                  {submit_task.answer}
+                                </a>
+                              </div>
+                            </div>
+                              <BiEditAlt
+                                className="text-2xl mt-2 hover:text-red-500"
+                                id={submit_task.member.member_code}
+                                onClick={handleDetailSubmitTask}
+                              />
                           </div>
                         </div>
                       );

@@ -85,7 +85,7 @@ const Main = (props) => {
 
   return (
     <Router history={history}>
-      <div className="bg-gray-200">
+      <div className="" style={{ background : '#F7F8FC' }}>
         {currentUser && (
           <HeaderComponent
             toggle={toggleState}

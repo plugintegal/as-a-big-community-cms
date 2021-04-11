@@ -3,7 +3,7 @@ import Main from './Main';
 
 function App() {
   return (
-    <div>
+    <div style={{ background : '#F7F8FC' }}>
       <Main />
     </div>
   );
