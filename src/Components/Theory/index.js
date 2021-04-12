@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link, useHistory, withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import swal from "sweetalert";
 
 import { getSquad, getTheories, deleteTheory } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
-import { FaCircleNotch } from "react-icons/fa";
 
 import TitlePage from '../Parts/TitlePage';
+import LoadingPage from '../Parts/LoadingPage';
 import ModalDeleteTheory from "./ChildTheory/ModalDeleteTheory";
 
 const TheoryComponent = () => {
   const history = useHistory();
   const [refreshKey, setRefreshKey] = useState(0);
-  const color = "blue";
+  const color = "gray";
 
   const [theories, setTheory] = useState([]);
   const [squads, setSquad] = useState([]);
@@ -125,15 +125,7 @@ const TheoryComponent = () => {
     <>
       {theories.length === 0 && openTab === 0 ? (
         <>
-          <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
-            <span>
-              <FaCircleNotch
-                className="animate-spin -mt-16 text-5xl"
-                style={{ color: "#27333a" }}
-              />
-            </span>
-            Please Wait ...
-          </div>
+          <LoadingPage />
         </>
       ) : (
         <>
@@ -157,8 +149,8 @@ const TheoryComponent = () => {
                             className={
                               "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                               (openTab === data.id
-                                ? "text-white bg-" + color + "-600"
-                                : "text-" + color + "-600 bg-white")
+                                ? "text-white bg-" + color + "-700"
+                                : "text-" + color + "-700 bg-white")
                             }
                             onClick={(e) => {
                               e.preventDefault();
@@ -176,7 +168,7 @@ const TheoryComponent = () => {
                       );
                     })}
                   </ul>
-                  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6">
+                  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 -mt-5">
                     <div className="px-4 py-5 flex-auto">
                       <div className="tab-content tab-space">
                         {squads.map((data) => {

@@ -14,3 +14,15 @@ export const postBatch = (data) => {
     headers: authHeader(),
   });
 };
+
+export const updateBatch = (data, id) => {
+  return axios.put(API_URL + "batch/" + id, data, {
+    headers: authHeader(),
+  });
+};
+
+export const deleteBatch = (id) => {
+  return axios.delete(API_URL + "batch/" + id, {
+    headers: authHeader(),
+  });
+};

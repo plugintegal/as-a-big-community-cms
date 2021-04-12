@@ -21,12 +21,9 @@ export const postTheory = (data) => {
   });
 };
 
-export const updateTheory = (data, id, token) => {
+export const updateTheory = (data, id) => {
   return axios.put(API_URL + "theory/" + id, data, {
-    headers: {
-      "content-type": "multipart/form-data",
-      "x-access-token": "Bearer " + token,
-    },
+    headers: FormData(),
   });
 };
 

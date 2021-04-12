@@ -29,9 +29,9 @@ const DetailTheoryComponent = () => {
   useEffect(() => {
     getTheoryById(theoryId)
       .then((data) => {
-        setTheoryDetail(data.data.data[0]);
-        setTaskId(data.data.data[0].tasks.id);
-        setContentTask(data.data.data[0].tasks.content);
+        setTheoryDetail(data.data.data);
+        setTaskId(data.data.data.tasks.id);
+        setContentTask(data.data.data.tasks.content);
       })
       .catch((error) => {
         console.log(error);

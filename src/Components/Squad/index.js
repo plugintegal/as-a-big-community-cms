@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import { FaCircleNotch } from "react-icons/fa";
 import swal from "sweetalert";
