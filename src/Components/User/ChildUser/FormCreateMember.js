@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { getSquad, signUpServices } from "../../../Services/";
+import { getSquad, postMember } from "../../../Services";
 
-const FormCreate = () => {
+const FormCreateMember = () => {
   const history = useHistory();
   const [squads, setSquads] = useState([]);
 
@@ -16,18 +16,18 @@ const FormCreate = () => {
     password: "",
     conf_password: "",
     squad_id: "",
-    roles: "",
+    generation: "",
   };
 
   const onSubmit = (values) => {
-    signUpServices(values)
+    postMember(values)
     .then((data) => {
-      if(data.status === 200){
-        history.push('/user')
-      }
+        if(data.status === 200){
+            history.push('/user');
+        }
     })
     .catch((error) => {
-      console.log("Error ", error.response);
+        console.log("Error ", error.response);
     })
   };
 
@@ -40,7 +40,7 @@ const FormCreate = () => {
       .oneOf([Yup.ref("password"), null], "Does not match with password")
       .required("Required!"),
     squad_id: Yup.string().required("Required!"),
-    roles: Yup.string().required("Required!"),
+    generation: Yup.string().required("Required!"),
   });
 
   const formik = useFormik({
@@ -62,7 +62,7 @@ const FormCreate = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative mb-3">
           <label htmlFor="name">Fullname</label>
@@ -70,8 +70,8 @@ const FormCreate = () => {
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
             name="name"
             id="name"
-            type="text"
             placeholder="Fullname"
+            type="text"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -104,8 +104,8 @@ const FormCreate = () => {
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
             name="email"
             id="email"
-            type="email"
             placeholder="Email"
+            type="email"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -121,8 +121,8 @@ const FormCreate = () => {
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
               name="password"
               id="password"
-              type="password"
               placeholder="Password"
+              type="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -145,8 +145,7 @@ const FormCreate = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.conf_password &&
-            formik.errors.conf_password ? (
+            {formik.touched.conf_password && formik.errors.conf_password ? (
               <span className="text-sm text-red-500">
                 {formik.errors.conf_password}
               </span>
@@ -179,35 +178,34 @@ const FormCreate = () => {
             ) : null}
           </div>
           <div className="w-full">
-            <label htmlFor="roles">Role</label>
-            <select
-              className="w-full bg-white py-3 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
-              name="roles"
-              id="roles"
+            <label htmlFor="generation">Generation (year)</label>
+            <input
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
+              name="generation"
+              id="generation"
+              type="text"
+              value={formik.values.generation}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            >
-              <option value="">Choose Roles</option>
-              <option value="Mentor">Mentor</option>
-              <option value="Bendahara">Bendahara</option>
-            </select>
-            {formik.touched.roles && formik.errors.roles ? (
+            />
+            {formik.touched.generation && formik.errors.generation ? (
               <span className="text-sm text-red-500">
-                {formik.errors.roles}
+                {formik.errors.generation}
               </span>
             ) : null}
           </div>
         </div>
         <div className="relative mb-3">
-          <button type="submit"
+          <button
+            type="submit"
             className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded"
           >
             Submit
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
-export default FormCreate;
+export default FormCreateMember;

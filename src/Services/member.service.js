@@ -14,3 +14,7 @@ export const getMemberDetail = (member_code) => {
     headers: authHeader(),
   });
 };
+
+export const postMember = (data) => {
+  return axios.post(API_URL + "member", data, {});
+};

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { getAllUser, getAllMember } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
-import { FaCircleNotch } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
-import TitlePage from '../Parts/TitlePage';
+import TitlePage from "../Parts/TitlePage";
 
 const UserComponent = () => {
+  const history = useHistory();
+
   const [users, setUsers] = useState([]);
   const [members, setMember] = useState([]);
 
@@ -73,49 +75,55 @@ const UserComponent = () => {
       sortable: true,
     },
   ];
+
+  const handleCreateNewUser = () => {
+    history.push("/user-create");
+  };
+
+  const handleCreateNewMember = () => {
+    history.push("/member-create");
+  };
+
   return (
-    // <>
-    //   {users.length === 0 || members.length === 0 ? (
-    //     <>
-    //       <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
-    //         <span clasName="">
-    //           <FaCircleNotch
-    //             className="animate-spin -mt-16 text-5xl"
-    //             style={{ color: "#27333a" }}
-    //           />
-    //         </span>
-    //         Please Wait ...
-    //       </div>
-    //     </>
-    //   ) : (
-        <>
-          <TitlePage title="User" description="User Page"/>
-          <div className="-mt-10 px-5">
-            <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
-              <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700">Create New User</button>
-              <DataTable
-                title="User Data"
-                columns={columns}
-                data={users}
-                noDataComponent="No Available Data"
-                defaultSortField="squads_name"
-                sortIcon={<BiChevronDown />}
-                pagination
-              />
-            </div>
-            <div className="border bg-white rounded-md p-5 w-full h-auto mt-2 shadow-md">
-              <DataTable
-                title="Member Data"
-                columns={columnMembers}
-                data={members}
-                noDataComponent="No Available Data"
-                defaultSortField="squads_name"
-                sortIcon={<BiChevronDown />}
-                pagination
-              />
-            </div>
-          </div>
-        </>
+    <>
+      <TitlePage title="User" description="User Page" />
+      <div className="-mt-10 px-5">
+        <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
+          <button
+            onClick={handleCreateNewUser}
+            className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700"
+          >
+            Create New User
+          </button>
+          <DataTable
+            title="User Data"
+            columns={columns}
+            data={users}
+            noDataComponent="No Available Data"
+            defaultSortField="squads_name"
+            sortIcon={<BiChevronDown />}
+            pagination
+          />
+        </div>
+        <div className="border bg-white rounded-md p-5 w-full h-auto mt-2 shadow-md">
+          <button
+            onClick={handleCreateNewMember}
+            className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700"
+          >
+            Create New Member
+          </button>
+          <DataTable
+            title="Member Data"
+            columns={columnMembers}
+            data={members}
+            noDataComponent="No Available Data"
+            defaultSortField="squads_name"
+            sortIcon={<BiChevronDown />}
+            pagination
+          />
+        </div>
+      </div>
+    </>
     //   )}
     // </>
   );

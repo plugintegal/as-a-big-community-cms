@@ -19,19 +19,20 @@ import DetailSquadPage from "./Pages/Squad/DetailSquad";
 
 import TheoryPage from "./Pages/Theory/";
 import CreateNewDataTheory from "./Components/Theory/CreateNewData";
-import DetailTheoryPages from './Pages/Theory/DetailTheory';
-import UpdateDataTheoryPage from './Pages/Theory/UpdateDataTheoryPage';
+import DetailTheoryPages from "./Pages/Theory/DetailTheory";
+import UpdateDataTheoryPage from "./Pages/Theory/UpdateDataTheoryPage";
 
-import CreateNewTaskPage from './Pages/Task/CreateNewTask';
-import InputGradePage from './Pages/Grade/InputGrade'
+import CreateNewTaskPage from "./Pages/Task/CreateNewTask";
+import InputGradePage from "./Pages/Grade/InputGrade";
 
-import BatchPage from './Pages/Batch';
+import BatchPage from "./Pages/Batch";
 
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
+import CreateNewDataMemberPage from "./Pages/Users/CreateNewDataMember";
 
 import LoginPage from "./Pages/Auth/Login/";
-import ForbiddenPages from './Pages/Forbidden/'
+import ForbiddenPages from "./Pages/Forbidden/";
 
 const Main = (props) => {
   console.log("Main Props ", props);
@@ -50,12 +51,10 @@ const Main = (props) => {
       <Route
         {...rest}
         render={(props) =>
-          currentUser !== null && currentUser.roles === 'Admin'? (
+          currentUser !== null && currentUser.roles === "Admin" ? (
             <Component {...props} />
-          ) : currentUser !== null && currentUser.roles !== 'Admin'? (
-            <Redirect
-              to={{ pathname: "/forbidden"}}
-            />
+          ) : currentUser !== null && currentUser.roles !== "Admin" ? (
+            <Redirect to={{ pathname: "/forbidden" }} />
           ) : (
             <Redirect
               to={{ pathname: "/login", state: { from: props.location } }}
@@ -66,7 +65,7 @@ const Main = (props) => {
     );
   };
 
-  const PrivateRoute = ({component: Component, ...rest}) => {
+  const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}
@@ -81,11 +80,11 @@ const Main = (props) => {
         }
       />
     );
-  }
+  };
 
   return (
     <Router history={history}>
-      <div className="" style={{ background : '#F7F8FC' }}>
+      <div className="" style={{ background: "#F7F8FC" }}>
         {currentUser && (
           <HeaderComponent
             toggle={toggleState}
@@ -115,19 +114,32 @@ const Main = (props) => {
                 path="/theory/create"
                 component={CreateNewDataTheory}
               />
-              <PrivateRoute path="/theory/edit/pertemuan-ke-:name" component={UpdateDataTheoryPage} />
-              <PrivateRoute path="/theory/pertemuan-ke-:name" component={DetailTheoryPages} />
+              <PrivateRoute
+                path="/theory/edit/pertemuan-ke-:name"
+                component={UpdateDataTheoryPage}
+              />
+              <PrivateRoute
+                path="/theory/pertemuan-ke-:name"
+                component={DetailTheoryPages}
+              />
               <PrivateRoute path="/task-create" component={CreateNewTaskPage} />
-              <PrivateRoute path="/input-grade" component ={InputGradePage} />
+              <PrivateRoute path="/input-grade" component={InputGradePage} />
 
               <PrivateRoute path="/batch" component={BatchPage} />
 
               <AdminRoute path="/user" component={UserPage} />
+
               <AdminRoute
                 path="/user-create"
                 component={CreateNewDataUserPage}
               />
-              <Route path="/forbidden" component={ForbiddenPages}/>
+
+              <AdminRoute
+                path="/member-create"
+                component={CreateNewDataMemberPage}
+              />
+
+              <Route path="/forbidden" component={ForbiddenPages} />
             </div>
           </Fragment>
         </Switch>

@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 const SidebarComponent = (props) => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const location = useLocation();
-  console.log(location);
 
   return (
     <>
