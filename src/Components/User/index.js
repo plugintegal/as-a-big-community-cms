@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { getAllUser, getAllMember } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
-import { useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 
 import TitlePage from "../Parts/TitlePage";
 
@@ -30,6 +30,24 @@ const UserComponent = () => {
       });
   }, []);
 
+  const handleDetailUser = (e) => {
+    history.push({
+      pathname : '/user-detail',
+      state : {
+        userId: e.target.id
+      }
+    })
+  }
+
+  const handleDetailMember = (e) => {
+    history.push({
+      pathname: '/member-detail',
+      state: {
+        memberId : e.target.id
+      }
+    })
+  }
+
   const columns = [
     {
       name: "Name",
@@ -42,25 +60,14 @@ const UserComponent = () => {
       sortable: true,
     },
     {
-      name: "Email",
-      selector: "email",
-      sortable: true,
-    },
-    {
-      name: "QRCODE",
-      selector: "qrcode",
-      sortable: true,
-    },
-    {
-      name: "Squad ID",
-      selector: "squad_id",
-      sortable: true,
-    },
-    {
-      name: "Roles",
-      selector: "roles",
-      sortable: true,
-    },
+      name: "Opsi",
+      selector: 'id',
+      cell : (state) => (
+        <div>
+          <button onClick={handleDetailUser} className="bg-gray-300 font-bold py-2 px-4 rounded" id={state.id}>Detail</button>
+        </div>
+      )
+    }
   ];
 
   const columnMembers = [
@@ -74,6 +81,16 @@ const UserComponent = () => {
       selector: "name",
       sortable: true,
     },
+    {
+      name: 'Opsi',
+      selector : 'id',
+      cell : (state) => (
+        
+        <>
+          <button onClick={handleDetailMember} className="bg-gray-300 font-bold py-2 px-4 rounded" id={state.member_code}>Detail</button>
+        </>
+      )
+    }
   ];
 
   const handleCreateNewUser = () => {
@@ -129,4 +146,4 @@ const UserComponent = () => {
   );
 };
 
-export default UserComponent;
+export default withRouter(UserComponent);

@@ -29,7 +29,10 @@ import BatchPage from "./Pages/Batch";
 
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
+import DetailUserPage from './Pages/Users/DetailUser';
+
 import CreateNewDataMemberPage from "./Pages/Users/CreateNewDataMember";
+import DetailmemberPage from "./Pages/Users/DetailMember";
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -129,6 +132,8 @@ const Main = (props) => {
 
               <AdminRoute path="/user" component={UserPage} />
 
+              <AdminRoute path="/user-detail" component={DetailUserPage} />
+
               <AdminRoute
                 path="/user-create"
                 component={CreateNewDataUserPage}
@@ -137,6 +142,11 @@ const Main = (props) => {
               <AdminRoute
                 path="/member-create"
                 component={CreateNewDataMemberPage}
+              />
+
+              <AdminRoute
+                path="/member-detail"
+                component={DetailmemberPage}
               />
 
               <Route path="/forbidden" component={ForbiddenPages} />
