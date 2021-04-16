@@ -34,6 +34,8 @@ import DetailUserPage from './Pages/Users/DetailUser';
 import CreateNewDataMemberPage from "./Pages/Users/CreateNewDataMember";
 import DetailmemberPage from "./Pages/Users/DetailMember";
 
+import CategoryEventPage from './Pages/CategoryEvent';
+
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
 
@@ -129,6 +131,8 @@ const Main = (props) => {
               <PrivateRoute path="/input-grade" component={InputGradePage} />
 
               <PrivateRoute path="/batch" component={BatchPage} />
+
+              <PrivateRoute path="/category-event" component={CategoryEventPage} />
 
               <AdminRoute path="/user" component={UserPage} />
 

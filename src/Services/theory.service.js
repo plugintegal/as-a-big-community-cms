@@ -21,6 +21,12 @@ export const postTheory = (data) => {
   });
 };
 
+export const updateTheoryActive = (data, id) => {
+  return axios.put(API_URL + "theory/status/" + id, data, {
+    headers: authHeader(),
+  });
+};
+
 export const updateTheory = (data, id) => {
   return axios.put(API_URL + "theory/" + id, data, {
     headers: FormData(),

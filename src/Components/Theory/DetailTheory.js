@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link, useLocation, useHistory } from "react-router-dom";
-import { getTheoryById, getTaskById } from "../../Services/";
+import {
+  getTheoryById,
+  getTaskById,
+  updateTheoryActive,
+} from "../../Services/";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { BiEditAlt } from "react-icons/bi";
 
-import TitlePage from '../Parts/TitlePage';
+import TitlePage from "../Parts/TitlePage";
 
 const DetailTheoryComponent = () => {
   const location = useLocation();
@@ -15,20 +19,38 @@ const DetailTheoryComponent = () => {
   const [taskId, setTaskId] = useState("");
   const [contentTask, setContentTask] = useState("");
   const [task, setTask] = useState(null);
+  const [resfreshKey, setRefreshKey] = useState(0);
 
   const handleDetailSubmitTask = (e) => {
     // console.log("member_code", e);
     history.push({
-      pathname : "/input-grade",
-      state : {
-        member_code : e.target.id
-      }
-    })
+      pathname: "/input-grade",
+      state: {
+        member_code: e.target.id,
+      },
+    });
+  };
+
+  const handleModifyActiveTheory = (e) => {
+    const activeTheoryData = {
+      in_active: !theoryDetail.in_active,
+    };
+
+    updateTheoryActive(activeTheoryData, theoryId)
+      .then((data) => {
+        if (data.status === 200) {
+          setRefreshKey((oldKey) => oldKey + 1);
+        }
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+      });
   };
 
   useEffect(() => {
     getTheoryById(theoryId)
       .then((data) => {
+        console.log(data.data.data);
         setTheoryDetail(data.data.data);
         setTaskId(data.data.data.tasks.id);
         setContentTask(data.data.data.tasks.content);
@@ -36,7 +58,7 @@ const DetailTheoryComponent = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [theoryId]);
+  }, [theoryId, resfreshKey]);
 
   useEffect(() => {
     if (taskId !== "") {
@@ -52,7 +74,7 @@ const DetailTheoryComponent = () => {
 
   return (
     <>
-      <TitlePage title="Theory" description="Detail Theory"/>
+      <TitlePage title="Theory" description="Detail Theory" />
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
           <div className="font-medium text-lg">
@@ -63,10 +85,27 @@ const DetailTheoryComponent = () => {
             <iframe
               title="content"
               src={`https://view.officeapps.live.com/op/embed.aspx?src=${theoryDetail.content}`}
-              width="80%"
-              height="400px"
+              width="100%"
+              height="500px"
               frameBorder="0"
             ></iframe>
+          </div>
+          <div className="mt-2">
+            {theoryDetail.in_active ? (
+              <button
+                onClick={handleModifyActiveTheory}
+                className="bg-blue-500 rounded text-center text-white w-full py-3"
+              >
+                Un-active
+              </button>
+            ) : (
+              <button
+                onClick={handleModifyActiveTheory}
+                className="bg-blue-500 rounded text-center text-white w-full py-3"
+              >
+                Active
+              </button>
+            )}
           </div>
         </div>
 
@@ -99,11 +138,11 @@ const DetailTheoryComponent = () => {
                                 </a>
                               </div>
                             </div>
-                              <BiEditAlt
-                                className="text-2xl mt-2 hover:text-red-500"
-                                id={submit_task.member.member_code}
-                                onClick={handleDetailSubmitTask}
-                              />
+                            <BiEditAlt
+                              className="text-2xl mt-2 hover:text-red-500"
+                              id={submit_task.member.member_code}
+                              onClick={handleDetailSubmitTask}
+                            />
                           </div>
                         </div>
                       );

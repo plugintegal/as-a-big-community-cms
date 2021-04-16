@@ -5,3 +5,4 @@ export * from "./batch.service";
 export * from "./user.service";
 export * from "./task.service";
 export * from './member.service'
+export * from './category-event.service';

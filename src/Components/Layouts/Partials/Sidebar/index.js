@@ -6,6 +6,7 @@ import {
   BiUser,
   BiClipboard,
   BiGitBranch,
+  BiOutline
 } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -117,6 +118,31 @@ const SidebarComponent = (props) => {
                     className="inline-block relative"
                   >
                     Task
+                  </span>
+                </Link>
+              </li>
+              <li className="block">
+                <Link
+                  to="/category-event"
+                  className={
+                    (location.pathname === "/category-event"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
+                >
+                  <div className="">
+                    <span>
+                      <BiOutline style={{ fontSize: 24 }} />
+                    </span>
+                  </div>
+                  <span
+                    style={{
+                      display: props.toggle === false ? "" : "none",
+                    }}
+                    className="inline-block relative"
+                  >
+                    Category Event
                   </span>
                 </Link>
               </li>
