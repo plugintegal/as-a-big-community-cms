@@ -5,7 +5,7 @@ import { authHeader } from "./auth-header";
 
 export const signInServices = (username, password) => {
   return axios
-    .post(API_URL + "auth/admin/sign-in", {
+    .post(API_URL + "auth/sign-in", {
       username,
       password,
     })
