@@ -124,7 +124,7 @@ const FormInput = () => {
           ></textarea>
         </div>
         <div className="relative mb-4">
-          <label htmlFor="content">Konten</label>
+          <label htmlFor="content">Content</label>
           <div className="flex bg-grey-lighter gap-4">
             <label
               className={
@@ -171,11 +171,9 @@ const FormInput = () => {
               <option>Choose Squad</option>
               {squads.map((squad) => {
                 return (
-                  <>
-                    <option value={squad.id} key={squad.id}>
-                      {squad.squads_name}
-                    </option>
-                  </>
+                  <option value={squad.id} key={squad.id}>
+                    {squad.squads_name}
+                  </option>
                 );
               })}
             </select>
@@ -190,11 +188,9 @@ const FormInput = () => {
               <option>Choose Batch</option>
               {batches.map((batch) => {
                 return (
-                  <>
-                    <option value={batch.id} key={batch.id}>
-                      {batch.batch_name}
-                    </option>
-                  </>
+                  <option value={batch.id} key={batch.id}>
+                    {batch.batch_name}
+                  </option>
                 );
               })}
             </select>

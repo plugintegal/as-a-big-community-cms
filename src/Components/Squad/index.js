@@ -59,12 +59,14 @@ const SquadComponent = () => {
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  const [loading, setLoading] = useState(false)
   const [squads, setSquads] = useState([]);
   const [squadId, setSquadId] = useState('')
 
   useEffect(() => {
     getSquad().then((data) => {
       setSquads(data.data.data);
+      setLoading(true);
     });
   }, [refreshKey]);
 
@@ -132,7 +134,7 @@ const SquadComponent = () => {
 
   return (
     <>
-      {squads.length === 0 ? (
+      {loading === false ? (
         <>
           <div className="w-10/12 h-full fixed bg-white text-center flex justify-center items-center flex-col">
             <span className="">

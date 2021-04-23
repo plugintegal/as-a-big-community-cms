@@ -31,10 +31,10 @@ import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
 import DetailUserPage from './Pages/Users/DetailUser';
 
-import CreateNewDataMemberPage from "./Pages/Users/CreateNewDataMember";
-import DetailmemberPage from "./Pages/Users/DetailMember";
-
 import CategoryEventPage from './Pages/CategoryEvent';
+
+import EventPage from './Pages/Event/';
+import CreateNewDataEventPage from './Pages/Event/CreateNewDataEvent';
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -134,6 +134,9 @@ const Main = (props) => {
 
               <PrivateRoute path="/category-event" component={CategoryEventPage} />
 
+              <PrivateRoute path="/event" component={EventPage} />
+              <PrivateRoute path="/event-create" component={CreateNewDataEventPage} />
+
               <AdminRoute path="/user" component={UserPage} />
 
               <AdminRoute path="/user-detail" component={DetailUserPage} />
@@ -141,16 +144,6 @@ const Main = (props) => {
               <AdminRoute
                 path="/user-create"
                 component={CreateNewDataUserPage}
-              />
-
-              <AdminRoute
-                path="/member-create"
-                component={CreateNewDataMemberPage}
-              />
-
-              <AdminRoute
-                path="/member-detail"
-                component={DetailmemberPage}
               />
 
               <Route path="/forbidden" component={ForbiddenPages} />

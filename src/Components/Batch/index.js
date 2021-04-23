@@ -17,6 +17,7 @@ import LoadingPage from "../Parts/LoadingPage";
 import ModalDeleteBatch from './ChildBatch/ModalDeleteBatch';
 
 const BatchComponent = () => {
+  const [loading, setLoading] = useState(false);
   const [batches, setBatches] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [show, setShow] = useState(false);
@@ -71,6 +72,7 @@ const BatchComponent = () => {
     getAllBatch()
       .then((data) => {
         setBatches(data.data.data);
+        setLoading(true);
       })
       .catch((error) => {
         console.log("ERROR ", error);
@@ -138,7 +140,7 @@ const BatchComponent = () => {
   ];
   return (
     <>
-      {batches.length === 0 ? (
+      {loading === false ? (
         <>
           <LoadingPage />
         </>

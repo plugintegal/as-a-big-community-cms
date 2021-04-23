@@ -18,7 +18,7 @@ export const signInServices = (username, password) => {
 };
 
 export const signUpServices = (data) => {
-  return axios.post(API_URL + "auth/sign-up", data);
+  return axios.post(API_URL + "auth/sign-up", data, {headers: {}});
 };
 
 export const signOutServices = () => {

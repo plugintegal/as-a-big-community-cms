@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from 'react-router-dom';
+import swal from "sweetalert";
 
 import { getSquad, signUpServices } from "../../../Services/";
 
@@ -17,17 +18,18 @@ const FormCreate = () => {
     conf_password: "",
     squad_id: "",
     roles: "",
+    generation: ""
   };
 
   const onSubmit = (values) => {
     signUpServices(values)
     .then((data) => {
-      if(data.status === 200){
+      if(data.data.status === 200){
         history.push('/user')
       }
     })
     .catch((error) => {
-      console.log("Error ", error.response);
+      swal("Error!", error.response.data.error, "error");
     })
   };
 
@@ -40,7 +42,6 @@ const FormCreate = () => {
       .oneOf([Yup.ref("password"), null], "Does not match with password")
       .required("Required!"),
     squad_id: Yup.string().required("Required!"),
-    roles: Yup.string().required("Required!"),
   });
 
   const formik = useFormik({
@@ -153,7 +154,7 @@ const FormCreate = () => {
             ) : null}
           </div>
         </div>
-        <div className="relative mb-3 flex justify-between gap-2  w-6/12">
+        <div className="relative mb-3 flex justify-between gap-2  w-8/12">
           <div className="w-full">
             <label htmlFor="squad_id">Squad</label>
             <select
@@ -187,9 +188,10 @@ const FormCreate = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
-              <option value="">Choose Roles</option>
+              <option value="Admin">Choose Roles</option>
               <option value="Mentor">Mentor</option>
               <option value="Bendahara">Bendahara</option>
+              <option value="Anggota">Anggota</option>
             </select>
             {formik.touched.roles && formik.errors.roles ? (
               <span className="text-sm text-red-500">
@@ -197,10 +199,24 @@ const FormCreate = () => {
               </span>
             ) : null}
           </div>
+          <div className="w-full">
+            <label htmlFor="generation">Generation (Year)</label>
+            <input 
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
+              name="generation"
+              id="generation"
+              type="text"
+              placeholder="Generation"
+              value={formik.values.generation}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            
+          </div>
         </div>
         <div className="relative mb-3">
           <button type="submit"
-            className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded"
+            className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded disable"
           >
             Submit
           </button>

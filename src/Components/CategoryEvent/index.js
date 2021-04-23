@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { BiChevronDown } from "react-icons/bi";
 
 import TitlePage from "../Parts/TitlePage";
+import LoadingPage from "../Parts/LoadingPage";
 import FormInputCategoryEvent from "./ChildCategoryEvent/FormInputCategoryEvent";
 import ModalDeleteCategoryEvent from "./ChildCategoryEvent/ModalDeleteCategoryEvent";
 
@@ -20,6 +21,7 @@ const CategoryEventComponent = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [show, setShow] = useState(false);
   const [categoryEventId, setCategoryEventId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     id: "",
@@ -70,6 +72,7 @@ const CategoryEventComponent = () => {
     getAllCategoryEventService()
       .then((data) => {
         setCategoryEvent(data.data.data);
+        setLoading(true);
       })
       .catch((error) => {
         console.log("Error ", error);
@@ -126,32 +129,38 @@ const CategoryEventComponent = () => {
 
   return (
     <>
-      <TitlePage title="Event" description="Category Event" />
-      <div className="-mt-10 px-5">
-        <div className="flex gap-5">
-          <div className="border bg-white rounded-md p-5 w-4/12 h-48">
-            <FormInputCategoryEvent formik={formik} />
+      {loading === false ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <TitlePage title="Event" description="Category Event" />
+          <div className="-mt-10 px-5">
+            <div className="flex gap-5">
+              <div className="border bg-white rounded-md p-5 w-4/12 h-48">
+                <FormInputCategoryEvent formik={formik} />
+              </div>
+              <div className="border bg-white rounded-md p-5 w-8/12">
+                <DataTable
+                  title="Squad Data"
+                  striped={true}
+                  noDataComponent="No available Data"
+                  columns={columns}
+                  data={categoryEvent}
+                  defaultSortField="category_name"
+                  sortIcon={<BiChevronDown />}
+                  pagination
+                />
+              </div>
+            </div>
           </div>
-          <div className="border bg-white rounded-md p-5 w-8/12">
-            <DataTable
-              title="Squad Data"
-              striped={true}
-              noDataComponent="No available Data"
-              columns={columns}
-              data={categoryEvent}
-              defaultSortField="category_name"
-              sortIcon={<BiChevronDown />}
-              pagination
+          {show ? (
+            <ModalDeleteCategoryEvent
+              handleDelete={() => handleDelete(categoryEventId)}
+              setShow={() => setShow(!show)}
             />
-          </div>
-        </div>
-      </div>
-      {show ? (
-        <ModalDeleteCategoryEvent
-          handleDelete={() => handleDelete(categoryEventId)}
-          setShow={() => setShow(!show)}
-        />
-      ) : null}
+          ) : null}
+        </>
+      )}
     </>
   );
 };
