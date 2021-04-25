@@ -32,6 +32,15 @@ const EventComponent = () => {
     history.push("/event-create");
   };
 
+  const handleDetailEvent = (e) => {
+    history.push({
+      pathname: "/event-detail",
+      state: {
+        eventId: e.target.id,
+      },
+    })
+  }
+
   const handleEditEvent = (e) => {
     history.push({
       pathname: "/event-edit",
@@ -81,6 +90,13 @@ const EventComponent = () => {
       selector: "id",
       cell: (state) => (
         <div className="flex gap-2">
+          <button
+            id={state.id}
+            className="bg-blue-400 text-white py-2 px-3 rounded"
+            onClick={handleDetailEvent}
+          >
+            Detail
+          </button>
           <button
             id={state.id}
             className="bg-yellow-500 text-white py-2 px-3 rounded"

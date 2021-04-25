@@ -36,6 +36,7 @@ import CategoryEventPage from './Pages/CategoryEvent';
 import EventPage from './Pages/Event/';
 import CreateNewDataEventPage from './Pages/Event/CreateNewDataEvent';
 import EditEventPage from './Pages/Event/EditEvent';
+import DetailEventPage from './Pages/Event/DetailEvent';
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -138,6 +139,7 @@ const Main = (props) => {
               <PrivateRoute path="/event" component={EventPage} />
               <PrivateRoute path="/event-create" component={CreateNewDataEventPage} />
               <PrivateRoute path="/event-edit" component={EditEventPage} />
+              <PrivateRoute path="/event-detail" component={DetailEventPage} />
 
               <AdminRoute path="/user" component={UserPage} />
 
