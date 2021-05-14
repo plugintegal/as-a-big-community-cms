@@ -3,10 +3,20 @@ import axios from "axios";
 import { API_URL } from "../Utils/API";
 import { authHeader } from "./auth-header";
 
-export const getAllUser = (token) => {
+export const getAllUser = () => {
   return axios.get(API_URL + "user", {
     headers: authHeader(),
   });
 };
 
+export const getDetailUserService = (id) => {
+  return axios.get(API_URL +'user/' + id, {
+    headers: authHeader()
+  })
+}
 
+export const getUserBySquadId = (squad , batch) => {
+  return axios.get(`${API_URL}user/money?squad=${squad}&batch=${batch}&roles=Anggota`, {
+    headers: authHeader()
+  });
+}

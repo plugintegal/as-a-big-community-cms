@@ -33,6 +33,15 @@ const UserComponent = () => {
     })
   }
 
+  const handleEditUser = (e) => {
+    history.push({
+      pathname : '/user-edit',
+      state : {
+        userId : e.target.id
+      }
+    })
+  }
+
 
   const columns = [
     {
@@ -51,6 +60,7 @@ const UserComponent = () => {
       cell : (state) => (
         <div>
           <button onClick={handleDetailUser} className="bg-gray-300 font-bold py-2 px-4 rounded" id={state.id}>Detail</button>
+          <button onClick={handleEditUser} className="bg-yellow-300 font-bold py-2 px-4 rounded" id={state.id}>Edit</button>
         </div>
       )
     }

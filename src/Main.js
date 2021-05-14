@@ -30,6 +30,7 @@ import BatchPage from "./Pages/Batch";
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
 import DetailUserPage from './Pages/Users/DetailUser';
+import EditUserPage from './Pages/Users/EditUser';
 
 import CategoryEventPage from './Pages/CategoryEvent';
 
@@ -37,6 +38,8 @@ import EventPage from './Pages/Event/';
 import CreateNewDataEventPage from './Pages/Event/CreateNewDataEvent';
 import EditEventPage from './Pages/Event/EditEvent';
 import DetailEventPage from './Pages/Event/DetailEvent';
+
+import AbsentPage from './Pages/Absent/';
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -149,6 +152,13 @@ const Main = (props) => {
                 path="/user-create"
                 component={CreateNewDataUserPage}
               />
+
+              <AdminRoute
+                path='/user-edit'
+                component={EditUserPage}
+              />
+
+            <PrivateRoute path="/absent" component={AbsentPage} />
 
               <Route path="/forbidden" component={ForbiddenPages} />
             </div>

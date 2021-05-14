@@ -141,7 +141,7 @@ const FormInputEvent = () => {
           ) : null}
         </div>
         <div className="w-full">
-          <label htmlFor="date">Status</label>
+          <label htmlFor="status">Status</label>
           <select
             className="w-full bg-white rounded py-3 border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             name="status"

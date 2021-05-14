@@ -1,39 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from 'react-router-dom';
 import swal from "sweetalert";
 
-import { getSquad, signUpServices, getAllBatch } from "../../../Services/";
+import { getSquad, signUpServices, getDetailUserService } from "../../../Services";
 
-const FormCreate = () => {
+const FormEdit = () => {
   const history = useHistory();
+  const location =  useLocation();
   const [squads, setSquads] = useState([]);
-  const [batches, setBatches] = useState([]);
+
+  const userId = location.state.userId;
+  const [usetEdit, setUserEdit] = useState({});
+
+  const getDetailUser = () => {
+    getDetailUserService(userId)
+    .then((data) => {
+      formik.setFieldValue("name", data.data.data.name)
+      formik.setFieldValue("username", data.data.data.username)
+      formik.setFieldValue("email", data.data.data.email)
+      formik.setFieldValue("squad_id", data.data.data.squad_id)
+      formik.setFieldValue("roles", data.data.data.roles)
+    })
+    .catch((error) => {
+      console.log("Error ", error);
+    })
+  }
+
+  useEffect(() => {
+    getDetailUser()
+  }, []);
 
   const initialValues = {
-    name: "",
+    name: '',
     username: "",
     email: "",
     password: "",
     conf_password: "",
     squad_id: "",
-    batch_id : "",
     roles: "",
-    generation: "",
+    generation: ""
   };
 
   const onSubmit = (values) => {
     signUpServices(values)
-      .then((data) => {
-        if (data.data.status === 200) {
-          history.push("/user");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        // swal("Error!", , "error");
-      });
+    .then((data) => {
+      if(data.data.status === 200){
+        history.push('/user')
+      }
+    })
+    .catch((error) => {
+      swal("Error!", error.response.data.error, "error");
+    })
   };
 
   const validationSchema = Yup.object({
@@ -61,17 +80,8 @@ const FormCreate = () => {
       .catch((error) => console.log(error));
   };
 
-  const getBatch = () => {
-    getAllBatch()
-      .then((data) => {
-        setBatches(data.data.data);
-      })
-      .catch((error) => console.log(error));
-  };
-
   useEffect(() => {
     getAllSquad();
-    getBatch();
   }, []);
 
   return (
@@ -127,51 +137,15 @@ const FormCreate = () => {
             <span className="text-sm text-red-500">{formik.errors.email}</span>
           ) : null}
         </div>
-        <div className="relative mb-3 flex justify-between gap-2 w-8/12">
-          <div className="w-full">
-            <label htmlFor="password">Password</label>
-            <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
-              name="password"
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.password && formik.errors.password ? (
-              <span className="text-sm text-red-500">
-                {formik.errors.password}
-              </span>
-            ) : null}
-          </div>
-          <div className="w-full">
-            <label htmlFor="conf_password">Confirm Password</label>
-            <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
-              name="conf_password"
-              id="conf_password"
-              type="password"
-              placeholder="Confirm Password"
-              value={formik.values.conf_password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.conf_password && formik.errors.conf_password ? (
-              <span className="text-sm text-red-500">
-                {formik.errors.conf_password}
-              </span>
-            ) : null}
-          </div>
-        </div>
-        <div className="relative mb-3 flex justify-between gap-2  w-12/12">
+        
+        <div className="relative mb-3 flex justify-between gap-2  w-8/12">
           <div className="w-full">
             <label htmlFor="squad_id">Squad</label>
             <select
               className="w-full bg-white py-3 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
               name="squad_id"
               id="squad_id"
+              value={formik.values.squad_id}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
@@ -191,35 +165,12 @@ const FormCreate = () => {
             ) : null}
           </div>
           <div className="w-full">
-            <label htmlFor="batch_id">Batch</label>
-            <select
-              className="w-full bg-white py-3 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
-              name="batch_id"
-              id="batch_id"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <option value="">Choose Batch</option>
-              {batches.map((batch, index) => {
-                return (
-                  <option key={index} value={batch.id}>
-                    {batch.batch_name}
-                  </option>
-                );
-              })}
-            </select>
-            {formik.touched.batch_id && formik.errors.batch_id ? (
-              <span className="text-sm text-red-500">
-                {formik.errors.batch_id}
-              </span>
-            ) : null}
-          </div>
-          <div className="w-full">
             <label htmlFor="roles">Role</label>
             <select
               className="w-full bg-white py-3 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
               name="roles"
               id="roles"
+              value={formik.values.roles}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
@@ -234,9 +185,9 @@ const FormCreate = () => {
               </span>
             ) : null}
           </div>
-          <div className="w-full">
+          {/* <div className="w-full">
             <label htmlFor="generation">Generation (Year)</label>
-            <input
+            <input 
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
               name="generation"
               id="generation"
@@ -246,11 +197,11 @@ const FormCreate = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-          </div>
+            
+          </div> */}
         </div>
         <div className="relative mb-3">
-          <button
-            type="submit"
+          <button type="submit"
             className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded disable"
           >
             Submit
@@ -261,4 +212,4 @@ const FormCreate = () => {
   );
 };
 
-export default FormCreate;
+export default FormEdit;
