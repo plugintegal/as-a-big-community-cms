@@ -26,7 +26,7 @@ const SidebarComponent = (props) => {
           " z-50 top-16 bottom-0 mt-0 fixed shadow "
         }
       >
-        <div className="h-full rounded-br-xl" style={{ background: "#27333a" }}>
+        <div className="h-full rounded-br-xl overflow-y-scroll scrollbar-hide" style={{ background: "#27333a", scrollbarWidth : 'none' }}>
           <div className="pt-2.5 pb-7">
             <ul>
               <li className="py-3 px-5 text-gray-400 block">Menu</li>
