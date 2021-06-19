@@ -12,25 +12,26 @@ const FormEdit = () => {
   const [squads, setSquads] = useState([]);
 
   const userId = location.state.userId;
-  const [usetEdit, setUserEdit] = useState({});
-
-  const getDetailUser = () => {
-    getDetailUserService(userId)
-    .then((data) => {
-      formik.setFieldValue("name", data.data.data.name)
-      formik.setFieldValue("username", data.data.data.username)
-      formik.setFieldValue("email", data.data.data.email)
-      formik.setFieldValue("squad_id", data.data.data.squad_id)
-      formik.setFieldValue("roles", data.data.data.roles)
-    })
-    .catch((error) => {
-      console.log("Error ", error);
-    })
-  }
 
   useEffect(() => {
+
+    const getDetailUser = () => {
+      getDetailUserService(userId)
+      .then((data) => {
+        formik.setFieldValue("name", data.data.data.name)
+        formik.setFieldValue("username", data.data.data.username)
+        formik.setFieldValue("email", data.data.data.email)
+        formik.setFieldValue("squad_id", data.data.data.squad_id)
+        formik.setFieldValue("roles", data.data.data.roles)
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+      })
+    }
+
     getDetailUser()
-  }, []);
+    // eslint-disable-next-line
+  }, [userId]);
 
   const initialValues = {
     name: '',

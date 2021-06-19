@@ -10,6 +10,8 @@ const InputGradeComponent = () => {
   const memberCode = location.state.member_code
   const [memberDetail, setMemberDetail] = useState();
 
+  console.log(memberDetail);
+
   useEffect(() => {
     getMemberDetail(memberCode)
     .then((data) => {

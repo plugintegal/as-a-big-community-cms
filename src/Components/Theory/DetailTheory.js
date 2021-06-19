@@ -125,7 +125,7 @@ const DetailTheoryComponent = () => {
                           <div className="flex justify-around items-center">
                             <div>
                               <div className="font-bold text-lg">
-                                {submit_task.member.name}
+                                {submit_task.users.name}
                               </div>
                               <div className="text-sm">
                                 <a
@@ -140,7 +140,7 @@ const DetailTheoryComponent = () => {
                             </div>
                             <BiEditAlt
                               className="text-2xl mt-2 hover:text-red-500"
-                              id={submit_task.member.member_code}
+                              id={submit_task.users.member_code}
                               onClick={handleDetailSubmitTask}
                             />
                           </div>

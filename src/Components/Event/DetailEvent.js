@@ -15,18 +15,17 @@ const DetailEventComponent = () => {
   const [loading, setLoading] = useState(false);
   const [eventDetail, setEventDetail] = useState("");
 
-  const getDetailEvent = () => {
-    getEventByIdService(eventId)
-      .then((data) => {
-        setEventDetail(data.data.data);
-        setLoading(true);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  };
-
   useEffect(() => {
+    const getDetailEvent = () => {
+      getEventByIdService(eventId)
+        .then((data) => {
+          setEventDetail(data.data.data);
+          setLoading(true);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    };
     getDetailEvent();
   }, [eventId]);
   return (

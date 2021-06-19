@@ -164,6 +164,8 @@ const SquadComponent = () => {
                   defaultSortField="squads_name"
                   sortIcon={<BiChevronDown />}
                   pagination
+                  customStyles={customStyles}
+                  className="border-2 rounded shadow"
                 />
               </div>
             </div>
@@ -178,6 +180,26 @@ const SquadComponent = () => {
       )}
     </>
   );
+};
+
+const customStyles = {
+  headCells: {
+    style: {
+      fontWeigth: "bold",
+      fontSize: "16px",
+      textAlign: "center",
+      textTransform: "uppercase",
+      background: "#F9FAFB",
+      paddingLeft: "8px", // override the cell padding for head cells
+      paddingRight: "8px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "8px", // override the cell padding for data cells
+      paddingRight: "8px",
+    },
+  },
 };
 
 export default SquadComponent;

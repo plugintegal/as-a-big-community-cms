@@ -8,7 +8,8 @@ import {
   BiGitBranch,
   BiOutline,
   BiCalendarEvent,
-  BiEdit
+  BiEdit,
+  BiMoney,
 } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -228,30 +229,57 @@ const SidebarComponent = (props) => {
                 </>
               )}
               <li className="block">
-                    <Link
-                      to="/absent"
-                      className={
-                        (location.pathname === "/absent"
-                          ? "text-white"
-                          : "text-gray-400") +
-                        " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
-                      }
-                    >
-                      <div className="">
-                        <span>
-                          <BiEdit style={{ fontSize: 24 }} />
-                        </span>
-                      </div>
-                      <span
-                        style={{
-                          display: props.toggle === false ? "" : "none",
-                        }}
-                        className="inline-block relative"
-                      >
-                        Absent
-                      </span>
-                    </Link>
-                  </li>
+                <Link
+                  to="/absent"
+                  className={
+                    (location.pathname === "/absent"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
+                >
+                  <div className="">
+                    <span>
+                      <BiEdit style={{ fontSize: 24 }} />
+                    </span>
+                  </div>
+                  <span
+                    style={{
+                      display: props.toggle === false ? "" : "none",
+                    }}
+                    className="inline-block relative"
+                  >
+                    Cash
+                  </span>
+                </Link>
+              </li>
+              {currentUser !== null && currentUser.roles === "Admin" && (
+              <li className="block">
+                <Link
+                  to="/money"
+                  className={
+                    (location.pathname === "/money"
+                      ? "text-white"
+                      : "text-gray-400") +
+                    " py-3 px-7 text-lg font-regular font-poppins flex items-center gap-4"
+                  }
+                >
+                  <div className="">
+                    <span>
+                      <BiMoney style={{ fontSize: 24 }} />
+                    </span>
+                  </div>
+                  <span
+                    style={{
+                      display: props.toggle === false ? "" : "none",
+                    }}
+                    className="inline-block relative"
+                  >
+                    Money
+                  </span>
+                </Link>
+              </li>
+              )}
             </ul>
           </div>
         </div>

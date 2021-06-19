@@ -9,6 +9,7 @@ import { BiChevronDown } from "react-icons/bi";
 import TitlePage from '../Parts/TitlePage';
 import LoadingPage from '../Parts/LoadingPage';
 import ModalDeleteTheory from "./ChildTheory/ModalDeleteTheory";
+import moment from 'moment';
 
 const TheoryComponent = () => {
   const history = useHistory();
@@ -84,6 +85,9 @@ const TheoryComponent = () => {
       name: "Tanggal",
       selector: "date",
       sortable: true,
+      cell : (state) => (
+        <> {moment(state.date).format('DD MMMM YYYY')} </>
+      )
     },
     {
       name: "Opsi",
@@ -183,9 +187,12 @@ const TheoryComponent = () => {
                               <DataTable
                                 columns={columns}
                                 data={theories}
+                                title={`Theory list of ${data.squads_name.toLowerCase()} squad`}
                                 defaultSortField="squads_name"
                                 sortIcon={<BiChevronDown />}
                                 pagination
+                                customStyles={customStyles}
+                                className="border-2 rounded shadow"
                               />
                             </div>
                           );
@@ -208,6 +215,26 @@ const TheoryComponent = () => {
       )}
     </>
   );
+};
+
+const customStyles = {
+  headCells: {
+    style: {
+      fontWeigth: "bold",
+      fontSize: "16px",
+      textAlign: "center",
+      textTransform: "uppercase",
+      background: "#F9FAFB",
+      paddingLeft: "8px", // override the cell padding for head cells
+      paddingRight: "8px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "8px", // override the cell padding for data cells
+      paddingRight: "8px",
+    },
+  },
 };
 
 export default withRouter(TheoryComponent);

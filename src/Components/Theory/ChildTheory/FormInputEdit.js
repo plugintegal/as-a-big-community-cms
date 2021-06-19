@@ -97,6 +97,7 @@ const FormInputEdit = () => {
       formik.setFieldValue("squad_id", data.data.data.squad_id);
       formik.setFieldValue("batch_id", data.data.data.batch_id);
     });
+    // eslint-disable-next-line
   }, [theoryId]);
 
   return (

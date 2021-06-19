@@ -11,18 +11,17 @@ const DetailUser = () => {
 
   const [userDetail, setUserDetail] = useState("");
 
-  const getDetailUser = () => {
-    getDetailUserService(userId)
-      .then((data) => {
-        setUserDetail(data.data.data);
-      })
-      .catch((error) => {
-        alert("Something went wrong");
-        console.log("Error ", error);
-      });
-  };
-
   useEffect(() => {
+    const getDetailUser = () => {
+      getDetailUserService(userId)
+        .then((data) => {
+          setUserDetail(data.data.data);
+        })
+        .catch((error) => {
+          alert("Something went wrong");
+          console.log("Error ", error);
+        });
+    };
     getDetailUser();
   }, [userId]);
 

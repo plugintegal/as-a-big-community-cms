@@ -28,22 +28,22 @@ const FormInputEditEvent = () => {
     description: "",
     category_id: "",
     image_event: "",
-    oldPrice : ""
+    oldPrice: "",
   };
 
   const onSubmit = (values) => {
     console.log("Values ", values);
-    
+
     const eventData = new FormData();
     eventData.append("event_name", values.event_name);
     eventData.append("date", values.date);
     eventData.append("location", values.location);
-    if(values.oldPrice === values.price){
+    if (values.oldPrice === values.price) {
       eventData.append("price", values.price);
-    }else{
+    } else {
       eventData.append("price", values.price.split(".").join(""));
     }
-    
+
     eventData.append("status", values.status);
 
     if (filePath !== null) {
@@ -81,20 +81,6 @@ const FormInputEditEvent = () => {
     validationSchema,
   });
 
-  const getEventById = () => {
-    getEventByIdService(eventId).then((data) => {
-      formik.setFieldValue("event_name", data.data.data.event_name);
-      formik.setFieldValue("date", data.data.data.date.slice(0, 10));
-      formik.setFieldValue("location", data.data.data.location);
-      formik.setFieldValue("price", data.data.data.price);
-      formik.setFieldValue("oldPrice", data.data.data.price);
-      formik.setFieldValue("status", data.data.data.status);
-      formik.setFieldValue("description", data.data.data.description);
-      formik.setFieldValue("category_id", data.data.data.category_id);
-      formik.setFieldValue("image_event", data.data.data.image_event);
-    });
-  };
-
   const getAllCategoryEvent = () => {
     getAllCategoryEventService()
       .then((data) => {
@@ -106,8 +92,23 @@ const FormInputEditEvent = () => {
   };
 
   useEffect(() => {
+    const getEventById = () => {
+      getEventByIdService(eventId).then((data) => {
+        formik.setFieldValue("event_name", data.data.data.event_name);
+        formik.setFieldValue("date", data.data.data.date.slice(0, 10));
+        formik.setFieldValue("location", data.data.data.location);
+        formik.setFieldValue("price", data.data.data.price);
+        formik.setFieldValue("oldPrice", data.data.data.price);
+        formik.setFieldValue("status", data.data.data.status);
+        formik.setFieldValue("description", data.data.data.description);
+        formik.setFieldValue("category_id", data.data.data.category_id);
+        formik.setFieldValue("image_event", data.data.data.image_event);
+      });
+    };
+
     getEventById();
     getAllCategoryEvent();
+    // eslint-disable-next-line
   }, [eventId]);
 
   return (
@@ -233,7 +234,7 @@ const FormInputEditEvent = () => {
             <img
               className="w-80 h-48 flex flex-col justify-center items-center bg-white rounded-lg shadow-lg tracking-wide uppercase border cursor-pointer hover:bg-blue hover:text-white"
               src={formik.values.image_event}
-              alt="image-event"
+              alt="event"
             />
           </div>
         </div>

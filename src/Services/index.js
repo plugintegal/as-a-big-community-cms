@@ -8,3 +8,4 @@ export * from './member.service'
 export * from './category-event.service';
 export * from './event.service';
 export * from './cash.service';
+export * from './money.service';

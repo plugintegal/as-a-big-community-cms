@@ -23,6 +23,8 @@ const AbsentComponent = () => {
   const [users, setUsers] = useState([]);
   const [theoryBySquad, setTheoryBySquad] = useState([]);
 
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
   const initialValues = {
     date : '',
     theory_id: '',
@@ -30,9 +32,10 @@ const AbsentComponent = () => {
   };
 
   const onSubmit = (values) =>{
+    setLoadingSubmit(true)
     const cash = [];
 
-    users.map((user) => {
+    users.forEach((user) => {
       const newUser = {
         user_id : user.id,
         status : user.status
@@ -52,8 +55,13 @@ const AbsentComponent = () => {
     storeCash(newData)
     .then((data) => {
       console.log("Berhasil ", data)
+      setLoadingSubmit(false)
     })
-    .catch((error) => {console.log("Error ", error)})
+    .catch((error) => {
+      
+      console.log("Error ", error)
+      setLoadingSubmit(false)
+    })
   }
 
   const validationSchema = Yup.object({
@@ -92,7 +100,7 @@ const AbsentComponent = () => {
     getUserBySquadId(selectedSquad, selectedBatch)
       .then((data) => {
         const newData = [];
-        data.data.data.map((user) => {
+        data.data.data.forEach((user) => {
           const newObject = {
             id: user.id,
             name: user.name,
@@ -116,7 +124,7 @@ const AbsentComponent = () => {
 
   const handleChecked = (id) => {
     const newUser = [...users];
-    users.map((user) => {
+    users.forEach((user) => {
       if (user.id === id) {
         user.status = !user.status;
         newUser.concat(user);
@@ -132,7 +140,7 @@ const AbsentComponent = () => {
   }, []);
   return (
     <>
-      <TitlePage title="Absent" description="Absent Page" />
+      <TitlePage title="Money" description="Cash Page" />
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
           <div className="w-8/12 h-auto flex justify-between items-center gap-2">
@@ -230,7 +238,9 @@ const AbsentComponent = () => {
                   </div>
                   <div className="relative mb-2 flex-1">
                     <label>&nbsp;</label>
-                    <button type="submit" className="bg-blue-500 text-white rounded w-full h-auto py-1.5">Save</button>
+                    <button type="submit" className="bg-blue-500 text-white rounded w-full h-auto py-1.5">
+                      {loadingSubmit ? 'Loading...' : 'Save'}
+                    </button>
                   </div>
                 </form>
               </div>
@@ -282,11 +292,11 @@ const AbsentComponent = () => {
                         <td className="px-6 py-4 text-center">
                           {user.status ? (
                             <span className="text-green-800 bg-green-200 font-semibold px-2 rounded-full">
-                              Hadir
+                              Bayar
                             </span>
                           ) : (
                             <span className="text-red-800 bg-red-200 font-semibold px-2 rounded-full">
-                              Tidak Hadir
+                              Tidak Bayar
                             </span>
                           )}
                         </td>

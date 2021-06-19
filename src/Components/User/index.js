@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { getAllUser, getAllMember } from "../../Services/";
+import { getAllUser} from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
 import { withRouter, useHistory } from "react-router-dom";
 
@@ -93,15 +93,35 @@ const UserComponent = () => {
             defaultSortField="squads_name"
             sortIcon={<BiChevronDown />}
             pagination
+            customStyles={customStyles}
+            className="border-2 rounded shadow"
           />
         </div>
       </div>
       </>
     )}
     </>
-    //   )}
-    // </>
   );
+};
+
+const customStyles = {
+  headCells: {
+    style: {
+      fontWeigth: "bold",
+      fontSize: "16px",
+      textAlign: "center",
+      textTransform: "uppercase",
+      background: "#F9FAFB",
+      paddingLeft: "8px", // override the cell padding for head cells
+      paddingRight: "8px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "8px", // override the cell padding for data cells
+      paddingRight: "8px",
+    },
+  },
 };
 
 export default withRouter(UserComponent);

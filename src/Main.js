@@ -29,17 +29,21 @@ import BatchPage from "./Pages/Batch";
 
 import UserPage from "./Pages/Users/";
 import CreateNewDataUserPage from "./Pages/Users/CreateNewDataUser";
-import DetailUserPage from './Pages/Users/DetailUser';
-import EditUserPage from './Pages/Users/EditUser';
+import DetailUserPage from "./Pages/Users/DetailUser";
+import EditUserPage from "./Pages/Users/EditUser";
 
-import CategoryEventPage from './Pages/CategoryEvent';
+import CategoryEventPage from "./Pages/CategoryEvent";
 
-import EventPage from './Pages/Event/';
-import CreateNewDataEventPage from './Pages/Event/CreateNewDataEvent';
-import EditEventPage from './Pages/Event/EditEvent';
-import DetailEventPage from './Pages/Event/DetailEvent';
+import EventPage from "./Pages/Event/";
+import CreateNewDataEventPage from "./Pages/Event/CreateNewDataEvent";
+import EditEventPage from "./Pages/Event/EditEvent";
+import DetailEventPage from "./Pages/Event/DetailEvent";
 
-import AbsentPage from './Pages/Absent/';
+import AbsentPage from "./Pages/Absent/";
+
+import MoneyPage from "./Pages/Money/";
+import CreateNewDataMoneyPage from './Pages/Money/CreateNewDataMoney';
+import EditDataMoneyPage from './Pages/Money/EditMoneyData';
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -137,10 +141,16 @@ const Main = (props) => {
 
               <PrivateRoute path="/batch" component={BatchPage} />
 
-              <PrivateRoute path="/category-event" component={CategoryEventPage} />
+              <PrivateRoute
+                path="/category-event"
+                component={CategoryEventPage}
+              />
 
               <PrivateRoute path="/event" component={EventPage} />
-              <PrivateRoute path="/event-create" component={CreateNewDataEventPage} />
+              <PrivateRoute
+                path="/event-create"
+                component={CreateNewDataEventPage}
+              />
               <PrivateRoute path="/event-edit" component={EditEventPage} />
               <PrivateRoute path="/event-detail" component={DetailEventPage} />
 
@@ -153,12 +163,13 @@ const Main = (props) => {
                 component={CreateNewDataUserPage}
               />
 
-              <AdminRoute
-                path='/user-edit'
-                component={EditUserPage}
-              />
+              <AdminRoute path="/user-edit" component={EditUserPage} />
 
-            <PrivateRoute path="/absent" component={AbsentPage} />
+              <PrivateRoute path="/absent" component={AbsentPage} />
+
+              <PrivateRoute path="/money" component={MoneyPage} />
+              <PrivateRoute path="/money-create" component={CreateNewDataMoneyPage} />
+              <PrivateRoute path="/money-edit" component={EditDataMoneyPage} />
 
               <Route path="/forbidden" component={ForbiddenPages} />
             </div>

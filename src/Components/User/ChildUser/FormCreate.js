@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
-import swal from "sweetalert";
 
 import { getSquad, signUpServices, getAllBatch } from "../../../Services/";
 
