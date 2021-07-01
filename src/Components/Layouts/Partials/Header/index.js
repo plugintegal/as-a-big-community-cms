@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMenu, BiChevronDown } from "react-icons/bi";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import pluginLogo from "../../../../Assets/Images/logo-plugin.png";
 import bigPluginLogo from "../../../../Assets/Images/logo-plugin-panjang.png";
@@ -9,7 +9,7 @@ import bigPluginLogo from "../../../../Assets/Images/logo-plugin-panjang.png";
 import { signOut } from "../../../../Redux/actions/auth";
 
 const HeaderComponent = (props) => {
-  const {user: currentUser} = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -23,7 +23,10 @@ const HeaderComponent = (props) => {
     });
   };
   return (
-    <header className="fixed inset-x-0 top-0 w-full z-50" style={{ background : '#F7F8FC' }}>
+    <header
+      className="fixed inset-x-0 top-0 w-full z-50"
+      style={{ background: "#F7F8FC" }}
+    >
       <div className="flex justify-between items-center">
         <div className="flex w-2/5 items-center">
           <div
@@ -31,7 +34,7 @@ const HeaderComponent = (props) => {
               (props.toggle === false ? "w-60" : "w-20") +
               " text-center rounded-tr-xl top-0 h-16 flex items-center justify-center"
             }
-            style={{ padding: "0 1.5rem" , background : '#27333a'}}
+            style={{ padding: "0 1.5rem", background: "#27333a" }}
           >
             <Link to="" className="leading-10 self-center">
               <span>
@@ -62,7 +65,11 @@ const HeaderComponent = (props) => {
           </button>
         </div>
         <div className="flex">
-          <div className="inline-block">
+          <div
+            className="inline-block"
+            onMouseEnter={() => setDropDown(true)}
+            // onMouseLeave={() => setDropDown(false)}
+          >
             <button
               id="options-menu"
               className="inline-flex mx-7 px-4 gap-5 items-center shadow-none border-0 h-10 self-center focus:outline-none "

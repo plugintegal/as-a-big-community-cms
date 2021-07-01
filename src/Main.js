@@ -39,7 +39,7 @@ import CreateNewDataEventPage from "./Pages/Event/CreateNewDataEvent";
 import EditEventPage from "./Pages/Event/EditEvent";
 import DetailEventPage from "./Pages/Event/DetailEvent";
 
-import AbsentPage from "./Pages/Absent/";
+import CashPage from "./Pages/Cash";
 
 import MoneyPage from "./Pages/Money/";
 import CreateNewDataMoneyPage from './Pages/Money/CreateNewDataMoney';
@@ -165,7 +165,7 @@ const Main = (props) => {
 
               <AdminRoute path="/user-edit" component={EditUserPage} />
 
-              <PrivateRoute path="/absent" component={AbsentPage} />
+              <PrivateRoute path="/cash" component={CashPage} />
 
               <PrivateRoute path="/money" component={MoneyPage} />
               <PrivateRoute path="/money-create" component={CreateNewDataMoneyPage} />

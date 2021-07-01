@@ -13,7 +13,7 @@ import NumberFormat from "react-number-format";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const AbsentComponent = () => {
+const CashComponent = () => {
   const [squad, setSquad] = useState([]);
   const [batches, setBatches] = useState([]);
 
@@ -313,4 +313,4 @@ const AbsentComponent = () => {
   );
 };
 
-export default withRouter(AbsentComponent);
+export default withRouter(CashComponent);
