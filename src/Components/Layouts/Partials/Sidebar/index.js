@@ -358,7 +358,7 @@ const SidebarComponent = (props) => {
                   >
                     <li className="block">
                       <Link
-                        to="/cash2"
+                        to="/cash"
                         className="text-gray-400 py-2 px-7 font-regular font-poppins flex items-center gap-4 hover:text-white hover:text-white focus:text-white"
                       >
                         <div className="">

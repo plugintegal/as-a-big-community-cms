@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { getAllUser, getAllUserMemberService } from "../../Services/";
+import { getAllUser, getAllUserMemberService, deleteUserService } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
 import { withRouter, useHistory } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const UserComponent = () => {
 
   const [users, setUsers] = useState([]);
   const [members, setMembers] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     getAllUser()
@@ -31,7 +32,7 @@ const UserComponent = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [refreshKey]);
 
   const handleDetailUser = (e) => {
     history.push({
@@ -50,6 +51,20 @@ const UserComponent = () => {
       },
     });
   };
+
+  const handleDelete = (e) => {
+    deleteUserService(e.target.id)
+    .then((data) => {
+      if(data.data.status === 200){
+        history.push('/user')
+        setRefreshKey((oldKey) => oldKey + 1)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+      // swal("Error!", error.response.data.error, "error");
+    })
+  }
 
   const columns = [
     {
@@ -80,6 +95,13 @@ const UserComponent = () => {
             id={state.id}
           >
             Edit
+          </button>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 font-bold py-2 px-4 rounded text-white"
+            id={state.id}
+          >
+            Hapus
           </button>
         </div>
       ),

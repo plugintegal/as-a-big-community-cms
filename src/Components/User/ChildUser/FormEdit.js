@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useHistory, useLocation } from 'react-router-dom';
-import swal from "sweetalert";
 
-import { getSquad, signUpServices, getDetailUserService } from "../../../Services";
+import { getSquad, getDetailUserService, updateUserService } from "../../../Services";
 
 const FormEdit = () => {
   const history = useHistory();
@@ -30,6 +29,7 @@ const FormEdit = () => {
     }
 
     getDetailUser()
+    console.log("TOLDEM")
     // eslint-disable-next-line
   }, [userId]);
 
@@ -45,14 +45,15 @@ const FormEdit = () => {
   };
 
   const onSubmit = (values) => {
-    signUpServices(values)
+    updateUserService(userId, values)
     .then((data) => {
       if(data.data.status === 200){
         history.push('/user')
       }
     })
     .catch((error) => {
-      swal("Error!", error.response.data.error, "error");
+      console.log(error)
+      // swal("Error!", error.response.data.error, "error");
     })
   };
 
@@ -60,10 +61,6 @@ const FormEdit = () => {
     name: Yup.string().required("Required!"),
     username: Yup.string().min(3, "Min 3 character").required("Required!"),
     email: Yup.string().email("Invalid email Format!").required("Required!"),
-    password: Yup.string().min(6, "Min 6 character").required("Required!"),
-    conf_password: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Does not match with password")
-      .required("Required!"),
     squad_id: Yup.string().required("Required!"),
   });
 
@@ -86,7 +83,6 @@ const FormEdit = () => {
   }, []);
 
   return (
-    <>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative mb-3">
           <label htmlFor="name">Fullname</label>
@@ -186,30 +182,15 @@ const FormEdit = () => {
               </span>
             ) : null}
           </div>
-          {/* <div className="w-full">
-            <label htmlFor="generation">Generation (Year)</label>
-            <input 
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colosr duration-200 ease-in-out"
-              name="generation"
-              id="generation"
-              type="text"
-              placeholder="Generation"
-              value={formik.values.generation}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            
-          </div> */}
         </div>
         <div className="relative mb-3">
           <button type="submit"
-            className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded disable"
+            className="bg-blue-500 text-white font-bold text-center py-3 w-full rounded"
           >
             Submit
           </button>
         </div>
       </form>
-    </>
   );
 };
 

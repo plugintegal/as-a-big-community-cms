@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
 import TitlePage from "../Parts/TitlePage";
-import { chartIncomeService, getAllUserMemberService } from "../../Services";
+import {
+  chartIncomeService,
+  chartOutcomeService,
+  getAllUserMemberService,
+} from "../../Services";
 
 const DashboardComponent = () => {
   const [monthChart, setMonthChart] = useState([]);
   const [chartIncome, setChartIncome] = useState([]);
+  const [chartOutcome, setChartOutcome] = useState([]);
 
   const [userMembers, setUserMembers] = useState([]);
 
@@ -29,11 +34,25 @@ const DashboardComponent = () => {
       });
     getAllUserMemberService()
       .then((data) => {
-        console.log(data.data.data)
+        console.log(data.data.data);
         setUserMembers(data.data.data);
       })
       .catch((error) => {
         console.log("Member Error ", error);
+      });
+
+    chartOutcomeService()
+      .then((data) => {
+        let outcomeChart = [];
+
+        data.data.data.forEach((item) => {
+          outcomeChart.push(item.total_amount);
+        });
+
+        setChartOutcome(outcomeChart);
+      })
+      .catch((error) => {
+        console.log("Chart Error ", error);
       });
   }, []);
 
@@ -57,10 +76,7 @@ const DashboardComponent = () => {
                   },
                   {
                     label: "Pengeluaran",
-                    data: [
-                      10000, 40000, 0, 0, 0, 20000, 13000, 14000, 24000, 24000,
-                      80000, 122000,
-                    ],
+                    data: chartOutcome,
                     fill: false,
                     backgroundColor: "rgb(255, 99, 132)",
                     borderColor: "rgba(255, 99, 132, 0.2)",
@@ -85,31 +101,34 @@ const DashboardComponent = () => {
           </div>
         </div>
         <div className="border bg-white rounded-md p-10 w-4/12 h-96">
-          <h5 className="text-gray-700 font-medium text-lg">User</h5>
+          <h5 className="text-gray-700 font-medium text-lg">LIST MEMBER</h5>
           <div className="flex justify-content-center w-full pb-10 items-center">
-            <table className="mx-auto w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden border-1">
+            <table className="mx-auto w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 border ">
               <thead className="bg-gray-50">
                 <tr className="text-gray-600 text-left">
-                  <th className="font-semibold text-sm uppercase px-6 py-4">
+                  <th className="font-semibold text-sm uppercase px-6 py-1">
                     Name
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {userMembers.map((user) => {
+              <tbody
+                className="divide-y divide-gray-200 overflow-y-auto"
+                style={{ height: "9px" }}
+              >
+                {userMembers.map((user, index) => {
                   return (
-                    <tr>
-                      <td className="px-6 py-4">
+                    <tr key={index}>
+                      <td className="px-6 py-1">
                         <div className="flex items-center space-x-3">
                           <div className="inline-flex w-10 h-10">
                             <img
-                              className="w-10 h-10 object-cover rounded-full"
+                              className="w-8 h-8 object-cover rounded-full"
                               alt="User avatar"
                               src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200"
                             />
                           </div>
                           <div>
-                            <p className="">{user.name}</p>
+                            <p className="text-sm">{user.name}</p>
                             <p className="text-gray-500 text-sm font-semibold tracking-wide">
                               {user.email}
                             </p>

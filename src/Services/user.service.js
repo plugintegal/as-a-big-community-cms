@@ -12,17 +12,32 @@ export const getAllUser = () => {
 export const getAllUserMemberService = () => {
   return axios.get(API_URL + "user/anggota", {
     headers: authHeader(),
-  })
-}
+  });
+};
 
 export const getDetailUserService = (id) => {
-  return axios.get(API_URL +'user/' + id, {
-    headers: authHeader()
-  })
-}
-
-export const getUserBySquadId = (squad , batch) => {
-  return axios.get(`${API_URL}user/money?squad=${squad}&batch=${batch}&roles=Anggota`, {
-    headers: authHeader()
+  return axios.get(API_URL + "user/" + id, {
+    headers: authHeader(),
   });
-}
+};
+
+export const getUserBySquadId = (squad, batch) => {
+  return axios.get(
+    `${API_URL}user/money?squad=${squad}&batch=${batch}&roles=Anggota`,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
+export const updateUserService = (id, data) => {
+  return axios.put(API_URL + "user/" + id, data, {
+    headers: authHeader(),
+  });
+};
+
+export const deleteUserService = (id) => {
+  return axios.delete(API_URL + "user/" + id, {
+    headers: authHeader(),
+  });
+};
