@@ -4,8 +4,10 @@ import * as Yup from "yup";
 import NumberFormat from "react-number-format";
 import {useSelector} from 'react-redux';
 import { storeMoneyService } from '../../../Services/';
+import { useHistory } from "react-router-dom";
 
 const FormInputMoney = () => {
+  const history = useHistory();
   const userLogin = useSelector(state => state.auth.user);
 
   const initialValues = {
@@ -23,6 +25,9 @@ const FormInputMoney = () => {
     }
     storeMoneyService(userLogin, newvalue)
     .then((data) => {
+      if (data.status === 200) {
+        history.push("/money");
+      }
       console.log("Berhasil ", data)
     })
     .catch((error) => {
@@ -122,7 +127,7 @@ const FormInputMoney = () => {
         ) : null}
       </div>
       <div className="relative mb-3">
-        <button type="submit" class="bg-blue-500 rounded py-3 w-full text-white">Submit</button>
+        <button type="submit" className="bg-blue-500 rounded py-3 w-full text-white">Submit</button>
       </div>
     </form>
   );

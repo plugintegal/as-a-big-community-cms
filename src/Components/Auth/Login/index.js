@@ -53,10 +53,10 @@ const LoginComponent = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
+      <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
       
-      <div class="relative mb-4">
-        <label for="username" class="leading-7 text-sm text-gray-600">
+      <div className="relative mb-4">
+        <label for="username" className="leading-7 text-sm text-gray-600">
           Username
         </label>
         <input
@@ -70,7 +70,7 @@ const LoginComponent = () => {
         />
       </div>
       <div className="relative mb-4">
-        <label for="password" class="leading-7 text-sm text-gray-600">
+        <label for="password" className="leading-7 text-sm text-gray-600">
           Password
         </label>
         <input
@@ -91,14 +91,14 @@ const LoginComponent = () => {
           }}
           type="checkbox"
           id="show_password"
-          class="checked:bg-blue-600 checked:border-transparent"
+          className="checked:bg-blue-600 checked:border-transparent"
         />
-        <label for="show_password" class="leading-7 text-sm text-gray-600">
+        <label for="show_password" className="leading-7 text-sm text-gray-600">
           Show Password
         </label>
       </div>
 
-      <button class="text-white flex-inline bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+      <button className="text-white flex-inline bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
         {loading ? (
           <BiLoader className="text-white animate-spin text-xl" />
         ) : (
@@ -106,7 +106,7 @@ const LoginComponent = () => {
         )}
       </button>
 
-      <p class="text-xs text-gray-500 mt-3">
+      <p className="text-xs text-gray-500 mt-3">
         Literally you probably haven't heard of them jean shorts.
       </p>
     </form>

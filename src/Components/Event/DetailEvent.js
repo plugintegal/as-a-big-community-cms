@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { BiTime, BiMap, BiMoney, BiHourglass } from "react-icons/bi";
 
-import { getEventByIdService } from "../../Services";
+import { getEventByIdService, changeStatusParticipantService } from "../../Services";
 
 import { useLocation } from "react-router-dom";
 
@@ -14,11 +14,24 @@ const DetailEventComponent = () => {
   const eventId = location.state.eventId;
   const [loading, setLoading] = useState(false);
   const [eventDetail, setEventDetail] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const sendEmail = (e) => {
+    changeStatusParticipantService(e.target.id)
+    .then((data) => {
+      setRefreshKey((oldKey) => oldKey + 1);
+      console.log("Success")
+    })
+    .catch((error) => {
+      console.log("Error " + JSON.stringify(error.response))
+    })
+  }
 
   useEffect(() => {
     const getDetailEvent = () => {
       getEventByIdService(eventId)
         .then((data) => {
+          console.log(data.data.data);
           setEventDetail(data.data.data);
           setLoading(true);
         })
@@ -27,7 +40,7 @@ const DetailEventComponent = () => {
         });
     };
     getDetailEvent();
-  }, [eventId]);
+  }, [eventId, refreshKey]);
   return (
     <>
       {loading === false ? (
@@ -50,14 +63,7 @@ const DetailEventComponent = () => {
                     {eventDetail.event_name}
                   </h3>
                   <p className="text-gray-700 text-justify">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                    {eventDetail.description}
                   </p>
                 </div>
                 <div className="col-start-4">
@@ -120,6 +126,12 @@ const DetailEventComponent = () => {
                     >
                       Payment Status
                     </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -138,33 +150,51 @@ const DetailEventComponent = () => {
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  Jane Cooper
+                                  {participant.name}
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                  jane.cooper@example.com
+                                  {participant.email}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              Regional Paradigm Technician
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              Optimization
+                              {participant.phone}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Active
-                            </span>
+                            {participant.payment ? (
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Sudah
+                              </span>
+                            ) : (
+                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                Belum
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {participant.payment ? (
+                              <div className="text-sm text-gray-900">
+                                <button className="bg-red-500 text-white px-2 py-1 rounded" id={participant.id} onClick={sendEmail}>
+                                  Belum Bayar
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="text-sm text-gray-900">
+                                <button className="bg-blue-500 text-white px-2 py-1 rounded" id={participant.id} onClick={sendEmail}>
+                                  Sudah Bayar
+                                </button>
+                              </div>
+                            )}
                           </td>
                         </tr>
                       );
                     })
                   ) : (
                     <tr>
-                        <td colspan="3">Participants not available</td>
+                      <td colspan="3">Participants not available</td>
                     </tr>
                   )}
                 </tbody>

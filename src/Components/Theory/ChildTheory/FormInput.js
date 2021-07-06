@@ -13,6 +13,7 @@ const FormInput = () => {
   const [filePath, setFilePath] = useState(null);
 
   const initialValues = {
+    title: "",
     gathering: "",
     description: "",
     date: "",
@@ -22,6 +23,7 @@ const FormInput = () => {
 
   const onSubmit = (values) => {
     const theoryDataPost = new FormData();
+    theoryDataPost.append("title", values.title);
     theoryDataPost.append("gathering", values.gathering);
     theoryDataPost.append("description", values.description);
     theoryDataPost.append("date", values.date);
@@ -77,6 +79,21 @@ const FormInput = () => {
       <span className="font-bold text-md text-gray-700">Create New Data</span>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative mb-4 flex w-full justify-between gap-2">
+          <div className="w-full">
+            <label htmlFor="title">Title</label>
+            <input
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              placeholder="Enter title"
+              name="title"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.title}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.name && formik.errors.title ? (
+              <span className="text-red-500 text-sm">{formik.errors.title}</span>
+            ) : null}
+          </div>
           <div className="w-full">
             <label htmlFor="gathering">Gathering</label>
             <select

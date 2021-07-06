@@ -18,44 +18,44 @@ const ShowMemberCashComponent = () => {
 
   const [userData, setUserData] = useState([]);
   const [userSubmit, setUserSubmit] = useState([]);
-  
+
   const initialValues = {
-      amount : '',
-      date : ''
-  }
+    amount: "",
+    date: "",
+  };
 
   const onSubmit = (values) => {
-    const newSubmit =  [];
+    const newSubmit = [];
 
     userSubmit.forEach((user) => {
       newSubmit.push({
-        user_id : user.id,
-        status: user.status
-      })
+        user_id: user.id,
+        status: user.status,
+      });
     });
 
     const dataSubmit = {
-        ...values,
-        amount : values.amount.split(".").join(""),
-        squad_id : squadId,
-        theory_id : theoryId,
-        cash : newSubmit
-    }
+      ...values,
+      amount: values.amount.split(".").join(""),
+      squad_id: squadId,
+      theory_id: theoryId,
+      cash: newSubmit,
+    };
 
     storeCash(dataSubmit)
-    .then((data) => {
-      history.push("cash2");
-      console.log("Berhasil ", data);
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
+      .then((data) => {
+        history.push("cash2");
+        console.log("Berhasil ", data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const formik = useFormik({
-      initialValues,
-      onSubmit
-  })
+    initialValues,
+    onSubmit,
+  });
 
   const handleCheckboxCash = (userId) => {
     let newData = [...userSubmit];
@@ -69,7 +69,6 @@ const ShowMemberCashComponent = () => {
 
     setUserSubmit(newData);
   };
-  
 
   const columns = [
     {
@@ -120,31 +119,41 @@ const ShowMemberCashComponent = () => {
       <TitlePage title="Money" description="List Member" />
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
-            <form className="flex gap-2" onSubmit={formik.handleSubmit}>
-                <div className="relative w-48">
-                    <label htmlFor="amount">Amount</label>
-                    <NumberFormat
-                      thousandSeparator="."
-                      decimalSeparator=","
-                      className="w-full py-0.5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      placeholder="Enter amount"
-                      name="amount"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.amount}
-                    />
-                </div>
+          <form className="flex gap-2" onSubmit={formik.handleSubmit}>
+            <div className="relative w-48">
+              <label htmlFor="amount">Amount</label>
+              <NumberFormat
+                thousandSeparator="."
+                decimalSeparator=","
+                className="w-full py-0.5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                placeholder="Enter amount"
+                name="amount"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.amount}
+              />
+            </div>
 
-                <div className="relative w-48">
-                    <label htmlFor="amount">Date</label>
-                    <input type="date" name="date" className="w-full border rounded px-2 py-1.5" onChange={formik.handleChange}/>
-                </div>
+            <div className="relative w-48">
+              <label htmlFor="amount">Date</label>
+              <input
+                type="date"
+                name="date"
+                className="w-full border rounded px-2 py-1.5"
+                onChange={formik.handleChange}
+              />
+            </div>
 
-                <div className="relative w-48">
-                    <label htmlFor="submit">&nbsp;</label>
-                    <button type="submit" className="bg-blue-400 rounded text-white w-full px-2 py-2">Submit</button>
-                </div>
-            </form>
+            <div className="relative w-48">
+              <label htmlFor="submit">&nbsp;</label>
+              <button
+                type="submit"
+                className="bg-blue-400 rounded text-white w-full px-2 py-2"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
           <DataTable
             columns={columns}
             data={userData}

@@ -26,3 +26,9 @@ export const updateMoneyService = (data, id) => {
     headers: authHeader(),
   });
 };
+
+export const deleteMoneyService = (id) => {
+  return axios.delete(API_URL + "money/" + id, {
+    headers: authHeader(),
+  });
+}

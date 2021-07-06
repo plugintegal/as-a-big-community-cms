@@ -143,7 +143,7 @@ const FormInputEditMoney = () => {
       <div className="relative mb-3">
         <button
           type="submit"
-          class="bg-blue-500 rounded py-3 w-full text-white"
+          className="bg-blue-500 rounded py-3 w-full text-white"
         >
           Submit
         </button>

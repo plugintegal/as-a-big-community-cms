@@ -3,11 +3,9 @@ import DataTable from "react-data-table-component";
 import { withRouter, useHistory } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 
-import { getMoneyService } from "../../Services/";
+import { getMoneyService, deleteMoneyService } from "../../Services/";
 
 import TitlePage from "../Parts/TitlePage";
-// import LoadingPage from "../Parts/LoadingPage";
-import moment from "moment";
 
 const MoneyComponent = () => {
   const history = useHistory();
@@ -40,11 +38,6 @@ const MoneyComponent = () => {
         }).format(state.amount),
     },
     {
-      name: "Description",
-      selector: "description",
-      sortable: false,
-    },
-    {
       name: "Status",
       selector: "status",
       sortable: true,
@@ -61,12 +54,6 @@ const MoneyComponent = () => {
           )}
         </>
       ),
-    },
-    {
-      name: "Date",
-      selector: "date",
-      sortable: true,
-      cell: (state) => <> {moment(state.date).format("DD MMMM YYYY")} </>,
     },
     {
       name: "Action",
@@ -90,15 +77,13 @@ const MoneyComponent = () => {
           >
             Edit
           </button>
-          {/* <button
-            onClick={() => {
-              setTheoryId(state.id);
-              setShow(!show);
-            }}
+          <button
+            id={state.id}
+            onClick={handleDelete}
             className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
           >
             Hapus
-          </button> */}
+          </button>
         </>
       ),
     },
@@ -119,8 +104,21 @@ const MoneyComponent = () => {
   };
 
   const handleDetail = (e) => {
-    alert("UNDER DEVELOPMENT")
-  }
+    alert("UNDER DEVELOPMENT");
+  };
+
+  const handleDelete = (e) => {
+    deleteMoneyService(e.target.id)
+      .then((data) => {
+        if (data.status === 200) {
+          history.push("/money");
+        }
+        console.log("Berhasil ", data);
+      })
+      .catch((error) => {
+        console.log("Error ", error);
+      });
+  };
 
   return (
     <>
