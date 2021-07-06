@@ -9,6 +9,12 @@ export const getAllUser = () => {
   });
 };
 
+export const getAllUserMemberService = () => {
+  return axios.get(API_URL + "user/anggota", {
+    headers: authHeader(),
+  })
+}
+
 export const getDetailUserService = (id) => {
   return axios.get(API_URL +'user/' + id, {
     headers: authHeader()

@@ -3,8 +3,8 @@ import axios from "axios";
 import { API_URL } from "../Utils/API";
 import { authHeader, FormData } from "./auth-header";
 
-export const getTheories = (id) => {
-  return axios.get(API_URL + "theory/squad/" + id, {
+export const getTheories = (batch_id, squad_id) => {
+  return axios.get(`${API_URL}theory/batch?batch_id=${batch_id}&squad_id=${squad_id}`, {
     headers: authHeader(),
   });
 };

@@ -40,6 +40,9 @@ import EditEventPage from "./Pages/Event/EditEvent";
 import DetailEventPage from "./Pages/Event/DetailEvent";
 
 import CashPage from "./Pages/Cash";
+import Cash2Page from "./Pages/Cash/index2";
+
+import ShowMemberCashPage from './Pages/Cash/ShowMemberCashPage';
 
 import MoneyPage from "./Pages/Money/";
 import CreateNewDataMoneyPage from './Pages/Money/CreateNewDataMoney';
@@ -166,6 +169,9 @@ const Main = (props) => {
               <AdminRoute path="/user-edit" component={EditUserPage} />
 
               <PrivateRoute path="/cash" component={CashPage} />
+              <PrivateRoute path="/cash2" component={Cash2Page} />
+
+              <PrivateRoute path="/list-member-cash" component={ShowMemberCashPage} />
 
               <PrivateRoute path="/money" component={MoneyPage} />
               <PrivateRoute path="/money-create" component={CreateNewDataMoneyPage} />

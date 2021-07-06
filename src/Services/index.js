@@ -9,3 +9,4 @@ export * from './category-event.service';
 export * from './event.service';
 export * from './cash.service';
 export * from './money.service';
+export * from './chart.service'

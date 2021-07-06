@@ -379,6 +379,29 @@ const SidebarComponent = (props) => {
                         </span>
                       </Link>
                     </li>
+                    <li className="block">
+                      <Link
+                        to="/cash2"
+                        className="text-gray-400 py-2 px-7 font-regular font-poppins flex items-center gap-4 hover:text-white hover:text-white focus:text-white"
+                      >
+                        <div className="">
+                          <span>
+                            <BiEdit
+                              style={{ fontSize: 18 }}
+                              className="opacity-0"
+                            />
+                          </span>
+                        </div>
+                        <span
+                          style={{
+                            display: props.toggle === false ? "" : "none",
+                          }}
+                          className="inline-block relative"
+                        >
+                          Cash 2
+                        </span>
+                      </Link>
+                    </li>
                     {currentUser !== null && currentUser.roles === "Admin" && (
                       <li className="block">
                         <Link

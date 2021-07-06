@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import { getAllUser} from "../../Services/";
+import { getAllUser, getAllUserMemberService } from "../../Services/";
 import { BiChevronDown } from "react-icons/bi";
 import { withRouter, useHistory } from "react-router-dom";
 
 import TitlePage from "../Parts/TitlePage";
-import LoadingPage from '../Parts/LoadingPage';
+import LoadingPage from "../Parts/LoadingPage";
 
 const UserComponent = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
   const [users, setUsers] = useState([]);
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
     getAllUser()
@@ -22,26 +23,33 @@ const UserComponent = () => {
       .catch((error) => {
         console.log(error);
       });
+    getAllUserMemberService()
+      .then((data) => {
+        setMembers(data.data.data);
+        setLoading(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleDetailUser = (e) => {
     history.push({
-      pathname : '/user-detail',
-      state : {
-        userId: e.target.id
-      }
-    })
-  }
+      pathname: "/user-detail",
+      state: {
+        userId: e.target.id,
+      },
+    });
+  };
 
   const handleEditUser = (e) => {
     history.push({
-      pathname : '/user-edit',
-      state : {
-        userId : e.target.id
-      }
-    })
-  }
-
+      pathname: "/user-edit",
+      state: {
+        userId: e.target.id,
+      },
+    });
+  };
 
   const columns = [
     {
@@ -56,14 +64,26 @@ const UserComponent = () => {
     },
     {
       name: "Opsi",
-      selector: 'id',
-      cell : (state) => (
-        <div>
-          <button onClick={handleDetailUser} className="bg-gray-300 font-bold py-2 px-4 rounded" id={state.id}>Detail</button>
-          <button onClick={handleEditUser} className="bg-yellow-300 font-bold py-2 px-4 rounded" id={state.id}>Edit</button>
+      selector: "id",
+      cell: (state) => (
+        <div className="flex justify-center items-center gap-2">
+          <button
+            onClick={handleDetailUser}
+            className="bg-blue-300 font-bold py-2 px-4 rounded"
+            id={state.id}
+          >
+            Detail
+          </button>
+          <button
+            onClick={handleEditUser}
+            className="bg-yellow-300 font-bold py-2 px-4 rounded"
+            id={state.id}
+          >
+            Edit
+          </button>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   const handleCreateNewUser = () => {
@@ -72,34 +92,52 @@ const UserComponent = () => {
 
   return (
     <>
-    {loading === false ? (
-      <LoadingPage />
-    ) : (
-      <>
-        <TitlePage title="User" description="User Page" />
-      <div className="-mt-10 px-5">
-        <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
+      {loading === false ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <TitlePage title="User" description="User Page" />
+          <div className="-mt-10 px-5">
           <button
-            onClick={handleCreateNewUser}
-            className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700"
-          >
-            Create New User
-          </button>
-          <DataTable
-            title="User Data"
-            columns={columns}
-            data={users}
-            noDataComponent="No Available Data"
-            defaultSortField="squads_name"
-            sortIcon={<BiChevronDown />}
-            pagination
-            customStyles={customStyles}
-            className="border-2 rounded shadow"
-          />
-        </div>
-      </div>
-      </>
-    )}
+              onClick={handleCreateNewUser}
+              className="bg-blue-500 text-white py-2 px-2 rounded hover:bg-blue-700 w-full"
+            >
+              Create New User
+            </button>
+          </div>
+          
+          <div className="mt-5 px-5">
+            <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
+              <DataTable
+                title="User Data"
+                columns={columns}
+                data={users}
+                noDataComponent="No Available Data"
+                defaultSortField="squads_name"
+                sortIcon={<BiChevronDown />}
+                pagination
+                customStyles={customStyles}
+                className="border-2 rounded shadow"
+              />
+            </div>
+          </div>
+          <div className="px-5 mt-5">
+            <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
+              <DataTable
+                title="User Data"
+                columns={columns}
+                data={members}
+                noDataComponent="No Available Data"
+                defaultSortField="name"
+                sortIcon={<BiChevronDown />}
+                pagination
+                customStyles={customStyles}
+                className="border-2 rounded shadow"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
