@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { BiTime, BiMap, BiMoney, BiHourglass } from "react-icons/bi";
 
-import { getEventByIdService, changeStatusParticipantService } from "../../Services";
+import { getEventByIdService, changeStatusParticipantService, sendCertificateToParticipantEventService } from "../../Services";
 
 import { useLocation } from "react-router-dom";
 
@@ -24,6 +24,18 @@ const DetailEventComponent = () => {
     })
     .catch((error) => {
       console.log("Error " + JSON.stringify(error.response))
+    })
+  }
+
+  const sendCertificateToParticipantEvent = () => {
+    sendCertificateToParticipantEventService(eventId)
+    .then((data) => {
+      if(data.status === 200){
+        alert("Berhasil")
+      }
+    })
+    .catch((error) => {
+      console.log("Error " + error.response)
     })
   }
 
@@ -105,6 +117,9 @@ const DetailEventComponent = () => {
               </div>
             </div>
             <div className="border bg-white rounded-md p-5 w-full h-auto mt-2">
+              <div className="flex justify-end my-3">
+                {eventDetail.participants.length > 0 && (<button onClick={sendCertificateToParticipantEvent} className="w-48 bg-blue-500 shadow-lg rounded-lg text-white py-2 font-bold border border-white">Send Certificate</button>)}
+              </div>
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -135,7 +150,7 @@ const DetailEventComponent = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {eventDetail.participants ? (
+                  {eventDetail.participants.length > 0 ? (
                     eventDetail.participants.map((participant) => {
                       return (
                         <tr>
@@ -194,7 +209,11 @@ const DetailEventComponent = () => {
                     })
                   ) : (
                     <tr>
-                      <td colspan="3">Participants not available</td>
+                      <td colSpan="4" class="">
+                        <div className="flex items-center justify-center text-sm font-medium text-gray-900">
+                          <span className="mt-2">Participants not available</span>
+                        </div>
+                      </td>
                     </tr>
                   )}
                 </tbody>
