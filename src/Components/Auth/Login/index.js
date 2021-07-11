@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, withRouter, useHistory, useLocation } from "react-router-dom";
+import {
+  Redirect,
+  withRouter,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -11,7 +16,7 @@ const LoginComponent = () => {
   const history = useHistory();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   const initialValues = {
@@ -46,15 +51,16 @@ const LoginComponent = () => {
 
   const dispatch = useDispatch();
 
-
   if (isLoggedIn) {
     <Redirect to="/" />;
   }
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
-      
+      <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
+        Sign In
+      </h2>
+
       <div className="relative mb-4">
         <label for="username" className="leading-7 text-sm text-gray-600">
           Username

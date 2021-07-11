@@ -81,7 +81,7 @@ const Cash2Component = () => {
 
   return (
     <>
-      <TitlePage title="Cash2" description="Cash2 Page" />
+      <TitlePage title="Money" description="Cash Page" />
       <div className="-mt-10 px-5">
         <div className="border bg-white rounded-md p-5 w-full h-auto">
           <div className="flex flex-wrap">

@@ -37,6 +37,7 @@ const ShowMemberCashComponent = () => {
     const dataSubmit = {
       ...values,
       amount: values.amount.split(".").join(""),
+      batch_id : batchId,
       squad_id: squadId,
       theory_id: theoryId,
       cash: newSubmit,
@@ -44,7 +45,7 @@ const ShowMemberCashComponent = () => {
 
     storeCash(dataSubmit)
       .then((data) => {
-        history.push("cash2");
+        history.push("cash");
         console.log("Berhasil ", data);
       })
       .catch((error) => {

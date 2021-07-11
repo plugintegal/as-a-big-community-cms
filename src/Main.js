@@ -41,11 +41,11 @@ import DetailEventPage from "./Pages/Event/DetailEvent";
 
 import CashPage from "./Pages/Cash/index2";
 
-import ShowMemberCashPage from './Pages/Cash/ShowMemberCashPage';
+import ShowMemberCashPage from "./Pages/Cash/ShowMemberCashPage";
 
 import MoneyPage from "./Pages/Money/";
-import CreateNewDataMoneyPage from './Pages/Money/CreateNewDataMoney';
-import EditDataMoneyPage from './Pages/Money/EditMoneyData';
+import CreateNewDataMoneyPage from "./Pages/Money/CreateNewDataMoney";
+import EditDataMoneyPage from "./Pages/Money/EditMoneyData";
 
 import LoginPage from "./Pages/Auth/Login/";
 import ForbiddenPages from "./Pages/Forbidden/";
@@ -169,10 +169,16 @@ const Main = (props) => {
 
               <PrivateRoute path="/cash" component={CashPage} />
 
-              <PrivateRoute path="/list-member-cash" component={ShowMemberCashPage} />
+              <PrivateRoute
+                path="/list-member-cash"
+                component={ShowMemberCashPage}
+              />
 
               <PrivateRoute path="/money" component={MoneyPage} />
-              <PrivateRoute path="/money-create" component={CreateNewDataMoneyPage} />
+              <PrivateRoute
+                path="/money-create"
+                component={CreateNewDataMoneyPage}
+              />
               <PrivateRoute path="/money-edit" component={EditDataMoneyPage} />
 
               <Route path="/forbidden" component={ForbiddenPages} />
