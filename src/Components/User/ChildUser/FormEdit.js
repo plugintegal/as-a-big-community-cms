@@ -37,11 +37,8 @@ const FormEdit = () => {
     name: '',
     username: "",
     email: "",
-    password: "",
-    conf_password: "",
     squad_id: "",
     roles: "",
-    generation: ""
   };
 
   const onSubmit = (values) => {
@@ -62,6 +59,7 @@ const FormEdit = () => {
     username: Yup.string().min(3, "Min 3 character").required("Required!"),
     email: Yup.string().email("Invalid email Format!").required("Required!"),
     squad_id: Yup.string().required("Required!"),
+    roles: Yup.string().required("Required!"),
   });
 
   const formik = useFormik({
