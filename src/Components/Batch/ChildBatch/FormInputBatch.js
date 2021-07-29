@@ -12,7 +12,13 @@ const FormInputBatch = ({ formik }) => {
           name="batch_name"
           onChange={formik.handleChange}
           value={formik.values.batch_name}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.batch_name && formik.errors.batch_name ? (
+          <span className="text-red-500 text-sm">
+            {formik.errors.batch_name}
+          </span>
+        ) : null}
       </div>
       <div className="relative mb-4">
         <label htmlFor="username">Week Total</label>
@@ -24,7 +30,13 @@ const FormInputBatch = ({ formik }) => {
           name="week"
           onChange={formik.handleChange}
           value={formik.values.week}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.week && formik.errors.week ? (
+          <span className="text-red-500 text-sm">
+            {formik.errors.week}
+          </span>
+        ) : null}
       </div>
       <div className="relative">
         <button
@@ -37,4 +49,4 @@ const FormInputBatch = ({ formik }) => {
     </form>
   );
 };
-export default FormInputBatch
+export default FormInputBatch;

@@ -4,11 +4,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import NumberFormat from "react-number-format";
 import DatePicker from "react-datepicker";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import { BiCloudUpload, BiCheckCircle } from "react-icons/bi";
+import { BiCloudUpload, BiCheckCircle, BiLoader } from "react-icons/bi";
 import {
   getAllCategoryEventService,
   postEventService,
@@ -20,6 +20,8 @@ const FormInputEvent = () => {
   const [categoryEvents, setCategoryEvents] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [fileError, setFileError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getAllCategoryEvent = () => {
     getAllCategoryEventService()
@@ -49,37 +51,50 @@ const FormInputEvent = () => {
   };
 
   const onSubmit = (values) => {
+    setLoading(true)
+    if (filePath == null) {
+      setFileError("Required!");
+    }
     const eventData = new FormData();
     eventData.append("event_name", values.event_name);
     eventData.append("speaker", values.speaker);
-    eventData.append("date_start", moment(startDate).tz("Asia/Jakarta").format('YYYY-MM-DD h:mm:ss'));
-    eventData.append("date_end", moment(endDate).tz("Asia/Jakarta").format('YYYY-MM-DD h:mm:ss'));
+    eventData.append(
+      "date_start",
+      moment(startDate).tz("Asia/Jakarta").format("YYYY-MM-DD h:mm:ss")
+    );
+    eventData.append(
+      "date_end",
+      moment(endDate).tz("Asia/Jakarta").format("YYYY-MM-DD h:mm:ss")
+    );
     eventData.append("location", values.location);
-    eventData.append("online_link", values.online_link === '' ? null : values.online_link);
+    eventData.append(
+      "online_link",
+      values.online_link === "" ? null : values.online_link
+    );
     eventData.append("price", values.price.split(".").join(""));
     eventData.append("status", values.status);
     eventData.append("image_event", filePath[0]);
     eventData.append("description", values.description);
     eventData.append("category_id", values.category_id);
 
-    console.log("DATE START ", moment(startDate).tz("Asia/Jakarta").format('YYYY-MM-DD h:mm:ss'));
-    console.log("DATE END ", moment(endDate).tz("Asia/Jakarta").format('YYYY-MM-DD h:mm:ss'));
-
-
     postEventService(eventData)
       .then((data) => {
         if (data.status === 200) {
+          localStorage.setItem("EVENT_SUCCESS", "SUCCESS");
+          setLoading(false)
           history.push("/event");
         }
       })
       .catch((error) => {
         console.log("Error ", error.response);
+        setLoading(false)
         alert("Something went wrong");
       });
   };
 
   const validationSchema = Yup.object({
     event_name: Yup.string().required("Required!"),
+    speaker: Yup.string().required("Required!"),
     date_start: Yup.string().required("Required!"),
     date_end: Yup.string().required("Required!"),
     location: Yup.string().required("Required!"),
@@ -260,9 +275,14 @@ const FormInputEvent = () => {
               className="hidden"
               name="content"
               onChange={(e) => setFilePath(e.target.files)}
+              onClick={() => setFileError(null)}
             />
           </label>
         </div>
+        {/* TOLDEM */}
+        {fileError != null ? (
+          <span className="text-red-500 text-sm">{fileError}</span>
+        ) : null}
       </div>
       <div className="relative mb-3">
         <label htmlFor="description">Description</label>
@@ -305,12 +325,16 @@ const FormInputEvent = () => {
       </div>
 
       <div className="w-full">
-        <button
-          type="submit"
-          className="w-full bg-blue-500 rounded text-white text-center py-2 px-3"
-        >
-          Submit
-        </button>
+      <button
+            type="submit"
+            className="bg-blue-500 rounded py-2 px-3 text-white w-full flex justify-center"
+          >
+            {loading ? (
+              <BiLoader className="text-white animate-spin text-xl" />
+            ) : (
+              "Submit"
+            )}
+          </button>
       </div>
     </form>
   );

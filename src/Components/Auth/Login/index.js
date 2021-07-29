@@ -4,7 +4,6 @@ import {
   Redirect,
   withRouter,
   useHistory,
-  useLocation,
 } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -14,7 +13,7 @@ import { signIn } from "../../../Redux/actions/auth";
 
 const LoginComponent = () => {
   const history = useHistory();
-  const location = useLocation();
+  const [errorLogin, setErrorLogin] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -30,10 +29,10 @@ const LoginComponent = () => {
     dispatch(signIn(values.username, values.password))
       .then((data) => {
         history.push("/");
-        location.reload();
       })
       .catch((error) => {
-        console.log("Error Sign In ", error);
+        setErrorLogin(error)
+        console.log(error)
         setLoading(false);
       });
   };
@@ -60,9 +59,9 @@ const LoginComponent = () => {
       <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
         Sign In
       </h2>
-
+      <span className="text-red-500 text-sm">{errorLogin}</span>
       <div className="relative mb-4">
-        <label for="username" className="leading-7 text-sm text-gray-600">
+        <label htmlFor="username" className="leading-7 text-sm text-gray-600">
           Username
         </label>
         <input
@@ -74,9 +73,12 @@ const LoginComponent = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
+        {formik.touched.username && formik.errors.username ? (
+          <span className="text-red-500 text-sm">{formik.errors.username}</span>
+        ) : null}
       </div>
       <div className="relative mb-4">
-        <label for="password" className="leading-7 text-sm text-gray-600">
+        <label htmlFor="password" className="leading-7 text-sm text-gray-600">
           Password
         </label>
         <input
@@ -88,6 +90,9 @@ const LoginComponent = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
+        {formik.touched.password && formik.errors.password ? (
+          <span className="text-red-500 text-sm">{formik.errors.password}</span>
+        ) : null}
       </div>
 
       <div className="relative mb-4 flex space-x-3 items-center">
@@ -99,7 +104,7 @@ const LoginComponent = () => {
           id="show_password"
           className="checked:bg-blue-600 checked:border-transparent"
         />
-        <label for="show_password" className="leading-7 text-sm text-gray-600">
+        <label htmlFor="show_password" className="leading-7 text-sm text-gray-600">
           Show Password
         </label>
       </div>

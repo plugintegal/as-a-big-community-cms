@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import NumberFormat from "react-number-format";
-import {useSelector} from 'react-redux';
-import { storeMoneyService } from '../../../Services/';
+import { useSelector } from "react-redux";
+import { storeMoneyService } from "../../../Services/";
 import { useHistory } from "react-router-dom";
+import { BiLoader } from "react-icons/bi";
 
 const FormInputMoney = () => {
   const history = useHistory();
-  const userLogin = useSelector(state => state.auth.user);
+  const userLogin = useSelector((state) => state.auth.user);
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     name: "",
@@ -19,20 +21,24 @@ const FormInputMoney = () => {
   };
 
   const onSubmit = (values) => {
+    setLoading(true);
     const newvalue = {
       ...values,
-      amount: values.amount.split(".").join('')
-    }
+      amount: values.amount.split(".").join(""),
+    };
     storeMoneyService(userLogin, newvalue)
-    .then((data) => {
-      if (data.status === 200) {
-        history.push("/money");
-      }
-      console.log("Berhasil ", data)
-    })
-    .catch((error) => {
-      console.log("Error ", error);   
-    })
+      .then((data) => {
+        if (data.status === 200) {
+          setLoading(false);
+          localStorage.setItem("MONEY_SUCCESS", "SUCCESS");
+          history.push("/money");
+        }
+        console.log("Berhasil ", data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("Error ", error);
+      });
   };
 
   const validationSchema = Yup.object({
@@ -40,6 +46,7 @@ const FormInputMoney = () => {
     amount: Yup.string().required("Required!"),
     description: Yup.string().required("Required!"),
     date: Yup.string().required("Required!"),
+    status: Yup.string().required("Required!"),
   });
 
   const formik = useFormik({
@@ -127,7 +134,16 @@ const FormInputMoney = () => {
         ) : null}
       </div>
       <div className="relative mb-3">
-        <button type="submit" className="bg-blue-500 rounded py-3 w-full text-white">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-500 rounded py-3 w-full text-white flex justify-center"
+        >
+          {loading ? (
+            <BiLoader className="text-white animate-spin text-xl" />
+          ) : (
+            "Submit"
+          )}
+        </button>
       </div>
     </form>
   );

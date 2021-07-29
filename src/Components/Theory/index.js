@@ -31,6 +31,8 @@ const TheoryComponent = () => {
   const [theoryId, setTheoryId] = useState(0);
   const [show, setShow] = useState(false);
 
+  const messageTheory = useState(localStorage.getItem("THEORY_SUCCESS"))  
+
   const getDataTheories = (batchId, squadId) => {
     getTheories(batchId,squadId).then((data) => {
       setTheory(data.data.data);
@@ -74,12 +76,27 @@ const TheoryComponent = () => {
         console.log("ERROR ", error);
       });
   };
+
   useEffect(() => {
     getSquad().then((data) => {
       setSquad(data.data.data);
       setSquadChoosed(data.data.data[0].id)
     });
+    
   }, [])
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Create New Data is Successful!", "success")
+      .then(() => {
+        localStorage.removeItem("THEORY_SUCCESS");
+      });
+    }
+    if(messageTheory[0] != null){
+      handleSwal()
+    }
+    // eslint-disable-next-line
+  }, [messageTheory[0] != null])
 
   useEffect(() => {
     getTheories(openTab,squadChoosed).then((data) => {

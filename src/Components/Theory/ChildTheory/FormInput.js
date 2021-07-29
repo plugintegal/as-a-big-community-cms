@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
-import { BiCloudUpload, BiCheckCircle } from "react-icons/bi";
+import { BiCloudUpload, BiCheckCircle, BiLoader } from "react-icons/bi";
 import * as Yup from "yup";
 
 import { getSquad, postTheory, getAllBatch } from "../../../Services/";
@@ -11,6 +11,8 @@ const FormInput = () => {
   const [squads, setSquad] = useState([]);
   const [batches, setBatch] = useState([]);
   const [filePath, setFilePath] = useState(null);
+  const [fileError, setFileError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     title: "",
@@ -19,9 +21,14 @@ const FormInput = () => {
     date: "",
     squad_id: "",
     batch_id: "",
+    content: "",
   };
 
   const onSubmit = (values) => {
+    setLoading(true)
+    if (filePath == null) {
+      setFileError("Required!");
+    }
     const theoryDataPost = new FormData();
     theoryDataPost.append("title", values.title);
     theoryDataPost.append("gathering", values.gathering);
@@ -34,16 +41,20 @@ const FormInput = () => {
     postTheory(theoryDataPost)
       .then((data) => {
         if (data.data.status === 200) {
+          localStorage.setItem("THEORY_SUCCESS", "SUCCESS");
+          setLoading(false)
           history.push("/theory");
         }
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err.response);
         console.log("Error");
       });
   };
 
   const validationSchema = Yup.object({
+    title: Yup.string().required("Required!"),
     gathering: Yup.string().required("Required!"),
     description: Yup.string().required("Required!"),
     date: Yup.string().required("Required!"),
@@ -90,8 +101,10 @@ const FormInput = () => {
               value={formik.values.title}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.name && formik.errors.title ? (
-              <span className="text-red-500 text-sm">{formik.errors.title}</span>
+            {formik.touched.title && formik.errors.title ? (
+              <span className="text-red-500 text-sm">
+                {formik.errors.title}
+              </span>
             ) : null}
           </div>
           <div className="w-full">
@@ -115,6 +128,11 @@ const FormInput = () => {
               <option value="11">Week 11</option>
               <option value="12">Week 12</option>
             </select>
+            {formik.touched.gathering && formik.errors.gathering ? (
+              <span className="text-red-500 text-sm">
+                {formik.errors.gathering}
+              </span>
+            ) : null}
           </div>
           <div className="w-full">
             <label htmlFor="data">Date</label>
@@ -125,7 +143,11 @@ const FormInput = () => {
               placeholder="Date"
               value={formik.date}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.date && formik.errors.date ? (
+              <span className="text-red-500 text-sm">{formik.errors.date}</span>
+            ) : null}
           </div>
         </div>
         <div className="relative mb-4">
@@ -139,6 +161,11 @@ const FormInput = () => {
             onChange={formik.handleChange}
             placeholder="Description"
           ></textarea>
+          {formik.touched.description && formik.errors.description ? (
+            <span className="text-red-500 text-sm">
+              {formik.errors.description}
+            </span>
+          ) : null}
         </div>
         <div className="relative mb-4">
           <label htmlFor="content">Content</label>
@@ -172,10 +199,15 @@ const FormInput = () => {
                 type="file"
                 className="hidden"
                 name="content"
-                onChange={(e) => setFilePath(e.target.files)}
+                onChange={(e) => {
+                  setFilePath(e.target.files);
+                }}
               />
             </label>
           </div>
+          {fileError != null ? (
+            <span className="text-red-500 text-sm">{fileError}</span>
+          ) : null}
         </div>
         <div className="relative mb-4 flex justify-between w-full gap-2">
           <div className="w-full">
@@ -194,6 +226,11 @@ const FormInput = () => {
                 );
               })}
             </select>
+            {formik.touched.squad_id && formik.errors.squad_id ? (
+              <span className="text-red-500 text-sm">
+                {formik.errors.squad_id}
+              </span>
+            ) : null}
           </div>
           <div className="w-full">
             <label htmlFor="squad_id">Batch</label>
@@ -211,14 +248,23 @@ const FormInput = () => {
                 );
               })}
             </select>
+            {formik.touched.batch_id && formik.errors.batch_id ? (
+              <span className="text-red-500 text-sm">
+                {formik.errors.batch_id}
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="relative mb-2">
           <button
             type="submit"
-            className="bg-blue-500 rounded py-2 px-3 text-white w-full"
+            className="bg-blue-500 rounded py-2 px-3 text-white w-full flex justify-center"
           >
-            Submit
+            {loading ? (
+              <BiLoader className="text-white animate-spin text-xl" />
+            ) : (
+              "Submit"
+            )}
           </button>
         </div>
       </form>

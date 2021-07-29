@@ -17,6 +17,8 @@ const EventComponent = () => {
   const [eventId, setEventId] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
 
+  const messageEvent = useState(localStorage.getItem("EVENT_SUCCESS"));
+
   const getAllEvent = () => {
     getAllEventService()
       .then((data) => {
@@ -62,6 +64,19 @@ const EventComponent = () => {
       swal("Error!", error.response.data.message, "error");
     })
   };
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Create New Data is Successful!", "success")
+      .then(() => {
+        localStorage.removeItem("EVENT_SUCCESS");
+      });
+    }
+    if(messageEvent[0] != null){
+      handleSwal()
+    }
+    // eslint-disable-next-line
+  }, [messageEvent[0] != null])
 
   useEffect(() => {
     getAllEvent();

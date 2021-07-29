@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { withRouter, useHistory } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
-
+import swal from "sweetalert";
 import { getMoneyService, deleteMoneyService } from "../../Services/";
 
 import TitlePage from "../Parts/TitlePage";
@@ -10,6 +10,20 @@ import TitlePage from "../Parts/TitlePage";
 const MoneyComponent = () => {
   const history = useHistory();
   const [money, setMoney] = useState([]);
+  const messageMoney = useState(localStorage.getItem("MONEY_SUCCESS"))  
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Create New Data is Successful!", "success")
+      .then(() => {
+        localStorage.removeItem("EVENT_SUCCESS");
+      });
+    }
+    if(messageMoney[0] != null){
+      handleSwal()
+    }
+    // eslint-disable-next-line
+  }, [messageMoney[0] != null])
 
   useEffect(() => {
     getMoneyService()

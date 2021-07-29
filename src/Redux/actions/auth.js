@@ -20,12 +20,7 @@ export const signIn = (username, password) => (dispatch) => {
       dispatch({
         type: LOGIN_FAIL,
       });
-
-      dispatch({
-        type: SET_MESSAGE,
-        payload: message,
-      });
-      return Promise.reject();
+      return Promise.reject(message);
     }
   );
 };
