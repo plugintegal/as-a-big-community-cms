@@ -69,12 +69,14 @@ const InputGradeComponent = () => {
       .catch((error) => {
         console.log(error);
       });
+      // eslint-disable-next-line
   }, []);
-
   return (
     <>
       {userDetail &&
+      // eslint-disable-next-line
       Object.keys(userDetail).length == 0 &&
+      // eslint-disable-next-line
       userDetail.constructor == Object ? (
         <Loading />
       ) : (

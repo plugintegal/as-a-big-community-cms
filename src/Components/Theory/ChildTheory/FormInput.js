@@ -11,6 +11,7 @@ const FormInput = () => {
   const [squads, setSquad] = useState([]);
   const [batches, setBatch] = useState([]);
   const [filePath, setFilePath] = useState(null);
+  // eslint-disable-next-line
   const [fileError, setFileError] = useState(null);
   const [loading, setLoading] = useState(false);
 

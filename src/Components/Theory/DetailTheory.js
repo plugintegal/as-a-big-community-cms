@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, Link, useLocation, useHistory } from "react-router-dom";
+import { withRouter, useLocation, useHistory } from "react-router-dom";
 import {
   getTheoryById,
   getTaskById,
