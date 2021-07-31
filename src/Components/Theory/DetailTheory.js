@@ -7,7 +7,7 @@ import {
 } from "../../Services/";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { BiEditAlt } from "react-icons/bi";
-
+import swal from "sweetalert";
 import TitlePage from "../Parts/TitlePage";
 
 const DetailTheoryComponent = () => {
@@ -19,14 +19,53 @@ const DetailTheoryComponent = () => {
   const [taskId, setTaskId] = useState("");
   const [contentTask, setContentTask] = useState("");
   const [task, setTask] = useState(null);
+  console.log(JSON.stringify(task))
   const [resfreshKey, setRefreshKey] = useState(0);
+  const messageTask = useState(localStorage.getItem("TASK_SUCCESS"));
+  const messageGrade = useState(localStorage.getItem("GRADE_SUCCESS"));
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Create Task is Successful!", "success").then(() => {
+        localStorage.removeItem("TASK_SUCCESS");
+      });
+    };
+    if (messageTask[0] != null) {
+      handleSwal();
+    }
+    // eslint-disable-next-line
+  }, [messageTask[0] != null]);
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Input grade is Successful!", "success").then(() => {
+        localStorage.removeItem("GRADE_SUCCESS");
+      });
+    };
+    if (messageGrade[0] != null) {
+      handleSwal();
+    }
+    // eslint-disable-next-line
+  }, [messageGrade[0] != null]);
 
   const handleDetailSubmitTask = (e) => {
     // console.log("member_code", e);
     history.push({
       pathname: "/input-grade",
       state: {
-        member_code: e.target.id,
+        userId: e.target.id,
+        theoryId,
+        name: e.target.name,
+      },
+    });
+  };
+
+  const handleCreateTask = (e) => {
+    history.push({
+      pathname: "/task-create",
+      state: {
+        name: e.target.name,
+        theoryId: e.target.id,
       },
     });
   };
@@ -119,34 +158,39 @@ const DetailTheoryComponent = () => {
                 <div className="text-lg font-bold">List</div>
                 <div className="flex flex-col gap-2">
                   {task ? (
-                    task.submit_tasks.map((submit_task) => {
-                      return (
-                        <div className="bg-gray-100 rounded shadow h-20 p-3">
-                          <div className="flex justify-around items-center">
-                            <div>
-                              <div className="font-bold text-lg">
-                                {submit_task.users.name}
+                    <>
+                      {task.submit_tasks.length > 0
+                        ? task.submit_tasks.map((submit_task) => {
+                            return (
+                              <div className="bg-gray-100 rounded shadow h-20 p-3">
+                                <div className="flex justify-around items-center">
+                                  <div>
+                                    <div className="font-bold text-lg">
+                                      {submit_task.users.name}
+                                    </div>
+                                    <div className="text-sm">
+                                      <a
+                                        href={submit_task.answer}
+                                        rel="noreferrer"
+                                        target="_blank"
+                                        className="text-blue-700 hover:text-red-700"
+                                      >
+                                        {submit_task.answer}
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <BiEditAlt
+                                    className="text-2xl mt-2 hover:text-blue-500 cursor-pointer"
+                                    id={submit_task.users.id}
+                                    onClick={handleDetailSubmitTask}
+                                    name={theoryDetail.gathering}
+                                  />
+                                </div>
                               </div>
-                              <div className="text-sm">
-                                <a
-                                  href={submit_task.answer}
-                                  rel="noreferrer"
-                                  target="_blank"
-                                  className="text-blue-700 hover:text-red-700"
-                                >
-                                  {submit_task.answer}
-                                </a>
-                              </div>
-                            </div>
-                            <BiEditAlt
-                              className="text-2xl mt-2 hover:text-red-500"
-                              id={submit_task.users.member_code}
-                              onClick={handleDetailSubmitTask}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })
+                            );
+                          })
+                        : "Not available"}
+                    </>
                   ) : (
                     <>Please Wait .. </>
                   )}
@@ -155,16 +199,14 @@ const DetailTheoryComponent = () => {
             </div>
           ) : (
             <div className="border bg-white rounded-md p-5 w-full h-auto mt-3">
-              <Link
-                to={{
-                  pathname: "/task-create",
-                  query: theoryDetail.id,
-                }}
+              <button
+                id={theoryId}
+                name={theoryDetail.gathering}
+                onClick={handleCreateTask}
+                className="bg-blue-500 rounded w-full text-center text-white text-medium font-bold py-3"
               >
-                <button className="bg-blue-500 rounded w-full text-center text-white text-medium font-bold py-3">
-                  Create New Task
-                </button>
-              </Link>
+                Create New Task
+              </button>
             </div>
           )}
         </div>

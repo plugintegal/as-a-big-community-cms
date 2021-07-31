@@ -35,7 +35,8 @@ const CategoryEventComponent = () => {
           if (data.status === 200) {
             setRefreshKey((oldKey) => oldKey + 1);
             swal("Success!", "Create New Data is Successful!", "success");
-            resetForm();
+            formik.values.id = '';
+            formik.values.category_name = '';
           }
         })
         .catch((error) => {
@@ -49,7 +50,8 @@ const CategoryEventComponent = () => {
           if (data.status === 200) {
             setRefreshKey((oldKey) => oldKey + 1);
             swal("Success!", "Update Data is Successful!", "success");
-            resetForm();
+            formik.values.id = '';
+            formik.values.category_name = '';
           }
         })
         .catch((error) => {

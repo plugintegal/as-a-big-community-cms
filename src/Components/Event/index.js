@@ -18,6 +18,7 @@ const EventComponent = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const messageEvent = useState(localStorage.getItem("EVENT_SUCCESS"));
+  const messageEdit = useState(localStorage.getItem("EDIT_SUCCESS"));
 
   const getAllEvent = () => {
     getAllEventService()
@@ -77,6 +78,19 @@ const EventComponent = () => {
     }
     // eslint-disable-next-line
   }, [messageEvent[0] != null])
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Update Data is Successful!", "success")
+      .then(() => {
+        localStorage.removeItem("EDIT_SUCCESS");
+      });
+    }
+    if(messageEdit[0] != null){
+      handleSwal()
+    }
+    // eslint-disable-next-line
+  }, [messageEdit[0] != null])
 
   useEffect(() => {
     getAllEvent();

@@ -6,24 +6,40 @@ import swal from "sweetalert";
 import { getMoneyService, deleteMoneyService } from "../../Services/";
 
 import TitlePage from "../Parts/TitlePage";
+import ModalDeleteMoney from "./ChildMoney/ModalDeleteMoney";
 
 const MoneyComponent = () => {
   const history = useHistory();
   const [money, setMoney] = useState([]);
-  const messageMoney = useState(localStorage.getItem("MONEY_SUCCESS"))  
+  const messageMoney = useState(localStorage.getItem("MONEY_SUCCESS"));
+  const messageEdit = useState(localStorage.getItem("EDIT_SUCCESS"));
+  const [show, setShow] = useState(false);
+  const [moneyId, setMoneyId] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const handleSwal = () => {
-      swal("Success!", "Create New Data is Successful!", "success")
-      .then(() => {
-        localStorage.removeItem("EVENT_SUCCESS");
+      swal("Success!", "Create New Data is Successful!", "success").then(() => {
+        localStorage.removeItem("MONEY_SUCCESS");
       });
-    }
-    if(messageMoney[0] != null){
-      handleSwal()
+    };
+    if (messageMoney[0] != null) {
+      handleSwal();
     }
     // eslint-disable-next-line
-  }, [messageMoney[0] != null])
+  }, [messageMoney[0] != null]);
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Update Data is Successful!", "success").then(() => {
+        localStorage.removeItem("EDIT_SUCCESS");
+      });
+    };
+    if (messageEdit[0] != null) {
+      handleSwal();
+    }
+    // eslint-disable-next-line
+  }, [messageEdit[0] != null]);
 
   useEffect(() => {
     getMoneyService()
@@ -33,7 +49,7 @@ const MoneyComponent = () => {
       .catch((error) => {
         console.log("Error ", error);
       });
-  });
+  }, [refreshKey]);
 
   const columns = [
     {
@@ -93,7 +109,10 @@ const MoneyComponent = () => {
           </button>
           <button
             id={state.id}
-            onClick={handleDelete}
+            onClick={() => {
+              setMoneyId(state.id);
+              setShow(!show);
+            }}
             className="font-medium text-white bg-red-400 px-3 py-2 rounded-lg mx-2"
           >
             Hapus
@@ -121,10 +140,13 @@ const MoneyComponent = () => {
     alert("UNDER DEVELOPMENT");
   };
 
-  const handleDelete = (e) => {
-    deleteMoneyService(e.target.id)
+  const handleDelete = (state) => {
+    deleteMoneyService(state)
       .then((data) => {
         if (data.status === 200) {
+          swal("Success!", "Delete Data is Successful!", "success");
+          setRefreshKey((oldKey) => oldKey + 1);
+          setShow(!show);
           history.push("/money");
         }
         console.log("Berhasil ", data);
@@ -158,6 +180,12 @@ const MoneyComponent = () => {
           />
         </div>
       </div>
+      {show ? (
+        <ModalDeleteMoney
+          handleDelete={() => handleDelete(moneyId)}
+          setShow={() => setShow(!show)}
+        />
+      ) : null}
     </>
   );
 };

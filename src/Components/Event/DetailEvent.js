@@ -35,7 +35,7 @@ const DetailEventComponent = () => {
       }
     })
     .catch((error) => {
-      console.log("Error " + error.response)
+      console.log("Error " + JSON.stringify(error.response))
     })
   }
 

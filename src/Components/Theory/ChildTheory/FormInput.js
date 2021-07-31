@@ -25,7 +25,7 @@ const FormInput = () => {
   };
 
   const onSubmit = (values) => {
-    setLoading(true)
+    setLoading(true);
     if (filePath == null) {
       setFileError("Required!");
     }
@@ -42,22 +42,28 @@ const FormInput = () => {
       .then((data) => {
         if (data.data.status === 200) {
           localStorage.setItem("THEORY_SUCCESS", "SUCCESS");
-          setLoading(false)
+          setLoading(false);
           history.push("/theory");
         }
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         console.log(err.response);
         console.log("Error");
       });
   };
+
+  const handleChangeFile = (e) => {
+    formik.values.content = "file"
+    setFilePath(e.target.files);
+  }
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Required!"),
     gathering: Yup.string().required("Required!"),
     description: Yup.string().required("Required!"),
     date: Yup.string().required("Required!"),
+    content : Yup.string().required("Required!"),
     squad_id: Yup.string().required("Required!"),
     batch_id: Yup.string().required("Required!"),
   });
@@ -91,7 +97,9 @@ const FormInput = () => {
       <form onSubmit={formik.handleSubmit}>
         <div className="relative mb-4 flex w-full justify-between gap-2">
           <div className="w-full">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">
+              Title <span className="text-red-500 text-sm">*</span>
+            </label>
             <input
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               placeholder="Enter title"
@@ -108,13 +116,15 @@ const FormInput = () => {
             ) : null}
           </div>
           <div className="w-full">
-            <label htmlFor="gathering">Gathering</label>
+            <label htmlFor="gathering">
+              Gathering <span className="text-red-500 text-sm">*</span>
+            </label>
             <select
-              className="w-full py-3 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className="w-full py-2.5 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               name="gathering"
               onChange={formik.handleChange}
             >
-              <option>Choose Gathering</option>
+              <option value="">Choose Gathering</option>
               <option value="1">Week 1</option>
               <option value="2">Week 2</option>
               <option value="3">Week 3</option>
@@ -135,7 +145,9 @@ const FormInput = () => {
             ) : null}
           </div>
           <div className="w-full">
-            <label htmlFor="data">Date</label>
+            <label htmlFor="data">
+              Date <span className="text-red-500 text-sm">*</span>
+            </label>
             <input
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               name="date"
@@ -159,8 +171,10 @@ const FormInput = () => {
             name="description"
             value={formik.description}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="Description"
           ></textarea>
+
           {formik.touched.description && formik.errors.description ? (
             <span className="text-red-500 text-sm">
               {formik.errors.description}
@@ -168,7 +182,7 @@ const FormInput = () => {
           ) : null}
         </div>
         <div className="relative mb-4">
-          <label htmlFor="content">Content</label>
+          <label htmlFor="content">Content <span className="text-red-500 text-sm">*</span></label>
           <div className="flex bg-grey-lighter gap-4">
             <label
               className={
@@ -199,19 +213,18 @@ const FormInput = () => {
                 type="file"
                 className="hidden"
                 name="content"
-                onChange={(e) => {
-                  setFilePath(e.target.files);
-                }}
+                onChange={handleChangeFile}
+                onBlur={formik.handleBlur}
               />
             </label>
           </div>
-          {fileError != null ? (
-            <span className="text-red-500 text-sm">{fileError}</span>
+          {formik.errors.content && formik.errors.content ? (
+            <span className="text-red-500 text-sm">{formik.errors.content}</span>
           ) : null}
         </div>
         <div className="relative mb-4 flex justify-between w-full gap-2">
           <div className="w-full">
-            <label htmlFor="squad_id">Squad</label>
+            <label htmlFor="squad_id">Squad <span className="text-red-500 text-sm">*</span></label>
             <select
               className="w-full py-3 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               name="squad_id"
@@ -233,7 +246,7 @@ const FormInput = () => {
             ) : null}
           </div>
           <div className="w-full">
-            <label htmlFor="squad_id">Batch</label>
+            <label htmlFor="squad_id">Batch <span className="text-red-500 text-sm">*</span></label>
             <select
               className="w-full py-3 bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               name="batch_id"

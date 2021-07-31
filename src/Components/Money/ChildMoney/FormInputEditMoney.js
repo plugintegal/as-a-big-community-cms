@@ -27,6 +27,7 @@ const FormInputEditMoney = () => {
     updateMoneyService(newData, moneyId)
       .then((data) => {
         if (data.status === 200) {
+          localStorage.setItem("EDIT_SUCCESS", "SUCCESS");
           history.push("/money");
         }
       })

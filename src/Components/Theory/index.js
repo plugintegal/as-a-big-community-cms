@@ -31,7 +31,8 @@ const TheoryComponent = () => {
   const [theoryId, setTheoryId] = useState(0);
   const [show, setShow] = useState(false);
 
-  const messageTheory = useState(localStorage.getItem("THEORY_SUCCESS"))  
+  const messageTheory = useState(localStorage.getItem("THEORY_SUCCESS"))
+  const messageTheoryEdit = useState(localStorage.getItem("EDIT_SUCCESS"))
 
   const getDataTheories = (batchId, squadId) => {
     getTheories(batchId,squadId).then((data) => {
@@ -97,6 +98,19 @@ const TheoryComponent = () => {
     }
     // eslint-disable-next-line
   }, [messageTheory[0] != null])
+
+  useEffect(() => {
+    const handleSwal = () => {
+      swal("Success!", "Update Data is Successful!", "success")
+      .then(() => {
+        localStorage.removeItem("EDIT_SUCCESS");
+      });
+    }
+    if(messageTheoryEdit[0] != null){
+      handleSwal()
+    }
+    // eslint-disable-next-line
+  }, [messageTheoryEdit[0] != null])
 
   useEffect(() => {
     getTheories(openTab,squadChoosed).then((data) => {
@@ -185,13 +199,13 @@ const TheoryComponent = () => {
               <div className="flex flex-wrap">
                 <div className="w-full">
                   <ul
-                    className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                    className="flex mb-0 list-none flex-wrap pt-3 pb-4 gap-2"
                     role="tablist"
                   >
                     {batches.map((batch) => {
                       return (
                         <li
-                          className="-mb-px mr-2 last:mr-0 flex-auto text-center border"
+                          className="-mb-px last:mr-0 flex-auto text-center border rounded-lg"
                           key={batch.id}
                         >
                           <div
@@ -219,11 +233,11 @@ const TheoryComponent = () => {
                     })}
                   </ul>
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 -mt-5">
-                    <div className="py-5 flex-auto">
+                    <div className="py-5 flex-auto border-2 px-5">
                       <div className="tab-content tab-space">
-                        <div className="w-40 float-right">
+                        <div className="w-40 ml-auto">
                           <select
-                            className="w-full py-2 bg-white rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            className="w-full py-2 bg-white rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out mr-16"
                             name="squad"
                             onChange={(e) => setSquadChoosed(e.target.value)}
                           >

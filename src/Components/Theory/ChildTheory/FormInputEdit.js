@@ -40,6 +40,7 @@ const FormInputEdit = () => {
     updateTheory(theoryDataUpdate, theoryId)
       .then((data) => {
         if (data.data.status === 200) {
+          localStorage.setItem("EDIT_SUCCESS", "SUCCESS");
           history.push("/theory");
         }
       })

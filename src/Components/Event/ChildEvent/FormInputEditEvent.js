@@ -67,6 +67,7 @@ const FormInputEditEvent = () => {
     updateEventService(eventData, eventId)
       .then((data) => {
         if (data.status === 200) {
+          localStorage.setItem("EDIT_SUCCESS", "SUCCESS");
           history.push("/event");
         }
       })

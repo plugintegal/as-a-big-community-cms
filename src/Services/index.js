@@ -11,3 +11,4 @@ export * from "./cash.service";
 export * from "./money.service";
 export * from "./chart.service";
 export * from "./mail.service";
+export * from './grade.service';

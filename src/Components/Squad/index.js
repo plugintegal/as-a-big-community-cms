@@ -26,7 +26,9 @@ const SquadComponent = () => {
           if (data.status === 200) {
             setRefreshKey((oldKey) => oldKey + 1);
             swal("Success!", "Create New Data is Successful!", "success");
-            resetForm();
+            formik.values.id = "";
+            formik.values.squads_name = "";
+            formik.values.description = "";
           }
         })
         .catch((error) => {
@@ -39,7 +41,9 @@ const SquadComponent = () => {
         if (data.status === 200) {
           setRefreshKey((oldKey) => oldKey + 1);
           swal("Success!", "Update Data is Successful!", "success");
-          resetForm();
+          formik.values.id = "";
+          formik.values.squads_name = "";
+          formik.values.description = "";
         }
       });
     }
@@ -59,9 +63,9 @@ const SquadComponent = () => {
   const [show, setShow] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [squads, setSquads] = useState([]);
-  const [squadId, setSquadId] = useState('')
+  const [squadId, setSquadId] = useState("");
 
   useEffect(() => {
     getSquad().then((data) => {
