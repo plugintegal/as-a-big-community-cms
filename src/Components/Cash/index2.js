@@ -87,13 +87,13 @@ const Cash2Component = () => {
           <div className="flex flex-wrap">
             <div className="w-full">
               <ul
-                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row "
+                className="flex mb-0 list-none flex-wrap pt-3 pb-4 gap-2"
                 role="tablist"
               >
                 {batches.map((batch) => {
                   return (
                     <li
-                      className="-mb-px mr-2 last:mr-0 flex-auto text-center cursor-pointer border"
+                    className="-mb-px last:mr-0 flex-auto text-center border rounded-lg"
                       key={batch.id}
                     >
                       <dive
@@ -120,7 +120,7 @@ const Cash2Component = () => {
                 })}
               </ul>
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 -mt-5 border">
-                <div className="py-5 flex-auto">
+                <div className="py-5 flex-auto border-2 px-5">
                   <div className="tab-content tab-space">
                     <div className="w-40 float-right">
                       <select

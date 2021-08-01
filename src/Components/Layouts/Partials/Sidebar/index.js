@@ -73,7 +73,7 @@ const SidebarComponent = (props) => {
                   </span>
                 </Link>
               </li>
-
+              {(currentUser !== null && currentUser.roles === "Admin") || currentUser.roles === "Mentor"  && (
               <li className="block flex">
                 <div className="w-full">
                   <div
@@ -157,6 +157,7 @@ const SidebarComponent = (props) => {
                         </span>
                       </Link>
                     </li>
+                    {currentUser !== null && currentUser.roles === "Admin" && (
                     <li className="block">
                       <Link
                         to="/batch"
@@ -180,6 +181,7 @@ const SidebarComponent = (props) => {
                         </span>
                       </Link>
                     </li>
+                    )}
                   </ul>
                 </div>
                 <div
@@ -192,6 +194,7 @@ const SidebarComponent = (props) => {
                     style={{ background: "#27333a" }}
                   >
                     <ul className="w-36">
+                    {currentUser !== null && currentUser.roles === "Admin" && (
                       <li className="block">
                         <Link
                           to="/squad"
@@ -200,6 +203,7 @@ const SidebarComponent = (props) => {
                           <span className="inline-block relative">Squad</span>
                         </Link>
                       </li>
+                    )}
                       <li className="block">
                         <Link
                           to="/theory"
@@ -208,6 +212,7 @@ const SidebarComponent = (props) => {
                           <span className="inline-block relative">Theory</span>
                         </Link>
                       </li>
+                      {currentUser !== null && currentUser.roles === "Admin" && (
                       <li className="block">
                         <Link
                           to="/batch"
@@ -216,11 +221,13 @@ const SidebarComponent = (props) => {
                           <span className="inline-block relative">Batch</span>
                         </Link>
                       </li>
+                      )}
                     </ul>
                   </div>
                 </div>
               </li>
-
+              )}
+              {currentUser !== null && currentUser.roles === "Admin" && (
               <li className="block flex">
                 <div className="w-full">
                   <div
@@ -324,7 +331,7 @@ const SidebarComponent = (props) => {
                   </div>
                 </div>
               </li>
-
+              )}
               <li className="block flex">
                 <div className="w-full">
                   <div
@@ -379,7 +386,7 @@ const SidebarComponent = (props) => {
                         </span>
                       </Link>
                     </li>
-                    {currentUser !== null && currentUser.roles === "Admin" && (
+                    {(currentUser !== null && currentUser.roles === "Admin") || currentUser.roles === "Bendahara" && (
                       <li className="block">
                         <Link
                           to="/money"

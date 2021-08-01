@@ -18,6 +18,7 @@ const ShowMemberCashComponent = () => {
 
   const [userData, setUserData] = useState([]);
   const [userSubmit, setUserSubmit] = useState([]);
+  const [oldAmount, setOldAmount] = useState("");
 
   const initialValues = {
     amount: "",
@@ -36,7 +37,7 @@ const ShowMemberCashComponent = () => {
 
     const dataSubmit = {
       ...values,
-      amount: values.amount.split(".").join(""),
+      amount: oldAmount === values.amount ? values.amount : (""+values.amount).split(".").join(""),
       batch_id : batchId,
       squad_id: squadId,
       theory_id: theoryId,
@@ -109,10 +110,15 @@ const ShowMemberCashComponent = () => {
       .then((data) => {
         setUserData(data.data.data);
         setUserSubmit(data.data.data);
+        console.log(data.data.money.date.slice(0, 10))
+        setOldAmount(data.data.money.amount)
+        formik.setFieldValue("amount", data.data.money.amount)
+        formik.setFieldValue("date", (""+data.data.money.date.slice(0, 10)))
       })
       .catch((error) => {
         console.log(error);
       });
+      // eslint-disable-next-line
   }, [theoryId, batchId, squadId]);
 
   return (
@@ -142,6 +148,7 @@ const ShowMemberCashComponent = () => {
                 name="date"
                 className="w-full border rounded px-2 py-1.5"
                 onChange={formik.handleChange}
+                value={formik.values.date}
               />
             </div>
 

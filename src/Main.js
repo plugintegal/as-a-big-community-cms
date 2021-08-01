@@ -141,7 +141,7 @@ const Main = (props) => {
               <PrivateRoute path="/task-create" component={CreateNewTaskPage} />
               <PrivateRoute path="/input-grade" component={InputGradePage} />
 
-              <PrivateRoute path="/batch" component={BatchPage} />
+              <AdminRoute path="/batch" component={BatchPage} />
 
               <PrivateRoute
                 path="/category-event"
