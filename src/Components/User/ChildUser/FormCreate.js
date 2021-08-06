@@ -9,6 +9,7 @@ const FormCreate = () => {
   const history = useHistory();
   const [squads, setSquads] = useState([]);
   const [batches, setBatches] = useState([]);
+  const [errorUsernameOrEmail, setErrorUsernameOrEmail] = useState("")
 
   const initialValues = {
     name: "",
@@ -26,11 +27,14 @@ const FormCreate = () => {
     signUpServices(values)
       .then((data) => {
         if (data.data.status === 200) {
+          setErrorUsernameOrEmail("");
           history.push("/user");
         }
       })
       .catch((error) => {
-        console.log(error);
+        if(error.response.status === 409){
+          setErrorUsernameOrEmail("Username or Email is already exists");
+        }
         // swal("Error!", , "error");
       });
   };
@@ -109,6 +113,7 @@ const FormCreate = () => {
               {formik.errors.username}
             </span>
           ) : null}
+          {errorUsernameOrEmail !== "" ? (<span className="text-sm text-red-500">{errorUsernameOrEmail}</span>) : null}
         </div>
         <div className="relative mb-3">
           <label htmlFor="email">Email</label>
@@ -125,6 +130,8 @@ const FormCreate = () => {
           {formik.touched.email && formik.errors.email ? (
             <span className="text-sm text-red-500">{formik.errors.email}</span>
           ) : null}
+
+          {errorUsernameOrEmail !== "" ? (<span className="text-sm text-red-500">{errorUsernameOrEmail}</span>) : null}
         </div>
         <div className="relative mb-3 flex justify-between gap-2 w-8/12">
           <div className="w-full">

@@ -131,7 +131,7 @@ const UserComponent = () => {
           <div className="mt-5 px-5">
             <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
               <DataTable
-                title="User Data"
+                title="Committee Data"
                 columns={columns}
                 data={users}
                 noDataComponent="No Available Data"
@@ -146,7 +146,7 @@ const UserComponent = () => {
           <div className="px-5 mt-5">
             <div className="border bg-white rounded-md p-5 w-full h-auto shadow-md">
               <DataTable
-                title="User Data"
+                title="Member Data"
                 columns={columns}
                 data={members}
                 noDataComponent="No Available Data"
